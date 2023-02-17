@@ -77,14 +77,8 @@ font-size: 1.3rem;
 `;
 
 const MedicationInput = ({ title }) => {
-
-
-
   const [tempStore, setTempStore] = useState([]);
   const [medicine, setMedicine] = useState('');
-
-
-
 
   const handleMedicine = useCallback((e) => {
     setMedicine(e.target.value);
