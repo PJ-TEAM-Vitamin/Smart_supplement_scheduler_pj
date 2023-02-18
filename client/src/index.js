@@ -4,11 +4,12 @@ import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import InitPage from './pages/InitPage';
-
+import Nav from './components/Nav/Nav';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
+      <Nav />
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/init' element={<InitPage />} />
