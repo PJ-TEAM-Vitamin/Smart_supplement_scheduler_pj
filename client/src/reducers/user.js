@@ -1,35 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// 초깃값
 export const initialState = {
   me: null,
-  loadMyInfoLoading: false,
-  loadMyInfoDone: false,
-  loadMyInfoError: null,
+  signUpLoading: false,
+  signUpDone: false,
+  signUpError: null,
 };
 
-export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
-export const LOAD_MY_INFO_SUCCESS = 'LOAD_MY_INFO_SUCCESS';
-export const LOAD_MY_INFO_FAILURE = 'LOAD_MY_INFO_FAILURE';
-
+// user slice 생성
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    LOAD_MY_INFO_REQUEST: (state) => {
-      state.loadMyInfoLoading = true;
-      state.loadMyInfoDone = false;
-      state.loadMyInfoError = null;
+    SIGN_UP_REQUEST: (state) => {
+      state.signUpLoading = true;
+      state.signUpDone = false;
+      state.signUpError = null;
+      console.log('reducer request');
     },
-    LOAD_MY_INFO_SUCCESS: (state, action) => {
-      state.loadMyInfoLoading = false;
-      state.loadMyInfoDone = true;
+    SIGN_UP_SUCCESS: (state, action) => {
+      state.signUpLoading = false;
+      state.signUpDone = true;
+      console.log('reducer: ', action);
     },
-    LOAD_MY_INFO_FAILURE: (state, action) => {
-      state.loadMyInfoLoading = false;
-      state.loadMyInfoDone = false;
-      state.loadMyInfoError = action.error;
+    SIGN_UP_FAILURE: (state, action) => {
+      state.signUpLoading = false;
+      state.signUpDone = false;
+      state.signUpError = action.error;
     },
   },
 });
+
+export const { SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE } =
+  userSlice.actions;
 
 export default userSlice;
