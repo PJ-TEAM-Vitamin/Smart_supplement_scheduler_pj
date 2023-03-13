@@ -15,7 +15,7 @@ const createStore = () => {
     middleware: [sagaMiddleware],
   });
 
-  // root saga 정의 _ 사가 병합
+  // root saga 정의 _ 사가 병합 _ all
   const rootSaga = function* () {
     yield all([fork(userSaga)]);
   };
