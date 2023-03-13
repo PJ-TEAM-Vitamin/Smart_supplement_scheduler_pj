@@ -9,6 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
+      {/* 감시가 필요한 컴포넌트 _ 알람, 온습도 등ㅈ */}
       <Nav />
       <Routes>
         <Route path='/' element={<LandingPage />} />
