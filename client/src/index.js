@@ -8,23 +8,23 @@ import { Provider } from 'react-redux';
 import createStore from './store/configureStore';
 
 // page
-import LandingPage from './pages/LandingPage';
+import LandingPage from './pages/LandingPage/LandingPage';
 import InitPage from './pages/InitPage/InitPage';
+import TestPage from './pages/TestPage/TestPage';
 import Nav from './components/Nav/Nav';
 
 const store = createStore();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <Nav />
-        <Routes>
-          <Route path='/' element={<LandingPage />} />
-          <Route path='/init' element={<InitPage />} />
-        </Routes>
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <BrowserRouter>
+      <Nav />
+      <Routes>
+        <Route path='/' element={<LandingPage />} />
+        <Route path='/init' element={<InitPage />} />
+        <Route path='/test' element={<TestPage />} />
+      </Routes>
+    </BrowserRouter>
+  </Provider>
 );

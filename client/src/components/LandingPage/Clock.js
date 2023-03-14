@@ -18,7 +18,7 @@ const ClockTimer = styled.div`
   color: #323232;
 `;
 
-const currentTimer = () => {
+export const currentTimer = () => {
   const date = new Date();
   const hours = String(date.getHours()).padStart(2, '0');
   const minutes = String(date.getMinutes()).padStart(2, '0');

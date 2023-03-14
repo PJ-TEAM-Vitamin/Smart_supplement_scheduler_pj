@@ -4,6 +4,7 @@ import rootReducer from '../reducers';
 import createSagaMiddleware from '@redux-saga/core';
 import { all, fork } from 'redux-saga/effects';
 import userSaga from '../sagas/user';
+import dataSaga from '../sagas/data';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -18,6 +19,7 @@ const createStore = () => {
   // root saga 정의 _ 사가 병합 _ all
   const rootSaga = function* () {
     yield all([fork(userSaga)]);
+    yield all([fork(dataSaga)]);
   };
 
   // saga 실행

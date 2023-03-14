@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Clock from '../components/LandingPage/Clock';
-import dawn from '../utils/img/dawn.jpg';
-import morning from '../utils/img/morning.jpg';
-import afternoon from '../utils/img/afternoon.jpg';
-import evening from '../utils/img/evening.jpg';
-import night from '../utils/img/night.jpg';
-import Tumblr from '../components/Water/Tumblr';
-import RemainingDisplay from '../components/RemainingDisplay/RemainingDisplay';
-import Scheduler from '../components/LandingPage/Scheduler';
+import Clock from '../../components/LandingPage/Clock';
+import dawn from '../../utils/img/dawn.jpg';
+import morning from '../../utils/img/morning.jpg';
+import afternoon from '../../utils/img/afternoon.jpg';
+import evening from '../../utils/img/evening.jpg';
+import night from '../../utils/img/night.jpg';
+import Tumblr from '../../components/Water/Tumblr';
+import RemainingDisplay from '../../components/RemainingDisplay/RemainingDisplay';
+import Scheduler from '../../components/LandingPage/Scheduler';
 /*
 5~7: dawn
 7~12: morning
