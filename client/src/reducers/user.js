@@ -16,7 +16,7 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    SIGN_UP_REQUEST: (state) => {
+    SIGN_UP_REQUEST: (state) => { // 회원 등록 관련
       state.signUpLoading = true;
       state.signUpDone = false;
       state.signUpError = null;
@@ -32,7 +32,7 @@ export const userSlice = createSlice({
       state.signUpDone = false;
       state.signUpError = action.error;
     },
-    MY_INFO_REQUEST: (state) => {
+    MY_INFO_REQUEST: (state) => { // 유저 기본 정보 불러오기
       state.myInfoLoading = true;
       state.myInfoDone = false;
       state.myInfoError = null;

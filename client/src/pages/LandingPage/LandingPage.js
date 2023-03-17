@@ -56,7 +56,7 @@ const LandingPage = () => {
     <LandingBackground back={background}>
       <LeftContent>
         <Clock currentTime={currentTime} setCurrentTime={setCurrentTime} />
-        <Tumblr />
+        <Tumblr currentTime={currentTime} />
       </LeftContent>
       <RightContent>
         <Scheduler />

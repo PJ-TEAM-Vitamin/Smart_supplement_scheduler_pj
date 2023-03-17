@@ -45,7 +45,7 @@ function* myInfo(action) {
       age: '27',
     };
     yield put({
-      type: MY_INFO_FAILURE,
+      type: MY_INFO_SUCCESS,
       // data: result.data,
       data: dummyMe,
     });
