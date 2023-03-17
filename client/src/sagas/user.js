@@ -5,6 +5,9 @@ import {
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILURE,
+  MY_INFO_REQUEST,
+  MY_INFO_SUCCESS,
+  MY_INFO_FAILURE,
 } from '../reducers/user';
 
 // 서버에 요청
@@ -29,11 +32,41 @@ function* signUp(action) {
   }
 }
 
+export function myInfoAPI() {
+  // ex) return axios.get('/signup');
+}
+function* myInfo(action) {
+  try {
+    // const result = yield call(signUpAPI);
+    console.log('saga: ', action);
+    const dummyMe = {
+      name: 'ch',
+      gender: 'male',
+      age: '27',
+    };
+    yield put({
+      type: MY_INFO_FAILURE,
+      // data: result.data,
+      data: dummyMe,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: MY_INFO_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 // request 이벤트 추가
 function* watchSignUp() {
   yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
+function* watchMyInfo() {
+  yield takeLatest(MY_INFO_REQUEST, myInfo);
+}
 
 export default function* userSaga() {
   yield all([fork(watchSignUp)]);
+  yield all([fork(watchMyInfo)]);
 }

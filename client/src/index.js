@@ -11,6 +11,7 @@ import createStore from './store/configureStore';
 import LandingPage from './pages/LandingPage/LandingPage';
 import InitPage from './pages/InitPage/InitPage';
 import TestPage from './pages/TestPage/TestPage';
+import BootPage from './pages/BootPage/BootPage';
 import Nav from './components/Nav/Nav';
 
 const store = createStore();
@@ -24,6 +25,7 @@ root.render(
         <Route path='/' element={<LandingPage />} />
         <Route path='/init' element={<InitPage />} />
         <Route path='/test' element={<TestPage />} />
+        <Route path='/boot' element={<BootPage />} />
       </Routes>
     </BrowserRouter>
   </Provider>
