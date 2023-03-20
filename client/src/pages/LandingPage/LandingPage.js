@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Clock from '../../components/LandingPage/Clock';
 import dawn from '../../utils/img/dawn.jpg';
@@ -9,6 +10,7 @@ import night from '../../utils/img/night.jpg';
 import Tumblr from '../../components/Water/Tumblr';
 import RemainingDisplay from '../../components/RemainingDisplay/RemainingDisplay';
 import Scheduler from '../../components/LandingPage/Scheduler';
+import { CARTRIDGE_INFO_REQUEST } from '../../reducers/data';
 /*
 5~7: dawn
 7~12: morning
@@ -31,10 +33,26 @@ const LeftContent = styled.div`
 const RightContent = styled.div`
   width: 60%;
 `;
+const MedicineContainer = styled.div`
+  width: 95%;
+  aspect-ratio: 300/100;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const LandingPage = () => {
+  const dispatch = useDispatch();
+  const { cartridgeInfo } = useSelector((state) => state.data);
   const [currentTime, setCurrentTime] = useState('00:00:00');
   const [background, setBackgroud] = useState('');
+
+  // 랜딩시 알약 카트리지 정보 불러오기
+  useEffect(() => {
+    dispatch(CARTRIDGE_INFO_REQUEST());
+  }, [dispatch]);
 
   // 시간 체크하여 배경화면 변경
   useEffect(() => {
@@ -60,7 +78,15 @@ const LandingPage = () => {
       </LeftContent>
       <RightContent>
         <Scheduler />
-        <RemainingDisplay />
+        <MedicineContainer>
+          {cartridgeInfo?.map((v) => (
+            <RemainingDisplay
+              cartridgeNum={v.index}
+              name={v.name}
+              residual={v.residual}
+            />
+          ))}
+        </MedicineContainer>
       </RightContent>
     </LandingBackground>
   );

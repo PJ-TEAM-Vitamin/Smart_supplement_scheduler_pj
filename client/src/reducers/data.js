@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const initialState = {
   amountOfWater: 0,
   tumblrCounter: 0,
+  cartridgeInfo: null, // 카트리지
   takeMedicine: null,
   recordOfTimeLoading: false,
   recordOfTimeDone: false,
@@ -14,6 +15,9 @@ export const initialState = {
   resetTumblrLoading: false,
   resetTumblrDone: false,
   resetTumblrError: false,
+  cartridgeInfoLoading: false,
+  cartridgeInfoDone: false,
+  cartridgeInfoError: false,
 };
 
 // data slice 생성
@@ -36,6 +40,23 @@ export const dataSlice = createSlice({
       state.recordOfTimeLoading = false;
       state.recordOfTimeDone = false;
       state.recordOfTimeError = action.error;
+    },
+    CARTRIDGE_INFO_REQUEST: (state) => {
+      state.cartridgeInfoLoading = true;
+      state.cartridgeInfoDone = false;
+      state.cartridgeInfoError = null;
+      console.log('reducer request');
+    },
+    CARTRIDGE_INFO_SUCCESS: (state, action) => {
+      state.cartridgeInfoLoading = false;
+      state.cartridgeInfoDone = true;
+      state.cartridgeInfo = action.data;
+      console.log('reducer: ', action);
+    },
+    CARTRIDGE_INFO_FAILURE: (state, action) => {
+      state.cartridgeInfoLoading = false;
+      state.cartridgeInfoDone = false;
+      state.cartridgeInfoError = action.error;
     },
     UPDATE_TUMBLR_REQUEST: (state) => {
       // 마신 양 업데이트
@@ -88,6 +109,9 @@ export const {
   RESET_TUMBLR_REQUEST,
   RESET_TUMBLR_SUCCESS,
   RESET_TUMBLR_FAILURE,
+  CARTRIDGE_INFO_REQUEST,
+  CARTRIDGE_INFO_SUCCESS,
+  CARTRIDGE_INFO_FAILURE,
 } = dataSlice.actions;
 
 export default dataSlice;
