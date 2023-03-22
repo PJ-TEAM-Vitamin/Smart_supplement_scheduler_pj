@@ -13,6 +13,7 @@ import InitPage from './pages/InitPage/InitPage';
 import TestPage from './pages/TestPage/TestPage';
 import BootPage from './pages/BootPage/BootPage';
 import Nav from './components/Nav/Nav';
+import InitPage_2 from "./pages/InitPage_2";
 
 const store = createStore();
 
@@ -24,9 +25,12 @@ root.render(
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/init' element={<InitPage />} />
+         <Route path='/init/2' element={<InitPage_2/>}/>
         <Route path='/test' element={<TestPage />} />
         <Route path='/boot' element={<BootPage />} />
       </Routes>
     </BrowserRouter>
   </Provider>
 );
+
+//
