@@ -14,6 +14,9 @@ import {
   CARTRIDGE_INFO_REQUEST,
   CARTRIDGE_INFO_SUCCESS,
   CARTRIDGE_INFO_FAILURE,
+  SCHEDULER_LIST_REQUEST,
+  SCHEDULER_LIST_SUCCESS,
+  SCHEDULER_LIST_FAILURE,
 } from '../reducers/data';
 
 // 서버에 요청
@@ -97,17 +100,17 @@ function* cartidgeInfo(action) {
     console.log('saga: ', action);
     const dummy = [
       {
-        index: 1,
+        index: 0,
         name: '비타민A',
         residual: 40,
       },
       {
-        index: 2,
+        index: 1,
         name: '비타민B',
         residual: 100,
       },
       {
-        index: 3,
+        index: 2,
         name: '비타민C',
         residual: 70,
       },
@@ -126,6 +129,43 @@ function* cartidgeInfo(action) {
   }
 }
 
+export function schedulerListAPI() {
+  // ex) return axios.get('/signup');
+}
+function* schedulerList(action) {
+  try {
+    // const result = yield call(signUpAPI);
+    console.log('saga: ', action);
+    const dummy = [
+      {
+        time: '07:00:00',
+        title: '아침 비타민!',
+        cartidges: [0],
+      },
+      {
+        time: '13:00:00',
+        title: '점심 비타민!',
+        cartidges: [0, 2],
+      },
+      {
+        time: '20:00:00',
+        title: '저녁 비타민!',
+        cartidges: [0, 1, 2],
+      },
+    ];
+    yield put({
+      type: SCHEDULER_LIST_SUCCESS,
+      data: dummy,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: SCHEDULER_LIST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 // request 이벤트 추가
 function* watchRecordOfTime() {
   yield takeLatest(RECORD_OF_TIME_REQUEST, recordOfTime);
@@ -139,10 +179,14 @@ function* watchResetTumblr() {
 function* watchCartidgeInfo() {
   yield takeLatest(CARTRIDGE_INFO_REQUEST, cartidgeInfo);
 }
+function* watchSchedulerList() {
+  yield takeLatest(SCHEDULER_LIST_REQUEST, schedulerList);
+}
 
 export default function* userSaga() {
   yield all([fork(watchRecordOfTime)]);
   yield all([fork(watchUpdateTumblr)]);
   yield all([fork(watchResetTumblr)]);
   yield all([fork(watchCartidgeInfo)]);
+  yield all([fork(watchSchedulerList)]);
 }

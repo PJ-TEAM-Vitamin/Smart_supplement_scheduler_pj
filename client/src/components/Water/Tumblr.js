@@ -30,12 +30,21 @@ const RecordToday = styled.div`
 
 const TumblrWrapper = styled.div`
   width: 90%;
-  height: 645px;
+  height: 77%;
   background-color: rgba(255, 255, 255, 0.6);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+`;
+
+const TumblrItem = styled.div`
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const UpdateButton = styled.button`
@@ -90,13 +99,13 @@ const Tumblr = ({ currentTime }) => {
   }, [amountOfWater]);
 
   return (
-    <>
-      <TumblrWrapper>
+    <TumblrWrapper>
+      <TumblrItem>
         <RecordToday>{`오늘 하루 ${amountOfWater}ml 마셨습니다.`}</RecordToday>
         <TumblrImg back={background} />
         <UpdateButton onClick={onClickUpdate}>업데이트</UpdateButton>
-      </TumblrWrapper>
-    </>
+      </TumblrItem>
+    </TumblrWrapper>
   );
 };
 

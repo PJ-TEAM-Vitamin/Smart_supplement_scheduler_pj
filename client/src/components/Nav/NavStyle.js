@@ -5,7 +5,7 @@ export const NavBar = styled.div`
   align-items: center;
   justify-content: space-between;
   background-color: #f8cba6;
-  height: 90px;
+  height: 10vh;
 `;
 export const LeftContent = styled.div`
   display: flex;

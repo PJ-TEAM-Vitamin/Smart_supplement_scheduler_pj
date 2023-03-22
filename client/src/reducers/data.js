@@ -6,6 +6,7 @@ export const initialState = {
   tumblrCounter: 0,
   cartridgeInfo: null, // 카트리지
   takeMedicine: null,
+  schedulerList: null, // 알림 시간 목록
   recordOfTimeLoading: false,
   recordOfTimeDone: false,
   recordOfTimeError: false,
@@ -18,6 +19,9 @@ export const initialState = {
   cartridgeInfoLoading: false,
   cartridgeInfoDone: false,
   cartridgeInfoError: false,
+  schedulerListLoading: false,
+  schedulerListDone: false,
+  schedulerListError: false,
 };
 
 // data slice 생성
@@ -96,6 +100,23 @@ export const dataSlice = createSlice({
       state.resetTumblrDone = false;
       state.resetTumblrError = action.error;
     },
+    SCHEDULER_LIST_REQUEST: (state) => {
+      state.schedulerListLoading = true;
+      state.schedulerListDone = false;
+      state.schedulerListError = null;
+      console.log('reducer request');
+    },
+    SCHEDULER_LIST_SUCCESS: (state, action) => {
+      state.schedulerListLoading = false;
+      state.schedulerListDone = true;
+      state.schedulerList = action.data;
+      console.log('reducer: ', action);
+    },
+    SCHEDULER_LIST_FAILURE: (state, action) => {
+      state.schedulerListLoading = false;
+      state.schedulerListDone = false;
+      state.schedulerListError = action.error;
+    },
   },
 });
 
@@ -112,6 +133,9 @@ export const {
   CARTRIDGE_INFO_REQUEST,
   CARTRIDGE_INFO_SUCCESS,
   CARTRIDGE_INFO_FAILURE,
+  SCHEDULER_LIST_REQUEST,
+  SCHEDULER_LIST_SUCCESS,
+  SCHEDULER_LIST_FAILURE,
 } = dataSlice.actions;
 
 export default dataSlice;

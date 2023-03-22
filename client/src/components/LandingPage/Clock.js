@@ -4,13 +4,12 @@ import styled from 'styled-components';
 const ClockWrapper = styled.div`
   background-color: rgba(255, 255, 255, 0.6);
   width: 90%;
+  height: 20%;
   aspect-ratio: 300/100;
   border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
 `;
 const ClockTimer = styled.div`
   font-size: 4rem;
