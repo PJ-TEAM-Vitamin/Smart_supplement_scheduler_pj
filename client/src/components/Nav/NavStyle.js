@@ -4,7 +4,7 @@ export const NavBar = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #f8cba6;
+  background-color: #fff;
   height: 10vh;
 `;
 export const LeftContent = styled.div`
@@ -23,7 +23,7 @@ export const Logo = styled.div`
   margin-right: 40px;
 `;
 export const Icon = styled.img`
-  width: 60px;
+  width: 50px;
   margin-left: 20px;
   margin-right: 20px;
   cursor: pointer;
@@ -36,7 +36,7 @@ export const ContactBtn = styled.div`
   font-size: 1.7rem;
   margin-right: 20px;
   margin-left: 20px;
-  background-color: #fff;
+  background-color: #ffacac;
   width: 130px;
   height: 50px;
   border-radius: 20px;
