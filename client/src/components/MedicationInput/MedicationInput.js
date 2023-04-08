@@ -114,14 +114,6 @@ const MedicationInput = ({
     },
     [tempStore, count]
   );
-  const handleSetState = (e) => {
-    setState({
-      ...state,
-      [e.target.name]: tempStore,
-    });
-    console.log(state);
-  };
-  parent(tempStore);
 
   return (
     <InputContainer>
@@ -141,7 +133,7 @@ const MedicationInput = ({
           </ItemWrapper>
         ))}
       </DataWrapper>
-      <button name='unable' onClick={handleSetState}>
+      <button name='unable' onClick={handleChangeState}>
         확정
       </button>
     </InputContainer>

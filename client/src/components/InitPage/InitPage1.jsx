@@ -13,7 +13,7 @@ import {
   EnterAge,
   Alarm,
   Submit,
-} from './InitPageStyle';
+} from './styles';
 
 const InitPage1 = ({ state, setState, handleChangeState }) => {
   const onChangeInfo = (e) => {

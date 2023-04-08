@@ -141,7 +141,7 @@ const InitPage2 = ({ state }) => {
         <Link to='/init'>이전</Link>
       </button>
       <button>
-        <Link to='/init'>다음</Link>
+        <Link to='/init/init3'>다음</Link>
       </button>
     </>
   );

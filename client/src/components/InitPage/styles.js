@@ -33,6 +33,7 @@ export const InfoRight = styled.div`
   margin: 15px;
   padding: 20px;
 `;
+
 export const EnterName = styled.div`
   input {
     width: 80%;
@@ -64,13 +65,6 @@ export const EnterAge = styled.div`
   }
 `;
 
-export const Alarm = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
 export const Submit = styled.div`
   display: flex;
   justify-content: space-around;
@@ -85,5 +79,29 @@ export const Submit = styled.div`
     border: none;
     background-color: #eddbc7;
     border-radius: 10px;
+  }
+`;
+
+export const Alarm = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px;
+
+  .title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+`;
+
+export const Tumbler = styled.div`
+  align-items: center;
+  .title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 10px;
   }
 `;

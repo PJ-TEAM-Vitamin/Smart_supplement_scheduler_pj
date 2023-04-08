@@ -4,6 +4,8 @@ import InitPage1 from '../../components/InitPage/InitPage1';
 import InitPage2 from '../../components/InitPage/InitPage2';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import InitPage3 from '../../components/InitPage/InitPage3';
+import InitPage4 from '../../components/InitPage/InitPage4';
 
 const InitPage = () => {
   const [state, setState] = useState({
@@ -12,8 +14,9 @@ const InitPage = () => {
     age: '', // 사용자 나이
     able: [],
     unable: [],
-    currentTime: '',
-    alarmTime: '',
+    time1: '',
+    time2: '',
+    time3: '',
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -60,6 +63,19 @@ const InitPage = () => {
               state={state}
               setState={setState}
               handleChangeState={handleChangeState}
+            />
+          }
+        />
+        <Route
+          path='init3'
+          element={<InitPage3 handleChangeState={handleChangeState} />}
+        />
+        <Route
+          path='init4'
+          element={
+            <InitPage4
+              handleChangeState={handleChangeState}
+              onClickSignUp={onClickSignUp}
             />
           }
         />
