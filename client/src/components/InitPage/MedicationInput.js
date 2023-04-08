@@ -76,10 +76,10 @@ font-size: 1.3rem;
   }
 `;
 
-const MedicationInput = ({ title, value, able }) => {
+const MedicationInput = ({ title, able, parent }) => {
   const [tempStore, setTempStore] = useState([]);
   const [medicine, setMedicine] = useState('');
-  var count = 0;
+  const [count, setCount] = useState(0);
 
   const handleMedicine = useCallback((e) => {
     setMedicine(e.target.value);
@@ -87,10 +87,10 @@ const MedicationInput = ({ title, value, able }) => {
 
   const onClickAdd = useCallback(() => {
     if(able) {
-       if(count <= 3) {
+       if(count < 3) {
           setTempStore((state) => [...state, medicine]);
           setMedicine('');
-          count += 1;
+          setCount(count+1);
           console.log(count);
        }
     } else {
@@ -105,12 +105,14 @@ const MedicationInput = ({ title, value, able }) => {
       let temp = [...tempStore];
       setTempStore(temp.filter((v, index) => i !== index));
       if(able) {
-         count--;
+         setCount(count-1);
          console.log(count);
       }
     },
     [tempStore, count]
   );
+
+  parent(tempStore);
 
 
   return (

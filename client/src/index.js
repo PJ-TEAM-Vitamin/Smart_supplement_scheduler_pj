@@ -25,7 +25,7 @@ root.render(
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/init' element={<InitPage />} />
-         <Route path='/init/2' element={<InitPage_2/>}/>
+         <Route path='/init2' element={<InitPage_2/>}/>
         <Route path='/test' element={<TestPage />} />
         <Route path='/boot' element={<BootPage />} />
       </Routes>

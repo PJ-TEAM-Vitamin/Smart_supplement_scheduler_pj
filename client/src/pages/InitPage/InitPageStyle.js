@@ -57,6 +57,14 @@ export const EnterAge = styled.div`
   }
 `;
 
+export const Alarm = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+
 export const Submit = styled.div`
   display: flex;
   justify-content: space-around;

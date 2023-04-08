@@ -1,6 +1,5 @@
 import React, {useContext, useState} from "react";
 import {useNavigate, useLocation} from "react-router-dom";
-
 import styled from "styled-components";
 
 import {SmartDispatchContext} from "../index";
@@ -16,9 +15,13 @@ const InitPageContainer = styled.div`
 // };
 
 const InitPage_2 = () => {
+   // const [weekdayFrom, handleWeekdayFrom] = useState(
+   //    new Date()
+   // );
+
    const navigate = useNavigate();
    const location = useLocation();
-   const info = location.state.value;
+   const info = location.state?.value;
    console.log(info);
    const [state, setState] = useState({
       currentTime:'',
@@ -27,7 +30,7 @@ const InitPage_2 = () => {
    });
 
 
-   const checkAlarmClock= ()=>{
+   const checkAlarmClock= () => {
       if(this.state.alarmTime === 'undefined' || !this.state.alarmTime) {
          this.alarmMessage = "Please set your alarm.";
       } else {
@@ -39,6 +42,7 @@ const InitPage_2 = () => {
          }
       }
    };
+
   const componentDidMount =() =>{
       this.clock = setInterval(
          () => this.setCurrentTime(),
@@ -75,7 +79,6 @@ const InitPage_2 = () => {
          <div>
             <h1>React Alarm Clock</h1>
             <h2>It is {state.currentTime}</h2>
-            
             <form>
                <input type="time" onChange={setAlarmTime}></input>
             </form>

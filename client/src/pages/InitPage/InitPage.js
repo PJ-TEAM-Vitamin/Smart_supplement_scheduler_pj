@@ -15,14 +15,19 @@ import {
   EnterName,
   GenderCheck,
   EnterAge,
+  Alarm,
   Submit,
 } from './InitPageStyle';
 
 const InitPage = () => {
   const [state, setState] = useState({
-    name: '',
-    gender: '',
-    age: '',
+     name: '',
+     gender: '',
+     age: '',
+     able: [],
+     unable: [],
+     currentTime:'',
+     alarmTime:'',
   });
 
   const navigate = useNavigate();
@@ -32,8 +37,7 @@ const InitPage = () => {
   const onClickSignUp = useCallback(() => {
     //  onCreate(state.name, state.gender, state.age);
     console.log(state);
-    dispatch(SIGN_UP_REQUEST(state));
-    //  navigate('/');
+    navigate('/', { state: state });
   }, [state, dispatch]);
 
   const handleChangeState = (e) => {
@@ -54,6 +58,58 @@ const InitPage = () => {
       });
     }
   };
+
+   const checkAlarmClock= () => {
+      if(this.state.alarmTime === 'undefined' || !this.state.alarmTime) {
+         this.alarmMessage = "Please set your alarm.";
+      } else {
+         this.alarmMessage = "Your alarm is set for " + this.state.alarmTime + ".";
+         if(this.state.currentTime === this.state.alarmTime) {
+            alert("its time!");
+         } else {
+            console.log("not yet");
+         }
+      }
+   };
+
+   const componentDidMount =() =>{
+      this.clock = setInterval(
+         () => this.setCurrentTime(),
+         1000
+      )
+      this.interval = setInterval(
+         () => this.checkAlarmClock(),
+         1000)
+   };
+
+   const componentWillUnmount =() =>{
+      clearInterval(this.clock);
+      clearInterval(this.interval);
+   };
+
+   const setCurrentTime = ()=>{
+      this.setState({
+         currentTime: new Date().toLocaleTimeString('en-US', { hour12: false })
+      });
+   };
+
+   const setAlarmTime = (e)=> {
+      e.preventDefault();
+      const inputAlarmTimeModified = e.target.value + ':00';
+      this.setState({
+         alarmTime: inputAlarmTimeModified
+      });
+   };
+
+  const parent1 = useCallback((x)  => {
+     console.log('p1 ' + x);
+     state.able = x;
+  }, [state.able]);
+
+  const parent2 = useCallback((x) => {
+     console.log('p2 ' + x);
+     state.unable = x;
+  },[state.unable]);
 
   return (
     <InitPageContainer>
@@ -96,11 +152,19 @@ const InitPage = () => {
           </EnterAge>
         </InfoLeft>
         <div className='right'>
-          <MedicationInput title={'복용중인 약'} />
-          <MedicationInput title={'복용불가 약'} />
+          <MedicationInput title={'복용중인 약'} able={true} parent={parent1}/>
+          <MedicationInput title={'복용불가 약'} able={false} parent={parent2}/>
         </div>
       </EnterInfo>
-
+       <Alarm>
+          <div>
+             <h1>React Alarm Clock</h1>
+             <h2>It is {state.currentTime}</h2>
+             <form>
+                <input type="time" onChange={setAlarmTime}></input>
+             </form>
+          </div>
+       </Alarm>
       <Submit>
         <button onClick={onClickSignUp}>회원 가입</button>
       </Submit>
