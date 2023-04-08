@@ -1,9 +1,9 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, {useCallback, useContext, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { SmartDispatchContext } from '../../index';
 
 import { useDispatch } from 'react-redux';
-import { SIGN_UP_REQUEST } from '../../reducers/user';
+// import { SIGN_UP_REQUEST } from '../../reducers/user';
+// import {RESET_TUMBLR_REQUEST} from "../../reducers/data";
 
 import MedicationInput from '../../components/InitPage/MedicationInput';
 
@@ -16,8 +16,13 @@ import {
   GenderCheck,
   EnterAge,
   Alarm,
+  Tumbler,
   Submit,
 } from './InitPageStyle';
+import axios, {request} from "axios";
+
+
+
 
 const InitPage = () => {
   const [state, setState] = useState({
@@ -26,27 +31,33 @@ const InitPage = () => {
      age: '',
      able: [],
      unable: [],
-     currentTime:'',
-     alarmTime:'',
+     time1: '',
+     time2: '',
+     time3: '',
   });
+
+  //텀블러
+  const [weight, setWeight] = useState('');
+  const dummy = {
+     "tumbler" : {"weight": 600,},
+
+  };
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  //   const { onCreate } = useContext(SmartDispatchContext);
 
   const onClickSignUp = useCallback(() => {
-    //  onCreate(state.name, state.gender, state.age);
     console.log(state);
     navigate('/', { state: state });
   }, [state, dispatch]);
 
-  const handleChangeState = (e) => {
+  const handleChangeState = useCallback((e) => {
     setState({
       ...state,
       [e.target.name]: e.target.value,
     });
-    console.log(e.target.value);
-  };
+     console.log(e.target.value);
+  },[state]);
 
   const onChangeInfo = (e) => {
     //값이 숫자인지 검사하는 정규식
@@ -59,57 +70,26 @@ const InitPage = () => {
     }
   };
 
-   const checkAlarmClock= () => {
-      if(this.state.alarmTime === 'undefined' || !this.state.alarmTime) {
-         this.alarmMessage = "Please set your alarm.";
-      } else {
-         this.alarmMessage = "Your alarm is set for " + this.state.alarmTime + ".";
-         if(this.state.currentTime === this.state.alarmTime) {
-            alert("its time!");
-         } else {
-            console.log("not yet");
-         }
-      }
-   };
-
-   const componentDidMount =() =>{
-      this.clock = setInterval(
-         () => this.setCurrentTime(),
-         1000
-      )
-      this.interval = setInterval(
-         () => this.checkAlarmClock(),
-         1000)
-   };
-
-   const componentWillUnmount =() =>{
-      clearInterval(this.clock);
-      clearInterval(this.interval);
-   };
-
-   const setCurrentTime = ()=>{
-      this.setState({
-         currentTime: new Date().toLocaleTimeString('en-US', { hour12: false })
-      });
-   };
-
-   const setAlarmTime = (e)=> {
-      e.preventDefault();
-      const inputAlarmTimeModified = e.target.value + ':00';
-      this.setState({
-         alarmTime: inputAlarmTimeModified
-      });
-   };
-
   const parent1 = useCallback((x)  => {
-     console.log('p1 ' + x);
      state.able = x;
   }, [state.able]);
 
   const parent2 = useCallback((x) => {
-     console.log('p2 ' + x);
      state.unable = x;
   },[state.unable]);
+
+  //텀블러 무게 설정
+  const setTumbler = () => {
+     // 서버 통신하면 받아오는 코드?
+     // axios
+     //    .get('http://localhost:3000/init?')
+     //    .then(result=> setWeight(result))
+     //    .catch(error=> console.log('error', error));
+
+     setWeight(dummy.tumbler.weight);
+     console.log(weight);
+  };
+
 
   return (
     <InitPageContainer>
@@ -156,15 +136,27 @@ const InitPage = () => {
           <MedicationInput title={'복용불가 약'} able={false} parent={parent2}/>
         </div>
       </EnterInfo>
+       {/*알람 설정*/}
        <Alarm>
           <div>
-             <h1>React Alarm Clock</h1>
-             <h2>It is {state.currentTime}</h2>
+             <div className='title'>{'알람 설정'}</div>
              <form>
-                <input type="time" onChange={setAlarmTime}></input>
+                <div className='input'>
+                   <div>1번 약 <input type="time" name='time1' onChange={handleChangeState}/></div>
+                   <div>2번 약 <input type="time" name='time2' onChange={handleChangeState}/></div>
+                   <div>3번 약 <input type="time" name='time3' onChange={handleChangeState}/></div>
+                </div>
              </form>
           </div>
        </Alarm>
+       {/*텀블러 설정*/}
+       <Tumbler>
+          <div className='title'>{'텀블러 무게 설정'}</div>
+          <div>{'무게: '+weight}</div>
+          <div>
+             <button onClick={setTumbler}>{'설정'}</button>
+          </div>
+       </Tumbler>
       <Submit>
         <button onClick={onClickSignUp}>회원 가입</button>
       </Submit>
