@@ -9,12 +9,10 @@ import createStore from './store/configureStore';
 
 // page
 import LandingPage from './pages/LandingPage/LandingPage';
-import InitPage from './pages/InitPage/InitPage';
+import InitPage from './pages/InitPage';
 import TestPage from './pages/TestPage/TestPage';
 import BootPage from './pages/BootPage/BootPage';
 import Nav from './components/Nav/Nav';
-import InitPage_2 from "./pages/InitPage_2";
-
 const store = createStore();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -24,8 +22,7 @@ root.render(
       <Nav />
       <Routes>
         <Route path='/' element={<LandingPage />} />
-        <Route path='/init' element={<InitPage />} />
-         <Route path='/init2' element={<InitPage_2/>}/>
+        <Route path='/init/*' element={<InitPage />} />
         <Route path='/test' element={<TestPage />} />
         <Route path='/boot' element={<BootPage />} />
       </Routes>

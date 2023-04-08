@@ -2,13 +2,10 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 
 const InputContainer = styled.div`
-  width: 400px;
-  height: 300px;
-
+  height: 100%;
   background-color: #eddbc7;
   border-radius: 10px;
 
-  margin: 15px;
   padding: 10px;
 `;
 const InputForm = styled.div`
@@ -44,7 +41,7 @@ const InputForm = styled.div`
 `;
 const DataWrapper = styled.div`
   width: 100%;
-  height: 215px;
+  height: 85%;
   overflow: scroll;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
@@ -54,7 +51,7 @@ const DataWrapper = styled.div`
   align-items: center;
 `;
 const ItemWrapper = styled.div`
-font-size: 1.3rem;
+  font-size: 1.3rem;
   height: 30px;
   display: flex;
   justify-content: space-between;
@@ -76,7 +73,14 @@ font-size: 1.3rem;
   }
 `;
 
-const MedicationInput = ({ title, able, parent }) => {
+const MedicationInput = ({
+  title,
+  able,
+  parent,
+  setState,
+  state,
+  handleChangeState,
+}) => {
   const [tempStore, setTempStore] = useState([]);
   const [medicine, setMedicine] = useState('');
   const [count, setCount] = useState(0);
@@ -86,34 +90,38 @@ const MedicationInput = ({ title, able, parent }) => {
   }, []);
 
   const onClickAdd = useCallback(() => {
-    if(able) {
-       if(count < 3) {
-          setTempStore((state) => [...state, medicine]);
-          setMedicine('');
-          setCount(count+1);
-          console.log(count);
-       }
+    if (able) {
+      if (count < 3) {
+        setTempStore((state) => [...state, medicine]);
+        setMedicine('');
+        setCount(count + 1);
+        console.log(count);
+      }
     } else {
-       setTempStore((state) => [...state, medicine]);
-       setMedicine('');
+      setTempStore((state) => [...state, medicine]);
+      setMedicine('');
     }
-
   }, [medicine, count]);
 
   const onRemove = useCallback(
     (i) => {
       let temp = [...tempStore];
       setTempStore(temp.filter((v, index) => i !== index));
-      if(able) {
-         setCount(count-1);
-         console.log(count);
+      if (able) {
+        setCount(count - 1);
+        console.log(count);
       }
     },
     [tempStore, count]
   );
-
+  const handleSetState = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: tempStore,
+    });
+    console.log(state);
+  };
   parent(tempStore);
-
 
   return (
     <InputContainer>
@@ -133,6 +141,9 @@ const MedicationInput = ({ title, able, parent }) => {
           </ItemWrapper>
         ))}
       </DataWrapper>
+      <button name='unable' onClick={handleSetState}>
+        확정
+      </button>
     </InputContainer>
   );
 };
