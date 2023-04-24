@@ -1,63 +1,102 @@
-import React, { useContext, useState, useCallback } from 'react';
+import React, { useContext, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import MedicationInput from '../MedicationInput/MedicationInput';
+import axios from 'axios';
+import { MoveButton, InitPageContainer, InitCommonHeader } from './styles';
 
-const request =
-  'http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?serviceKey=서비스키(URLEncode)&trustEntpName=한미약품(주)&pageNo=1&startPage=1&numOfRows=3';
-const dummyResponse = [
-  {
-    entpName: '한미약품(주)', // 업체명
-    itemSeq: 200003092, // 품목기준코드
-    itemName: '한미아스피린장용정100밀리그램', // 약물
-    efcyQesitm:
-      '이 약은 심근경색, 뇌경색, 불안정형 협심증에서 혈전 생성 억제와 관상동맥 우회술(CABG) 또는 경피경관 관상동맥 성형술(PTCA) 후 혈전 생성 억제와 고위험군환자(허혈성 심장질환의 가족력, 고혈압, 고콜레스테롤혈증, 비만, 당뇨 등 복합적 위험인자를 가진 환자)에서 심혈관계 위험성 감소에 사용합니다.',
-    USE_METHOD_QESITM:
-      '성인은 1회 1정, 1일 1회 복용합니다.</p><p>이 약은 장용정이므로 충분한 물과 함께 식전에 복용할 수 있습니다.',
-    ATPN_WARN_QESITM:
-      '매일 세잔 이상 정기적 음주자가 이 약 또는 다른 해열진통제를 복용할 때는 의사 또는 약사와 상의하십시오. 위장출혈을 일으킬 수 있습니다.',
-    ATPN_QESITM:
-      '이 약 또는 다른 살리실산제제, 진통제, 소염제, 항류마티스제에 대한 과민증 환자, 소화성궤양, 아스피린천식 또는 경험자, 혈우병, 심한 간장애, 심한 신장애, 심한 심기능부전, 출혈경향, 일주일 동안 메토트렉세이트 15밀리그람(15 mg/주) 이상의 용량을 병용 투여하는 환자, 임신 3기에 해당하는 임부는 복용하지 마십시오. 임신 1기와 2기에는 반드시 필요한 경우가 아니라면  이 약을 복용하지 마십시오.</p><p>이 약을 사용하기 전에 신장애, 심혈관 순환기능이상(신혈관 질환, 울혈성 심부전, 체액감소, 큰 수술, 패혈증 또는 주요 출혈사고 등), 간장애, 심기능 이상, 기관지천식, 수술전의 환자, 3세 이하의 유아, 고령자, 포도당-6-인산염 탈수소효소(G6PD)결핍 환자, 레이증후군, 14세 이하의 수두 또는 인플루엔자 감염 환자, 통풍 환자는 의사 또는 약사와 상의하십시오.</p><p>출혈의 위험이 있으므로 수술(치과수술 포함)을 하는 경우에는 의사에게 이 약을 복용하고 있음을 알리십시오.</p><p>이 약의 장용피막을 파손하지 않도록 유의하십시오.',
-    INTRC_QESITM:
-      '다른 비스테로이드성 소염진통제 및 살리실산 제제, 일주일 동안 메토트렉세이트 15밀리그람(15mg/주) 이상의 용량은 이 약과 병용 투여 시 출혈이 증가되거나 신기능이 감소될 수 있으므로 함께 사용하지 않습니다.</p><p>항응고제, 이부프로펜, 나프록센 등 일부 비스테로이드성 소염진통제, 혈전용해제, 다른 혈소판응집억제제, 지혈제, 당뇨병치료제(인슐린제제, 톨부타미드 등), 요산배설촉진제(벤즈브로마론, 프로베네시드), 티아짓계 이뇨제, 리튬제제, 선택적 세포토닌 재흡수 억제제, 디곡신, 전신 작용 부신피질호르몬 제제(애디슨병 대체요법용 히드로코티손 제외), 안지오텐신 전환 효소 억제제, 발프로산 제제를 복용하는 사람은 의사 또는 약사와 상의하십시오.</p><p>알칼리제제(예: 탄산수소나트륨, 탄산마그네슘) 또는 습기가 차기 쉬운 제제와 함께 섞지 마십시오.</p><p>알코올과 병용 투여 시 위장관 점막 손상이 증가하고, 이 약과 알코올의 상승효과로 인해 출혈시간이 연장될 수 있습니다.',
-    SE_QESITM:
-      '쇽 증상(예: 호흡곤란, 전신조홍, 혈관부종, 두드러기), 천식발작, 과민증(홍반, 간지러움, 코막힘, 심장-호흡기 장애, 때때로 발진, 부종, 두드러기, 비염양 증상, 결막염), 드물게 리엘증후군(독성표피괴사용해), 스티븐스-존슨증후군(피부점막안증후군), 박탈성피부염, 재생불량성빈혈, 빈혈, 백혈구감소, 혈소판감소, 혈소판기능 저하(출혈시간의 지연), 귀에서 소리가 남, 귀 먹음, 어지러움, 두통, 흥분, 드물게 간장애, 매우 드물게 일시적인 간손상, 신장애, 급성신부전, 과호흡, 대사성 산증, 과도한 체온강하, 허탈, 사지냉각 등이 나타나는 경우 즉시 복용을 중지하고 의사 또는 약사와 상의하십시오.</p><p>식욕부진, 가슴쓰림, 위통, 구역, 구토 등이 나타날 수 있습니다.',
-  },
-  {
-    entpName: '한미약품(주)', // 업체명
-    itemSeq: 200003092, // 품목기준코드
-    itemName: '한미아스피린장용정200밀리그램', // 약물
-    efcyQesitm:
-      '이 약은 심근경색, 뇌경색, 불안정형 협심증에서 혈전 생성 억제와 관상동맥 우회술(CABG) 또는 경피경관 관상동맥 성형술(PTCA) 후 혈전 생성 억제와 고위험군환자(허혈성 심장질환의 가족력, 고혈압, 고콜레스테롤혈증, 비만, 당뇨 등 복합적 위험인자를 가진 환자)에서 심혈관계 위험성 감소에 사용합니다.',
-    USE_METHOD_QESITM:
-      '성인은 1회 1정, 1일 1회 복용합니다.</p><p>이 약은 장용정이므로 충분한 물과 함께 식전에 복용할 수 있습니다.',
-    ATPN_WARN_QESITM:
-      '매일 세잔 이상 정기적 음주자가 이 약 또는 다른 해열진통제를 복용할 때는 의사 또는 약사와 상의하십시오. 위장출혈을 일으킬 수 있습니다.',
-    ATPN_QESITM:
-      '이 약 또는 다른 살리실산제제, 진통제, 소염제, 항류마티스제에 대한 과민증 환자, 소화성궤양, 아스피린천식 또는 경험자, 혈우병, 심한 간장애, 심한 신장애, 심한 심기능부전, 출혈경향, 일주일 동안 메토트렉세이트 15밀리그람(15 mg/주) 이상의 용량을 병용 투여하는 환자, 임신 3기에 해당하는 임부는 복용하지 마십시오. 임신 1기와 2기에는 반드시 필요한 경우가 아니라면  이 약을 복용하지 마십시오.</p><p>이 약을 사용하기 전에 신장애, 심혈관 순환기능이상(신혈관 질환, 울혈성 심부전, 체액감소, 큰 수술, 패혈증 또는 주요 출혈사고 등), 간장애, 심기능 이상, 기관지천식, 수술전의 환자, 3세 이하의 유아, 고령자, 포도당-6-인산염 탈수소효소(G6PD)결핍 환자, 레이증후군, 14세 이하의 수두 또는 인플루엔자 감염 환자, 통풍 환자는 의사 또는 약사와 상의하십시오.</p><p>출혈의 위험이 있으므로 수술(치과수술 포함)을 하는 경우에는 의사에게 이 약을 복용하고 있음을 알리십시오.</p><p>이 약의 장용피막을 파손하지 않도록 유의하십시오.',
-    INTRC_QESITM:
-      '다른 비스테로이드성 소염진통제 및 살리실산 제제, 일주일 동안 메토트렉세이트 15밀리그람(15mg/주) 이상의 용량은 이 약과 병용 투여 시 출혈이 증가되거나 신기능이 감소될 수 있으므로 함께 사용하지 않습니다.</p><p>항응고제, 이부프로펜, 나프록센 등 일부 비스테로이드성 소염진통제, 혈전용해제, 다른 혈소판응집억제제, 지혈제, 당뇨병치료제(인슐린제제, 톨부타미드 등), 요산배설촉진제(벤즈브로마론, 프로베네시드), 티아짓계 이뇨제, 리튬제제, 선택적 세포토닌 재흡수 억제제, 디곡신, 전신 작용 부신피질호르몬 제제(애디슨병 대체요법용 히드로코티손 제외), 안지오텐신 전환 효소 억제제, 발프로산 제제를 복용하는 사람은 의사 또는 약사와 상의하십시오.</p><p>알칼리제제(예: 탄산수소나트륨, 탄산마그네슘) 또는 습기가 차기 쉬운 제제와 함께 섞지 마십시오.</p><p>알코올과 병용 투여 시 위장관 점막 손상이 증가하고, 이 약과 알코올의 상승효과로 인해 출혈시간이 연장될 수 있습니다.',
-    SE_QESITM:
-      '쇽 증상(예: 호흡곤란, 전신조홍, 혈관부종, 두드러기), 천식발작, 과민증(홍반, 간지러움, 코막힘, 심장-호흡기 장애, 때때로 발진, 부종, 두드러기, 비염양 증상, 결막염), 드물게 리엘증후군(독성표피괴사용해), 스티븐스-존슨증후군(피부점막안증후군), 박탈성피부염, 재생불량성빈혈, 빈혈, 백혈구감소, 혈소판감소, 혈소판기능 저하(출혈시간의 지연), 귀에서 소리가 남, 귀 먹음, 어지러움, 두통, 흥분, 드물게 간장애, 매우 드물게 일시적인 간손상, 신장애, 급성신부전, 과호흡, 대사성 산증, 과도한 체온강하, 허탈, 사지냉각 등이 나타나는 경우 즉시 복용을 중지하고 의사 또는 약사와 상의하십시오.</p><p>식욕부진, 가슴쓰림, 위통, 구역, 구토 등이 나타날 수 있습니다.',
-  },
-  {
-    entpName: '한미약품(주)', // 업체명
-    itemSeq: 200003092, // 품목기준코드
-    itemName: '한미아스피린장용정300밀리그램', // 약물
-    efcyQesitm:
-      '이 약은 심근경색, 뇌경색, 불안정형 협심증에서 혈전 생성 억제와 관상동맥 우회술(CABG) 또는 경피경관 관상동맥 성형술(PTCA) 후 혈전 생성 억제와 고위험군환자(허혈성 심장질환의 가족력, 고혈압, 고콜레스테롤혈증, 비만, 당뇨 등 복합적 위험인자를 가진 환자)에서 심혈관계 위험성 감소에 사용합니다.',
-    USE_METHOD_QESITM:
-      '성인은 1회 1정, 1일 1회 복용합니다.</p><p>이 약은 장용정이므로 충분한 물과 함께 식전에 복용할 수 있습니다.',
-    ATPN_WARN_QESITM:
-      '매일 세잔 이상 정기적 음주자가 이 약 또는 다른 해열진통제를 복용할 때는 의사 또는 약사와 상의하십시오. 위장출혈을 일으킬 수 있습니다.',
-    ATPN_QESITM:
-      '이 약 또는 다른 살리실산제제, 진통제, 소염제, 항류마티스제에 대한 과민증 환자, 소화성궤양, 아스피린천식 또는 경험자, 혈우병, 심한 간장애, 심한 신장애, 심한 심기능부전, 출혈경향, 일주일 동안 메토트렉세이트 15밀리그람(15 mg/주) 이상의 용량을 병용 투여하는 환자, 임신 3기에 해당하는 임부는 복용하지 마십시오. 임신 1기와 2기에는 반드시 필요한 경우가 아니라면  이 약을 복용하지 마십시오.</p><p>이 약을 사용하기 전에 신장애, 심혈관 순환기능이상(신혈관 질환, 울혈성 심부전, 체액감소, 큰 수술, 패혈증 또는 주요 출혈사고 등), 간장애, 심기능 이상, 기관지천식, 수술전의 환자, 3세 이하의 유아, 고령자, 포도당-6-인산염 탈수소효소(G6PD)결핍 환자, 레이증후군, 14세 이하의 수두 또는 인플루엔자 감염 환자, 통풍 환자는 의사 또는 약사와 상의하십시오.</p><p>출혈의 위험이 있으므로 수술(치과수술 포함)을 하는 경우에는 의사에게 이 약을 복용하고 있음을 알리십시오.</p><p>이 약의 장용피막을 파손하지 않도록 유의하십시오.',
-    INTRC_QESITM:
-      '다른 비스테로이드성 소염진통제 및 살리실산 제제, 일주일 동안 메토트렉세이트 15밀리그람(15mg/주) 이상의 용량은 이 약과 병용 투여 시 출혈이 증가되거나 신기능이 감소될 수 있으므로 함께 사용하지 않습니다.</p><p>항응고제, 이부프로펜, 나프록센 등 일부 비스테로이드성 소염진통제, 혈전용해제, 다른 혈소판응집억제제, 지혈제, 당뇨병치료제(인슐린제제, 톨부타미드 등), 요산배설촉진제(벤즈브로마론, 프로베네시드), 티아짓계 이뇨제, 리튬제제, 선택적 세포토닌 재흡수 억제제, 디곡신, 전신 작용 부신피질호르몬 제제(애디슨병 대체요법용 히드로코티손 제외), 안지오텐신 전환 효소 억제제, 발프로산 제제를 복용하는 사람은 의사 또는 약사와 상의하십시오.</p><p>알칼리제제(예: 탄산수소나트륨, 탄산마그네슘) 또는 습기가 차기 쉬운 제제와 함께 섞지 마십시오.</p><p>알코올과 병용 투여 시 위장관 점막 손상이 증가하고, 이 약과 알코올의 상승효과로 인해 출혈시간이 연장될 수 있습니다.',
-    SE_QESITM:
-      '쇽 증상(예: 호흡곤란, 전신조홍, 혈관부종, 두드러기), 천식발작, 과민증(홍반, 간지러움, 코막힘, 심장-호흡기 장애, 때때로 발진, 부종, 두드러기, 비염양 증상, 결막염), 드물게 리엘증후군(독성표피괴사용해), 스티븐스-존슨증후군(피부점막안증후군), 박탈성피부염, 재생불량성빈혈, 빈혈, 백혈구감소, 혈소판감소, 혈소판기능 저하(출혈시간의 지연), 귀에서 소리가 남, 귀 먹음, 어지러움, 두통, 흥분, 드물게 간장애, 매우 드물게 일시적인 간손상, 신장애, 급성신부전, 과호흡, 대사성 산증, 과도한 체온강하, 허탈, 사지냉각 등이 나타나는 경우 즉시 복용을 중지하고 의사 또는 약사와 상의하십시오.</p><p>식욕부진, 가슴쓰림, 위통, 구역, 구토 등이 나타날 수 있습니다.',
-  },
-];
+export const SelectMedicineDisplay = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .box {
+    margin-top: 10px;
+    width: 90%;
+    background-color: #fff;
+    min-height: 150px;
+    border-radius: 15px;
+  }
+`;
+
+export const SearchMedicineDisplay = styled.div`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .searchBar {
+    margin-top: 10px;
+    width: 90%;
+    display: flex;
+    input {
+      width: 80%;
+      height: 25px;
+      border: none;
+      border-bottom: 2px solid #6096b4;
+      border-top: 2px solid #6096b4;
+    }
+    button {
+      border: none;
+      width: 20%;
+      background-color: #6096b4;
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+  .searchListContainer {
+    background-color: #fff;
+    width: 90%;
+    min-height: 150px;
+    overflow: hidden;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+`;
+
+export const TempStoreList = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  .item {
+    width: 30%;
+  }
+  button {
+    border: none;
+    background-color: #ff6d60;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 7px;
+    cursor: pointer;
+  }
+`;
+export const SearchItemList = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  .item {
+    width: 40%;
+  }
+  .company {
+    width: 40%;
+  }
+  button {
+    border: none;
+    background-color: #6da9e4;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 7px;
+    cursor: pointer;
+  }
+`;
 
 /**
  * 복용중인 약 등록 페이지
@@ -65,85 +104,114 @@ const dummyResponse = [
  * @returns
  */
 const InitPage2 = ({ state }) => {
-  const [search, setSearch] = useState('');
+  const input = useRef(null);
+  const [search, setSearch] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [tempStore, setTempStore] = useState([]);
   const [count, setCount] = useState(0);
 
-  const onChangeSearchInput = useCallback((e) => {
+  const onChangeSearchInput = useCallback(e => {
     setSearchInput(e.target.value);
   }, []);
 
   /**
    * 공공데이터 포털에 데이터를 요청하고 저장
    */
-  const onClickSearch = useCallback(() => {
-    // axios ...
-    setSearch(dummyResponse);
-  }, []);
+  const onClickSearch = useCallback(async () => {
+    try {
+      const request = await axios.get(
+        `https://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?serviceKey=${process.env.REACT_APP_IROS239_KEY}&itemName=${searchInput}&pageNo=1&startPage=1&numOfRows=3&type=json`,
+      );
+      console.log(request.data.body.items);
+      if (request.data.body.items) {
+        request.data.body.items.map(v => {
+          setSearch(data => {
+            return [...data, v];
+          });
+        });
+      }
+      // axios ...
+    } catch (err) {
+      console.dir(err);
+    }
+  }, [searchInput]);
 
   /**
    * 리스트 아이템 추가
    */
   const addListItem = useCallback(
-    (e) => {
+    value => {
       if (count >= 3) return null;
-      setTempStore((state) => [...state, e.target.value]);
+      setTempStore(state => [...state, value]);
+      console.log('add: ', tempStore);
       setCount(count + 1);
       console.log(tempStore);
       console.log(count);
+      // 초기화
+      setSearch([]);
+      setSearchInput('');
+      // input.current.focus();
     },
-    [tempStore, count]
+    [tempStore, count],
   );
 
   /**
    * 리스트 아이템 제거
    */
   const removeListItem = useCallback(
-    (i) => () => {
-      setTempStore(tempStore.filter((v) => v !== tempStore[i]));
+    i => () => {
+      setTempStore(tempStore.filter(v => v !== tempStore[i]));
       setCount(count - 1);
       console.log(tempStore[i]);
       console.log(tempStore);
     },
-    [count, tempStore]
+    [count, tempStore],
   );
 
   return (
-    <>
-      <div>약물 목록</div>
-      <div>
-        {tempStore &&
-          tempStore.map((v, i) => (
-            <div>
-              {v} <button onClick={removeListItem(i)}></button>
-            </div>
-          ))}
-      </div>
-      <div>
-        <p>약물 검색</p>
-        <input type='text' onChange={onChangeSearchInput}></input>
-        <button onClick={onClickSearch}>검색</button>
-        <div>
-          <h2>List</h2>
+    <InitPageContainer>
+      <SelectMedicineDisplay>
+        <InitCommonHeader>약물 목록</InitCommonHeader>
+        <div className="box">
+          {tempStore &&
+            tempStore.map((v, i) => {
+              console.log(tempStore);
+              return (
+                <TempStoreList key={`${v.itemName}_${i}`}>
+                  <div className="item">제품명: {v.itemName}</div>
+                  <button onClick={removeListItem(i)}>취소</button>
+                </TempStoreList>
+              );
+            })}
+        </div>
+      </SelectMedicineDisplay>
+      <SearchMedicineDisplay>
+        <InitCommonHeader>약물 검색</InitCommonHeader>
+        <div className="searchBar">
+          <input type="text" value={searchInput} ref={input} onChange={onChangeSearchInput}></input>
+          <button onClick={onClickSearch}>검색</button>
+        </div>
+        <div className="searchListContainer">
           {search &&
-            search?.map((v) => (
-              <>
-                <div>{v.itemName}</div>
-                <button value={v.itemName} onClick={addListItem}>
+            search?.map((v, i) => (
+              <SearchItemList key={`${v.itemName}_${i}`}>
+                <div className="item">제품명: {v.itemName}</div>
+                <div className="company">제조사: {v.entpName}</div>
+                <button value={v} onClick={() => addListItem(v)}>
                   선택
                 </button>
-              </>
+              </SearchItemList>
             ))}
         </div>
-      </div>
-      <button>
-        <Link to='/init'>이전</Link>
-      </button>
-      <button>
-        <Link to='/init/init3'>다음</Link>
-      </button>
-    </>
+      </SearchMedicineDisplay>
+      <MoveButton>
+        <button>
+          <Link to="/init/init3" style={{ color: '#fff', textDecoration: 'none' }}>
+            다음
+          </Link>
+        </button>
+      </MoveButton>
+    </InitPageContainer>
   );
 };
 

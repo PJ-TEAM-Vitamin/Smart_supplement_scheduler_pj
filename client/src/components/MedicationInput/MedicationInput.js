@@ -2,50 +2,50 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 
 const InputContainer = styled.div`
+  width: 92%;
   height: 100%;
-  background-color: #eddbc7;
+  background-color: #fff;
   border-radius: 10px;
-
-  padding: 10px;
+  padding: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 const InputForm = styled.div`
-  height: 85px;
-
-  .title {
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
   .inputArea {
     display: flex;
     input {
-      border-top-left-radius: 10px;
-      border-bottom-left-radius: 10px;
       width: 80%;
       height: 30px;
       border: none;
-      border-bottom: 1px solid #b99b6b;
+      border-bottom: 1px solid #4e6e81;
     }
     button {
       width: 20%;
       border: none;
-      border-bottom: 1px solid #b99b6b;
+      border-bottom: 1px solid #4e6e81;
       border-top-right-radius: 10px;
-      border-bottom-right-radius: 10px;
       background-color: #6096b4;
       color: #fff;
       font-weight: 600;
+      height: 33px;
     }
   }
 `;
+const FixDataButton = styled.button`
+  width: 20%;
+  height: 30px;
+  border: none;
+  border-top: 1px solid #4e6e81;
+  border-bottom-left-radius: 10px;
+  background-color: #6096b4;
+  color: #fff;
+  font-weight: 600;
+`;
 const DataWrapper = styled.div`
   width: 100%;
-  height: 85%;
+  height: 25vh;
   overflow: scroll;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  background-color: #fff;
+  border-bottom: solid 1px #4e6e81;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -73,38 +73,31 @@ const ItemWrapper = styled.div`
   }
 `;
 
-const MedicationInput = ({
-  title,
-  able,
-  parent,
-  setState,
-  state,
-  handleChangeState,
-}) => {
+const MedicationInput = ({ title, able, parent, setState, state, handleChangeState }) => {
   const [tempStore, setTempStore] = useState([]);
   const [medicine, setMedicine] = useState('');
   const [count, setCount] = useState(0);
 
-  const handleMedicine = useCallback((e) => {
+  const handleMedicine = useCallback(e => {
     setMedicine(e.target.value);
   }, []);
 
   const onClickAdd = useCallback(() => {
     if (able) {
       if (count < 3) {
-        setTempStore((state) => [...state, medicine]);
+        setTempStore(state => [...state, medicine]);
         setMedicine('');
         setCount(count + 1);
         console.log(count);
       }
     } else {
-      setTempStore((state) => [...state, medicine]);
+      setTempStore(state => [...state, medicine]);
       setMedicine('');
     }
   }, [medicine, count]);
 
   const onRemove = useCallback(
-    (i) => {
+    i => {
       let temp = [...tempStore];
       setTempStore(temp.filter((v, index) => i !== index));
       if (able) {
@@ -112,30 +105,28 @@ const MedicationInput = ({
         console.log(count);
       }
     },
-    [tempStore, count]
+    [tempStore, count],
   );
 
   return (
     <InputContainer>
       <InputForm>
-        <div className='title'>{title}</div>
-        <div className='inputArea'>
-          <input type='text' value={medicine} onChange={handleMedicine} />
+        <div className="inputArea">
+          <input type="text" value={medicine} onChange={handleMedicine} />
           <button onClick={onClickAdd}>Add</button>
         </div>
       </InputForm>
-
       <DataWrapper>
         {tempStore.map((v, i) => (
           <ItemWrapper>
-            <div className='itemName'>{v}</div>
+            <div className="itemName">{v}</div>
             <button onClick={() => onRemove(i)}>delete</button>
           </ItemWrapper>
         ))}
       </DataWrapper>
-      <button name='unable' onClick={handleChangeState}>
+      <FixDataButton name="unable" onClick={handleChangeState}>
         확정
-      </button>
+      </FixDataButton>
     </InputContainer>
   );
 };

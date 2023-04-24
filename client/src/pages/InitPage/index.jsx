@@ -6,7 +6,20 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import InitPage3 from '../../components/InitPage/InitPage3';
 import InitPage4 from '../../components/InitPage/InitPage4';
+import styled from 'styled-components';
 
+const Header = styled.div`
+  height: 10vh;
+  width: 150px;
+  background-color: #2c74b3;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-right-radius: 10px;
+`;
 const InitPage = () => {
   const [state, setState] = useState({
     name: '', // 사용자 이름
@@ -18,9 +31,7 @@ const InitPage = () => {
     time2: '',
     time3: '',
   });
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  //   const { onCreate } = useContext(SmartDispatchContext);
 
   // 최종 회원등록이 될 버튼
   const onClickSignUp = useCallback(() => {
@@ -33,7 +44,7 @@ const InitPage = () => {
    * 인풋 데이터 set
    * @param {*} e
    */
-  const handleChangeState = (e) => {
+  const handleChangeState = e => {
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -44,43 +55,14 @@ const InitPage = () => {
   // Route를 이용하여 화면 전환
   return (
     <>
-      <h2>회원등록</h2>
+      <Header>회원등록</Header>
       <Routes>
-        <Route
-          path='/'
-          element={
-            <InitPage1
-              state={state}
-              setState={setState}
-              handleChangeState={handleChangeState}
-            />
-          }
-        />
-        <Route
-          path='init2'
-          element={
-            <InitPage2
-              state={state}
-              setState={setState}
-              handleChangeState={handleChangeState}
-            />
-          }
-        />
-        <Route
-          path='init3'
-          element={<InitPage3 handleChangeState={handleChangeState} />}
-        />
-        <Route
-          path='init4'
-          element={
-            <InitPage4
-              handleChangeState={handleChangeState}
-              onClickSignUp={onClickSignUp}
-            />
-          }
-        />
+        <Route path="/" element={<InitPage1 state={state} setState={setState} handleChangeState={handleChangeState} />} />
+        <Route path="init2" element={<InitPage2 state={state} setState={setState} handleChangeState={handleChangeState} />} />
+        <Route path="init3" element={<InitPage3 handleChangeState={handleChangeState} />} />
+        <Route path="init4" element={<InitPage4 handleChangeState={handleChangeState} onClickSignUp={onClickSignUp} />} />
       </Routes>
-      <button onClick={onClickSignUp}>회원 가입</button>
+      {/*<button onClick={onClickSignUp}>회원 가입</button>*/}
     </>
   );
 };

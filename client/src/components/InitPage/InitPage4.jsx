@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tumbler } from './styles';
+import { InitPageContainer, MoveButton, Tumbler } from './styles';
 import { Link } from 'react-router-dom';
 
 const InitPage4 = ({ handleChangeState, onClickSignUp }) => {
@@ -20,17 +20,18 @@ const InitPage4 = ({ handleChangeState, onClickSignUp }) => {
     console.log(weight);
   };
   return (
-    <Tumbler>
-      <div className='title'>{'텀블러 무게 설정'}</div>
-      <div>{'무게: ' + weight}</div>
-      <div>
-        <button onClick={setTumbler}>{'설정'}</button>
-      </div>
-      <button>
-        <Link to='/init/init3'>이전</Link>
-      </button>
-      <button onClick={onClickSignUp}>회원 가입</button>
-    </Tumbler>
+    <InitPageContainer>
+      <Tumbler>
+        <div className="title">{'텀블러 무게 설정'}</div>
+        <div>{'무게: ' + weight}</div>
+        <div>
+          <button onClick={setTumbler}>{'설정'}</button>
+        </div>
+        <MoveButton>
+          <button onClick={onClickSignUp}>회원 가입</button>
+        </MoveButton>
+      </Tumbler>
+    </InitPageContainer>
   );
 };
 
