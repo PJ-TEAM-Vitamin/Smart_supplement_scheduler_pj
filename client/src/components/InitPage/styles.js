@@ -80,25 +80,101 @@ export const MoveButton = styled.div`
 
 export const Alarm = styled.div`
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
-
-  .title {
+  .clock {
+    width: 200px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+`;
+export const SelectTimeForm = styled.form`
+  .timeInput {
+  }
+`;
+export const TimeInputItem = styled.div`
+  .timeLabel {
     text-align: center;
-    font-size: 1.5rem;
-    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  input {
+    width: 200px;
+    height: 30px;
+    font-size: 1.2rem;
+    text-align: center;
+    border-radius: 10px;
     margin-bottom: 10px;
   }
 `;
-
-export const Tumbler = styled.div`
+export const TumblerContainer = styled.div`
+  display: flex;
   align-items: center;
-  .title {
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 10px;
+  justify-content: center;
+  flex-direction: column;
+`;
+export const Tumbler = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  background-color: #fff;
+  height: 400px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border-radius: 30px;
+  .left {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 70%;
+    }
+  }
+  .right {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .info {
+      width: 80%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 80%;
+      .title {
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: #ff6969;
+      }
+      p {
+        font-size: 0.8rem;
+        color: #ffabab;
+      }
+      button {
+        border: none;
+        width: 80px;
+        height: 40px;
+        border-radius: 20px;
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: bold;
+        background-color: #fa9884;
+        cursor: pointer;
+      }
+    }
+    .weight {
+      background-color: #ffebeb;
+      border-radius: 10px;
+      padding-left: 10px;
+      display: flex;
+      align-items: center;
+      height: 30px;
+      width: 200px;
+    }
   }
 `;
 
