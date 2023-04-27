@@ -67,6 +67,7 @@ export const MoveButton = styled.div`
   justify-content: space-around;
   align-items: center;
   button {
+    color: #fff;
     cursor: pointer;
     width: 100px;
     height: 40px;
@@ -164,6 +165,8 @@ export const Tumbler = styled.div`
         font-weight: bold;
         background-color: #fa9884;
         cursor: pointer;
+        margin-right: 5px;
+        margin-left: 5px;
       }
     }
     .weight {

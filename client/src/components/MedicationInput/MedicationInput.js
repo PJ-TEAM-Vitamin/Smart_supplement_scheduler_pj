@@ -73,7 +73,7 @@ const ItemWrapper = styled.div`
   }
 `;
 
-const MedicationInput = ({ title, able, parent, setState, state, handleChangeState }) => {
+const MedicationInput = ({ able, handleParamState }) => {
   const [tempStore, setTempStore] = useState([]);
   const [medicine, setMedicine] = useState('');
   const [count, setCount] = useState(0);
@@ -94,7 +94,7 @@ const MedicationInput = ({ title, able, parent, setState, state, handleChangeSta
       setTempStore(state => [...state, medicine]);
       setMedicine('');
     }
-  }, [medicine, count]);
+  }, [able, count, medicine]);
 
   const onRemove = useCallback(
     i => {
@@ -105,7 +105,7 @@ const MedicationInput = ({ title, able, parent, setState, state, handleChangeSta
         console.log(count);
       }
     },
-    [tempStore, count],
+    [able, count, setTempStore, tempStore],
   );
 
   return (
@@ -124,7 +124,7 @@ const MedicationInput = ({ title, able, parent, setState, state, handleChangeSta
           </ItemWrapper>
         ))}
       </DataWrapper>
-      <FixDataButton name="unable" onClick={handleChangeState}>
+      <FixDataButton name="unable" onClick={e => handleParamState(e, tempStore)}>
         확정
       </FixDataButton>
     </InputContainer>

@@ -29,7 +29,7 @@ export const dataSlice = createSlice({
   name: 'data',
   initialState,
   reducers: {
-    RECORD_OF_TIME_REQUEST: (state) => {
+    RECORD_OF_TIME_REQUEST: state => {
       state.recordOfTimeLoading = true;
       state.recordOfTimeDone = false;
       state.recordOfTimeError = null;
@@ -45,7 +45,7 @@ export const dataSlice = createSlice({
       state.recordOfTimeDone = false;
       state.recordOfTimeError = action.error;
     },
-    CARTRIDGE_INFO_REQUEST: (state) => {
+    CARTRIDGE_INFO_REQUEST: state => {
       state.cartridgeInfoLoading = true;
       state.cartridgeInfoDone = false;
       state.cartridgeInfoError = null;
@@ -62,7 +62,7 @@ export const dataSlice = createSlice({
       state.cartridgeInfoDone = false;
       state.cartridgeInfoError = action.error;
     },
-    UPDATE_TUMBLR_REQUEST: (state) => {
+    UPDATE_TUMBLR_REQUEST: state => {
       // 마신 양 업데이트
       state.updateTumblrLoading = true;
       state.updateTumblrDone = false;
@@ -81,7 +81,7 @@ export const dataSlice = createSlice({
       state.updateTumblrDone = false;
       state.updateTumblrError = action.error;
     },
-    RESET_TUMBLR_REQUEST: (state) => {
+    RESET_TUMBLR_REQUEST: state => {
       // 마신 양 업데이트
       state.resetTumblrLoading = true;
       state.resetTumblrDone = false;
@@ -100,7 +100,8 @@ export const dataSlice = createSlice({
       state.resetTumblrDone = false;
       state.resetTumblrError = action.error;
     },
-    SCHEDULER_LIST_REQUEST: (state) => {
+
+    SCHEDULER_LIST_REQUEST: state => {
       state.schedulerListLoading = true;
       state.schedulerListDone = false;
       state.schedulerListError = null;

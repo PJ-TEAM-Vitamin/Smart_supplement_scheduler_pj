@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import InitPage1 from '../../components/InitPage/InitPage1';
 import InitPage2 from '../../components/InitPage/InitPage2';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import InitPage3 from '../../components/InitPage/InitPage3';
 import InitPage4 from '../../components/InitPage/InitPage4';
 import styled from 'styled-components';
+import { SIGN_UP_REQUEST } from '../../reducers/user';
 
 const Header = styled.div`
   height: 10vh;
@@ -25,44 +25,57 @@ const InitPage = () => {
     name: '', // 사용자 이름
     gender: '', // 사용자 성별
     age: '', // 사용자 나이
-    able: [],
-    unable: [],
-    time1: '',
-    time2: '',
-    time3: '',
+    able: [], // 복용 약
+    unable: [], // 복용 불가 약
+    time1: '', // 알람1
+    time2: '', // 알람2
+    time3: '', // 알람3
+    tumbler: 0,
   });
   const dispatch = useDispatch();
 
-  // 최종 회원등록이 될 버튼
   const onClickSignUp = useCallback(() => {
-    //  onCreate(state.name, state.gender, state.age);
     console.log(state);
-    // navigate('/', { state: state });
+    dispatch(
+      SIGN_UP_REQUEST({
+        ...state,
+      }),
+    );
   }, [state, dispatch]);
 
-  /**
-   * 인풋 데이터 set
-   * @param {*} e
-   */
-  const handleChangeState = e => {
-    setState({
-      ...state,
-      [e.target.name]: e.target.value,
-    });
-    console.log(e.target.value);
-  };
+  const handleChangeState = useCallback(
+    e => {
+      setState({
+        ...state,
+        [e.target.name]: e.target.value,
+      });
+    },
+    [state],
+  );
+  const handleParamState = useCallback(
+    (e, value) => {
+      setState({
+        ...state,
+        [e.target.name]: value,
+      });
+    },
+    [state],
+  );
 
-  // Route를 이용하여 화면 전환
+  // Route 이용하여 화면 전환
   return (
     <>
       <Header>회원등록</Header>
       <Routes>
-        <Route path="/" element={<InitPage1 state={state} setState={setState} handleChangeState={handleChangeState} />} />
-        <Route path="init2" element={<InitPage2 state={state} setState={setState} handleChangeState={handleChangeState} />} />
+        <Route
+          path="/"
+          element={<InitPage1 state={state} setState={setState} handleChangeState={handleChangeState} handleParamState={handleParamState} />}
+        />
+        <Route path="init2" element={<InitPage2 state={state} setState={setState} handleParamState={handleParamState} />} />
         <Route path="init3" element={<InitPage3 handleChangeState={handleChangeState} />} />
-        <Route path="init4" element={<InitPage4 handleChangeState={handleChangeState} onClickSignUp={onClickSignUp} />} />
+        <Route path="init4" element={<InitPage4 handleParamState={handleParamState} onClickSignUp={onClickSignUp} dispatch={dispatch} />} />
       </Routes>
-      {/*<button onClick={onClickSignUp}>회원 가입</button>*/}
+      <button onClick={onClickSignUp}>회원 가입</button>
     </>
   );
 };

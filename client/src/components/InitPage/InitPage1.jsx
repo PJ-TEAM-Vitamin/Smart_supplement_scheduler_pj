@@ -3,34 +3,21 @@ import { Link } from 'react-router-dom';
 import MedicationInput from '../MedicationInput/MedicationInput';
 
 //style
-import { InitPageContainer, EnterInfo, EnterName, GenderCheck, InitCommonHeader, Alarm, MoveButton, InfoTop } from './styles';
+import { InitPageContainer, EnterInfo, EnterName, GenderCheck, InitCommonHeader, MoveButton, InfoTop } from './styles';
 
-const InitPage1 = ({ state, setState, handleChangeState }) => {
-  const onChangeInfo = e => {
-    //값이 숫자인지 검사하는 정규식
-    const regex = /^[0-9]+$/;
-    if (regex.test(e.target.value)) {
-      setState({
-        ...state,
-        [e.target.name]: e.target.value,
-      });
-    }
-  };
-
-  const parent1 = useCallback(
-    x => {
-      console.log('p1 ' + x);
-      state.able = x;
+const InitPage1 = ({ state, setState, handleChangeState, handleParamState }) => {
+  const onChangeInfo = useCallback(
+    e => {
+      //값이 숫자인지 검사하는 정규식
+      const regex = /^[0-9]+$/;
+      if (regex.test(e.target.value)) {
+        setState({
+          ...state,
+          [e.target.name]: e.target.value,
+        });
+      }
     },
-    [state],
-  );
-
-  const parent2 = useCallback(
-    x => {
-      console.log('p2 ' + x);
-      state.unable = x;
-    },
-    [state],
+    [setState, state],
   );
 
   return (
@@ -56,21 +43,12 @@ const InitPage1 = ({ state, setState, handleChangeState }) => {
           </GenderCheck>
         </InfoTop>
         <InitCommonHeader>복용불가 약 입력하기</InitCommonHeader>
-        <MedicationInput
-          setState={setState}
-          state={state}
-          title={'복용불가 약'}
-          able={false}
-          parent={parent2}
-          handleChangeState={handleChangeState}
-        />
+        <MedicationInput able={false} handleParamState={handleParamState} />
       </EnterInfo>
       <MoveButton>
-        <button>
-          <Link to="/init/init2" style={{ color: '#fff', textDecoration: 'none' }}>
-            다음
-          </Link>
-        </button>
+        <Link to="/init/init2" style={{ color: '#fff', textDecoration: 'none' }}>
+          <button>다음</button>
+        </Link>
       </MoveButton>
     </InitPageContainer>
   );

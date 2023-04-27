@@ -6,6 +6,10 @@ export const initialState = {
   signUpLoading: false, // 회원등록
   signUpDone: false,
   signUpError: null,
+  setTumbler: 0,
+  setTumblerLoading: false, // 텀블러 무게 셋팅
+  setTumblerDone: false,
+  setTumblerError: false,
   myInfoLoading: false, // 유저 정보 불러오기
   myInfoDone: false,
   myInfoError: null,
@@ -16,7 +20,8 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    SIGN_UP_REQUEST: (state) => { // 회원 등록 관련
+    SIGN_UP_REQUEST: state => {
+      // 회원 등록 관련
       state.signUpLoading = true;
       state.signUpDone = false;
       state.signUpError = null;
@@ -32,7 +37,25 @@ export const userSlice = createSlice({
       state.signUpDone = false;
       state.signUpError = action.error;
     },
-    MY_INFO_REQUEST: (state) => { // 유저 기본 정보 불러오기
+    SET_TUMBLER_REQUEST: state => {
+      state.setTumblerLoading = true;
+      state.setTumblerDone = false;
+      state.setTumblerError = null;
+      console.log('reducer request');
+    },
+    SET_TUMBLER_SUCCESS: (state, action) => {
+      state.setTumblerLoading = false;
+      state.setTumblerDone = true;
+      state.setTumbler = action.data;
+      console.log('reducer: ', action);
+    },
+    SET_TUMBLER_FAILURE: (state, action) => {
+      state.setTumblerLoading = false;
+      state.setTumblerDone = false;
+      state.setTumblerError = action.error;
+    },
+    MY_INFO_REQUEST: state => {
+      // 유저 기본 정보 불러오기
       state.myInfoLoading = true;
       state.myInfoDone = false;
       state.myInfoError = null;
@@ -56,6 +79,9 @@ export const {
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILURE,
+  SET_TUMBLER_REQUEST,
+  SET_TUMBLER_SUCCESS,
+  SET_TUMBLER_FAILURE,
   MY_INFO_REQUEST,
   MY_INFO_SUCCESS,
   MY_INFO_FAILURE,

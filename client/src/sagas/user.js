@@ -1,4 +1,4 @@
-import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
+import { all, fork, put, takeLatest, call, delay } from 'redux-saga/effects';
 import axios from 'axios';
 
 import {
@@ -8,6 +8,9 @@ import {
   MY_INFO_REQUEST,
   MY_INFO_SUCCESS,
   MY_INFO_FAILURE,
+  SET_TUMBLER_REQUEST,
+  SET_TUMBLER_SUCCESS,
+  SET_TUMBLER_FAILURE,
 } from '../reducers/user';
 
 // 서버에 요청
@@ -27,6 +30,28 @@ function* signUp(action) {
     console.error(err);
     yield put({
       type: SIGN_UP_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+export function setTumblrAPI() {
+  // ex) return axios.get('/signup');
+}
+function* setTumblr(action) {
+  try {
+    // const result = yield call(signUpAPI);
+    let result = 800;
+    yield delay(3000);
+    console.log('saga: ', action);
+    yield put({
+      type: SET_TUMBLER_SUCCESS,
+      // data: result.data,
+      data: result,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: SET_TUMBLER_FAILURE,
       error: err.response.data,
     });
   }
@@ -62,6 +87,9 @@ function* myInfo(action) {
 function* watchSignUp() {
   yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
+function* watchSetTumblr() {
+  yield takeLatest(SET_TUMBLER_REQUEST, setTumblr);
+}
 function* watchMyInfo() {
   yield takeLatest(MY_INFO_REQUEST, myInfo);
 }
@@ -69,4 +97,5 @@ function* watchMyInfo() {
 export default function* userSaga() {
   yield all([fork(watchSignUp)]);
   yield all([fork(watchMyInfo)]);
+  yield all([fork(watchSetTumblr)]);
 }

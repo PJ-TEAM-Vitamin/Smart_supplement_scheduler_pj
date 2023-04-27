@@ -100,10 +100,11 @@ export const SearchItemList = styled.div`
 
 /**
  * 복용중인 약 등록 페이지
- * @param {*} param0
- * @returns
+ * @param handleParamState
+ * @returns {JSX.Element}
+ * @constructor
  */
-const InitPage2 = ({ state }) => {
+const InitPage2 = ({ handleParamState }) => {
   const input = useRef(null);
   const [search, setSearch] = useState([]);
   const [searchInput, setSearchInput] = useState('');
@@ -128,9 +129,9 @@ const InitPage2 = ({ state }) => {
           setSearch(data => {
             return [...data, v];
           });
+          return v;
         });
       }
-      // axios ...
     } catch (err) {
       console.dir(err);
     }
@@ -150,7 +151,7 @@ const InitPage2 = ({ state }) => {
       // 초기화
       setSearch([]);
       setSearchInput('');
-      // input.current.focus();
+      input.current.focus();
     },
     [tempStore, count],
   );
@@ -205,11 +206,11 @@ const InitPage2 = ({ state }) => {
         </div>
       </SearchMedicineDisplay>
       <MoveButton>
-        <button>
-          <Link to="/init/init3" style={{ color: '#fff', textDecoration: 'none' }}>
+        <Link to="/init/init3" style={{ color: '#fff', textDecoration: 'none' }}>
+          <button name="able" onClick={e => handleParamState(e, tempStore)}>
             다음
-          </Link>
-        </button>
+          </button>
+        </Link>
       </MoveButton>
     </InitPageContainer>
   );

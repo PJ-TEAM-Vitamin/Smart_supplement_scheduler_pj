@@ -27,11 +27,9 @@ const InitPage3 = ({ handleChangeState }) => {
           </div>
         </SelectTimeForm>
         <MoveButton>
-          <button>
-            <Link to="/init/init4" style={{ color: '#fff', textDecoration: 'none' }}>
-              다음
-            </Link>
-          </button>
+          <Link to="/init/init4" style={{ color: '#fff', textDecoration: 'none' }}>
+            <button>다음</button>
+          </Link>
         </MoveButton>
       </Alarm>
     </InitPageContainer>

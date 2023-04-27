@@ -1,26 +1,17 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import { InitCommonHeader, InitPageContainer, MoveButton, Tumbler, TumblerContainer } from './styles';
 import TumbleImg from '../../utils/img/tumble.png';
 import Loading from '../../utils/img/loading.gif';
-const InitPage4 = ({ handleChangeState, onClickSignUp }) => {
-  //텀블러
-  const [weight, setWeight] = useState('');
-  const dummy = {
-    tumbler: { weight: 600 },
-  };
-  //텀블러 무게 설정
-  const setTumbler = () => {
-    // 서버 통신하면 받아오는 코드?
-    // axios
-    //    .get('http://localhost:3000/init?')
-    //    .then(result=> setWeight(result))
-    //    .catch(error=> console.log('error', error));
+import { useSelector } from 'react-redux';
+import { SET_TUMBLER_REQUEST } from '../../reducers/user';
 
-    setWeight(dummy.tumbler.weight);
-    console.log(weight);
-  };
+const InitPage4 = ({ handleParamState, onClickSignUp, dispatch }) => {
+  const { setTumbler, setTumblerLoading } = useSelector(state => state.user);
 
-  let measurement = false;
+  const onClickSetTumbler = useCallback(() => {
+    dispatch(SET_TUMBLER_REQUEST());
+  }, [dispatch]);
+
   return (
     <InitPageContainer>
       <TumblerContainer>
@@ -31,17 +22,24 @@ const InitPage4 = ({ handleChangeState, onClickSignUp }) => {
           </div>
           <div className="right">
             <div className="info">
-              {measurement ? (
+              {setTumblerLoading ? (
                 <img src={Loading} alt="loading" />
               ) : (
                 <>
                   <div className="title">거치대 위에 텀블러를 올려주세요!</div>
                   <p>거치대 위에 올린 후 측정 버튼을 누르면 무게를 측정합니다.</p>
-                  <button onClick={setTumbler}>{'측정'}</button>
+                  <div>
+                    <button onClick={onClickSetTumbler}>{'측정'}</button>
+                    {setTumbler > 0 && (
+                      <button name="tumbler" onClick={e => handleParamState(e, setTumbler)}>
+                        {'확정'}
+                      </button>
+                    )}
+                  </div>
                 </>
               )}
             </div>
-            <div className="weight">{'텀블러 무게: ' + weight}</div>
+            <div className="weight">{'텀블러 무게: ' + setTumbler}</div>
           </div>
         </Tumbler>
         <MoveButton>
