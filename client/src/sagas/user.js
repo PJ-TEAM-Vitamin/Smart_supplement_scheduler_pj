@@ -12,6 +12,7 @@ import {
   SET_TUMBLER_SUCCESS,
   SET_TUMBLER_FAILURE,
 } from '../reducers/user';
+import { backUrl } from '../config/config';
 
 // 서버에 요청
 export function signUpAPI() {
@@ -35,18 +36,17 @@ function* signUp(action) {
   }
 }
 export function setTumblrAPI() {
-  // ex) return axios.get('/signup');
+  return axios.get(`${backUrl}/water/weight/tumbler`);
 }
 function* setTumblr(action) {
   try {
-    // const result = yield call(signUpAPI);
-    let result = 800;
-    yield delay(3000);
-    console.log('saga: ', action);
+    console.log('start');
+    const result = yield call(setTumblrAPI);
+    // let result = 800;
+    // yield delay(3000);
     yield put({
       type: SET_TUMBLER_SUCCESS,
-      // data: result.data,
-      data: result,
+      data: result.data.weight,
     });
   } catch (err) {
     console.error(err);
