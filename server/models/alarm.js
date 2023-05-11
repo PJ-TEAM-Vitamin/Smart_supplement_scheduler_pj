@@ -12,10 +12,6 @@ module.exports = class Alarm extends Sequelize.Model {
           type: Sequelize.STRING(10),
           allowNull: false,
         },
-        cartridges: {
-          type: Sequelize.STRING(10),
-          allowNull: false,
-        },
       },
       {
         sequelize,
