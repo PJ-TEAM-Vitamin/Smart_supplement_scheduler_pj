@@ -27,9 +27,10 @@ const InitPage = () => {
     age: '', // 사용자 나이
     able: [], // 복용 약
     unable: [], // 복용 불가 약
-    time1: '', // 알람1
-    time2: '', // 알람2
-    time3: '', // 알람3
+    // time1: '', // 알람1
+    // time2: '', // 알람2
+    // time3: '', // 알람3
+    time: [],
     tumbler: 0,
   });
   const dispatch = useDispatch();

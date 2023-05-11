@@ -8,8 +8,8 @@ router.post("/signup", async (req, res, next) => {
   try {
     const user = await User.create({
       name: req.body.name,
-      age: req.body.age,
       gender: req.body.gender,
+      age: req.body.age,
       tumbler_weight: req.body.tumbler_weight,
     });
     console.log(user);

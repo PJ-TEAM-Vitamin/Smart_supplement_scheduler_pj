@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 
 module.exports = class Alarm extends Sequelize.Model {
   static initiate(sequelize) {
@@ -19,14 +19,15 @@ module.exports = class Alarm extends Sequelize.Model {
       },
       {
         sequelize,
-        modelName: 'Alarm',
-        tableName: 'alarms',
-        charset: 'utf8',
-        collate: 'utf8_general_ci',
+        modelName: "Alarm",
+        tableName: "alarms",
+        charset: "utf8",
+        collate: "utf8_general_ci",
       }
     );
   }
   static associate(db) {
     db.Alarm.belongsTo(db.User);
+    db.Alarm.hasMany(db.Cartridge);
   }
 };
