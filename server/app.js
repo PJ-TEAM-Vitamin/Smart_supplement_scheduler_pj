@@ -4,6 +4,7 @@ const path = require("path");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
 const waterRouter = require("./routes/water");
+const userRouter = require("./routes/user");
 
 const { sequelize } = require("./models");
 dotenv.config();
@@ -33,6 +34,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/water", waterRouter);
+app.use("/user", userRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`라우터가 없습니다.`);
