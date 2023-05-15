@@ -41,6 +41,7 @@ router.patch("/amount", async (req, res, next) => {
     });
     console.log(tumbler[0].dataValues.amount_of_water);
     let currentAmount = tumbler[0].dataValues.amount_of_water;
+
     // 전부 마심 버튼 클릭 시
     if (req.body.drank_all) {
       //amount_of_water + tumbler 최대 양

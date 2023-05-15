@@ -8,6 +8,10 @@ module.exports = class Water extends Sequelize.Model {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
+        tumbler_count: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
       },
       {
         sequelize,

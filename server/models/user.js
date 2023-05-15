@@ -17,7 +17,11 @@ module.exports = class User extends Sequelize.Model {
           allowNull: false,
         },
         tumbler_weight: {
-          type: Sequelize.STRING(10),
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
+        tumbler_capacity: {
+          type: Sequelize.INTEGER,
           allowNull: false,
         },
       },
