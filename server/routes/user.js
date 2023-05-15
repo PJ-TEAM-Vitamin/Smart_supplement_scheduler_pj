@@ -17,6 +17,7 @@ router.post("/signup", async (req, res, next) => {
       gender: req.body.gender,
       age: req.body.age,
       tumbler_weight: req.body.tumbler,
+      tumbler_capacity: req.body.capacity,
     });
     if (req.body.time) {
       // time 배열 순회하며 저장
