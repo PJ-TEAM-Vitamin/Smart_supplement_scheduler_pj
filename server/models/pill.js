@@ -11,7 +11,7 @@ module.exports = class Pill extends Sequelize.Model {
         itemSeq: {
           // 품목기준 코드
           type: Sequelize.STRING(100),
-          allowNull: false,
+          allowNull: true,
         },
         entpName: {
           // 업체명
@@ -21,42 +21,42 @@ module.exports = class Pill extends Sequelize.Model {
         efcyQesitm: {
           // 효능
           type: Sequelize.TEXT("long"),
-          allowNull: false,
+          allowNull: true,
         },
         useMethodQesitm: {
           // 사용법
           type: Sequelize.TEXT("long"),
-          allowNull: false,
+          allowNull: true,
         },
         atpnWarnQesitm: {
           // 주의사항 경고
           type: Sequelize.TEXT("long"),
-          allowNull: false,
+          allowNull: true,
         },
         atpnQesitm: {
           // 주의사항
           type: Sequelize.TEXT("long"),
-          allowNull: false,
+          allowNull: true,
         },
         intrcQesitm: {
           // 상호작용 (약물, 음식)
           type: Sequelize.TEXT("long"),
-          allowNull: false,
+          allowNull: true,
         },
         seQesitm: {
           // 부작용
           type: Sequelize.TEXT("long"),
-          allowNull: false,
+          allowNull: true,
         },
         depositMethodQesitm: {
           // 보관법
           type: Sequelize.TEXT("long"),
-          allowNull: false,
+          allowNull: true,
         },
         updateDe: {
           // API 업데이트 날짜 _ 주기적 업데이트를 위해 사용
           type: Sequelize.STRING(30),
-          allowNull: false,
+          allowNull: true,
         },
       },
       {
@@ -68,5 +68,7 @@ module.exports = class Pill extends Sequelize.Model {
       }
     );
   }
-  static associate(db) {}
+  static associate(db) {
+    db.Pill.hasMany(db.Cartridge);
+  }
 };

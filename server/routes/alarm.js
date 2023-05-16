@@ -12,7 +12,7 @@ router.post("/discharge", async (req, res, next) => {
     const dischargeCartridges = await Cartridge.findAll({
       where: {
         AlarmId: req.body.alarmId,
-        // UserId: req.body.userId,
+        UserId: req.body.userId,
       },
     });
     const cartridgesNum = [];

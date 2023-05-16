@@ -36,16 +36,17 @@ router.patch("/amount", async (req, res, next) => {
     // 오늘 날짜의 마신 물의 양 불러오기 없으면 생성
     console.log("오늘 날짜: ", dateString);
     const tumbler = await Water.findOrCreate({
-      where: { createdAt: `${dateString}%` },
+      where: { createdAt: `${dateString}%`, UserId: req.body?.userId },
       defaults: {
         amount_of_water: 0,
         tumbler_count: 1,
+        UserId: req.body?.userId,
       },
     });
 
     const tumbler_Info = await User.findOne({
       where: {
-        id: req.body.id,
+        id: req.body?.userId,
       },
     });
 
@@ -80,7 +81,7 @@ router.patch("/amount", async (req, res, next) => {
         tumbler_count: currentCount,
       },
       {
-        where: { id: tumbler[0].dataValues.id },
+        where: { id: tumbler[0].dataValues.id, UserId: req.body?.userId },
       }
     );
     res.status(201).json({

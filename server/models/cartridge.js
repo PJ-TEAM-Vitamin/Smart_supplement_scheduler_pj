@@ -20,5 +20,6 @@ module.exports = class Cartridge extends Sequelize.Model {
   }
   static associate(db) {
     db.Cartridge.belongsTo(db.Alarm);
+    db.Cartridge.belongsTo(db.Pill);
   }
 };
