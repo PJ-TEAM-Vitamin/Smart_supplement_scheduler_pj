@@ -25,5 +25,6 @@ module.exports = class Alarm extends Sequelize.Model {
   static associate(db) {
     db.Alarm.belongsTo(db.User);
     db.Alarm.hasMany(db.Cartridge);
+    db.Alarm.hasMany(db.Intake);
   }
 };
