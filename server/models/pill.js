@@ -70,5 +70,6 @@ module.exports = class Pill extends Sequelize.Model {
   }
   static associate(db) {
     db.Pill.hasMany(db.Cartridge);
+    db.Pill.hasMany(db.Residue);
   }
 };

@@ -3,6 +3,7 @@ const express = require("express");
 const User = require("../models/user");
 const Alarm = require("../models/alarm");
 const Water = require("../models/water");
+const Residue = require("../models/residue");
 
 const Cartridge = require("../models/cartridge");
 const Pill = require("../models/pill");
@@ -71,7 +72,7 @@ router.post("/signup", async (req, res, next) => {
 
     const cartridgePillsNum = [];
     if (req.body.able) {
-      req.body.able.map(async (pill) => {
+      req.body.able.map(async (pill, i) => {
         const PInfo = await Pill.create({
           itemName: pill?.itemName,
           itemSeq: pill?.itemSeq,
@@ -86,6 +87,12 @@ router.post("/signup", async (req, res, next) => {
           updateDe: pill?.updateDe,
         });
         cartridgePillsNum.push(PInfo.dataValues.id);
+        // 잔량표시를 위한
+        await Residue.create({
+          cartridges: i + 1,
+          remaining_pill: 0,
+          PillId: PInfo.dataValues.id,
+        });
       });
     }
     if (req.body.unable) {
