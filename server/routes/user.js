@@ -2,6 +2,8 @@ const express = require("express");
 
 const User = require("../models/user");
 const Alarm = require("../models/alarm");
+const Water = require("../models/water");
+
 const Cartridge = require("../models/cartridge");
 const Pill = require("../models/pill");
 const Ingredient = require("../models/Ingredient");
@@ -9,6 +11,50 @@ const Ingredient = require("../models/Ingredient");
 const Sequelize = require("sequelize");
 
 const router = express.Router();
+
+// Landing 진입시 정보 불러오기
+// 사용자 정보, 알람 정보, 마신 물의양, 알약 잔량
+router.get("/", async (req, res, next) => {
+  try {
+    // 오늘 날짜 생성 _ 함수로 정의 예정
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = ("0" + (today.getMonth() + 1)).slice(-2);
+    let day = ("0" + today.getDate()).slice(-2);
+    let dateString = year + "-" + month + "-" + day;
+
+    const user = await User.findOne({
+      where: {
+        id: req.body.id,
+      },
+      include: [
+        {
+          model: Alarm,
+          attributes: ["id", "title", "time"],
+        },
+      ],
+    });
+    // 해당 유저의 마신 물의 양 최신 기록 불러오기
+    const tumbler = await Water.findOrCreate({
+      where: { createdAt: `${dateString}%`, UserId: req.body.id },
+      defaults: {
+        amount_of_water: 0,
+        tumbler_count: 1,
+        UserId: req.body?.userId,
+      },
+    });
+    const fullInfo = Object.assign(user, tumbler);
+    console.log(fullInfo);
+    // 해당 유저의 카트리지 잔량 불러오기
+    res.status(200).json({
+      user: user,
+      tumbler: tumbler,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
 
 //회원 등록
 router.post("/signup", async (req, res, next) => {

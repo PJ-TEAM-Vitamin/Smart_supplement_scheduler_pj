@@ -2,6 +2,55 @@
 
 ------
 
+## GET: ' /user '
+- 정보 불러오기
+- 회원 정보, 알람, 마신 물의 양, 카트리지 잔량
+- 요청 body 예시
+```json
+{
+    "id": 1
+}
+```
+- return
+```json
+{
+  "user": {
+    "id": 1,
+    "name": "test",
+    "age": "27",
+    "gender": "male",
+    "tumbler_weight": 300,
+    "tumbler_capacity": 500,
+    "createdAt": "2023-05-16 23:08:46",
+    "updatedAt": "2023-05-16 23:08:46",
+    "IngredientId": null,
+    "Alarms": [
+      {
+        "id": 1,
+        "title": "alarm-title",
+        "time": "03:13:00"
+      },
+      {
+        "id": 2,
+        "title": "alarm-title2",
+        "time": "05:13:00"
+      }
+    ]
+  },
+  "tumbler": [
+    {
+      "id": 1,
+      "amount_of_water": 700,
+      "tumbler_count": 2,
+      "createdAt": "2023-05-18 00:00:00",
+      "updatedAt": "2023-05-18 14:57:28",
+      "UserId": 1
+    },
+    false
+  ]
+}
+```
+
 ## POST: ' /user/signup '
 - 회원 정보 DB에 등록 (가입)
 - 요청 body 예시
