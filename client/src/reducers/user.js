@@ -54,7 +54,7 @@ export const userSlice = createSlice({
       state.setTumblerDone = false;
       state.setTumblerError = action.error;
     },
-    MY_INFO_REQUEST: state => {
+    MY_INFO_REQUEST: (state, data) => {
       // 유저 기본 정보 불러오기
       state.myInfoLoading = true;
       state.myInfoDone = false;
@@ -63,8 +63,8 @@ export const userSlice = createSlice({
     MY_INFO_SUCCESS: (state, action) => {
       state.myInfoLoading = false;
       state.myInfoDone = true;
-      state.me = action.data;
-      console.log('reducer: ', action);
+      state.me = action.data.data;
+      console.log('My_info_reducer: ', action.data.data);
     },
     MY_INFO_FAILURE: (state, action) => {
       state.myInfoLoading = false;

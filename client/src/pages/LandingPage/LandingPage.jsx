@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from "axios";
 import styled from 'styled-components';
 import Clock from '../../components/LandingPage/Clock';
 import dawn from '../../utils/img/dawn.jpg';
@@ -11,9 +12,9 @@ import Tumblr from '../../components/Water/Tumblr';
 import RemainingDisplay from '../../components/RemainingDisplay/RemainingDisplay';
 import Scheduler from '../../components/Scheduler/Scheduler';
 import {
-  CARTRIDGE_INFO_REQUEST,
-  SCHEDULER_LIST_REQUEST,
+  CARTRIDGE_INFO_REQUEST, LOAD_TUMBLR_REQUEST,
 } from '../../reducers/data';
+import {MY_INFO_REQUEST} from "../../reducers/user";
 /*
 5~7: dawn
 7~12: morning
@@ -35,9 +36,6 @@ const LeftContent = styled.div`
   align-items: center;
   width: 40%;
   height: 95%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: space-between;
 `;
 const RightContent = styled.div`
@@ -71,28 +69,31 @@ const SchedulerContainer = styled.div`
 const LandingPage = () => {
   const dispatch = useDispatch();
   const { cartridgeInfo, schedulerList } = useSelector((state) => state.data);
+  const { me } = useSelector((state) => state.user);
   const [currentTime, setCurrentTime] = useState('00:00:00');
-  const [background, setBackgroud] = useState('');
+  const [background, setBackground] = useState('');
 
   // 랜딩시 알약 카트리지 정보 불러오기, 알림 시간 불러오기
   useEffect(() => {
-    dispatch(CARTRIDGE_INFO_REQUEST());
-    dispatch(SCHEDULER_LIST_REQUEST());
+    dispatch(CARTRIDGE_INFO_REQUEST({"userId": "1"}));
+    dispatch(LOAD_TUMBLR_REQUEST({"userId": "1"}));
+    dispatch(MY_INFO_REQUEST({"userId": "1"}));
   }, [dispatch]);
+
 
   // 시간 체크하여 배경화면 변경
   useEffect(() => {
     const date = new Date();
     if (date.getHours() >= 5 && date.getHours() < 7) {
-      setBackgroud(`url(${dawn})`);
+      setBackground(`url(${dawn})`);
     } else if (date.getHours() >= 7 && date.getHours() < 12) {
-      setBackgroud(`url(${morning})`);
+      setBackground(`url(${morning})`);
     } else if (date.getHours() >= 12 && date.getHours() < 18) {
-      setBackgroud(`url(${afternoon})`);
+      setBackground(`url(${afternoon})`);
     } else if (date.getHours() >= 18 && date.getHours() < 20) {
-      setBackgroud(`url(${evening})`);
+      setBackground(`url(${evening})`);
     } else if (date.getHours() >= 20 || date.getHours() < 5) {
-      setBackgroud(`url(${night})`);
+      setBackground(`url(${night})`);
     }
   }, [currentTime]);
 
@@ -104,8 +105,8 @@ const LandingPage = () => {
       </LeftContent>
       <RightContent>
         <SchedulerContainer>
-          {schedulerList?.map((v) => (
-            <Scheduler time={v.time} title={v.title} cartidges={v.cartidges} />
+          {me?.Alarms?.map((v) => (
+            <Scheduler time={v.time} title={v.title} />
           ))}
         </SchedulerContainer>
         <MedicineContainer>

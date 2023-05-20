@@ -58,21 +58,16 @@ function* setTumblr(action) {
 }
 
 export function myInfoAPI() {
-  // ex) return axios.get('/signup');
+  console.log()
+  return axios.get(`${backUrl}/user`);
 }
 function* myInfo(action) {
   try {
-    // const result = yield call(signUpAPI);
-    console.log('saga: ', action);
-    const dummyMe = {
-      name: 'ch',
-      gender: 'male',
-      age: '27',
-    };
+    const result = yield call(myInfoAPI);
+    console.log('saga: ', result);
     yield put({
       type: MY_INFO_SUCCESS,
-      // data: result.data,
-      data: dummyMe,
+      data: result,
     });
   } catch (err) {
     console.error(err);
@@ -90,7 +85,7 @@ function* watchSignUp() {
 function* watchSetTumblr() {
   yield takeLatest(SET_TUMBLER_REQUEST, setTumblr);
 }
-function* watchMyInfo() {
+function* watchMyInfo(data) {
   yield takeLatest(MY_INFO_REQUEST, myInfo);
 }
 

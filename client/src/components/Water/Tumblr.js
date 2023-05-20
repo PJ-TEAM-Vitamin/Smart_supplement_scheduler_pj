@@ -7,7 +7,6 @@ import water50 from '../../utils/img/water50.png';
 import water70 from '../../utils/img/water70.png';
 import water100 from '../../utils/img/water100.png';
 import {
-  RESET_TUMBLR_REQUEST,
   UPDATE_TUMBLR_REQUEST,
 } from '../../reducers/data';
 
@@ -75,13 +74,13 @@ const Tumblr = ({ currentTime }) => {
     dispatch(UPDATE_TUMBLR_REQUEST());
   }, [dispatch]);
 
-  // 초기화
-  useEffect(() => {
-    if (currentTime === '00:00:00') {
-      // 초기화 요청
-      dispatch(RESET_TUMBLR_REQUEST());
-    }
-  }, [currentTime, dispatch]);
+  // // 초기화
+  // useEffect(() => {
+  //   if (currentTime === '00:00:00') {
+  //     // 초기화 요청
+  //     dispatch(RESET_TUMBLR_REQUEST());
+  //   }
+  // }, [currentTime, dispatch]);
 
   // 마신 양에 따른 이미지 변화 _ 0 600 1000 1400 2000
   useEffect(() => {

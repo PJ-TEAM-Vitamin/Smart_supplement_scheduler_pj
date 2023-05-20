@@ -13,15 +13,12 @@ export const initialState = {
   updateTumblrLoading: false,
   updateTumblrDone: false,
   updateTumblrError: false,
-  resetTumblrLoading: false,
-  resetTumblrDone: false,
-  resetTumblrError: false,
+  loadTumblrLoading: false,
+  loadTumblrDone: false,
+  loadTumblrError: false,
   cartridgeInfoLoading: false,
   cartridgeInfoDone: false,
   cartridgeInfoError: false,
-  schedulerListLoading: false,
-  schedulerListDone: false,
-  schedulerListError: false,
 };
 
 // data slice 생성
@@ -81,42 +78,24 @@ export const dataSlice = createSlice({
       state.updateTumblrDone = false;
       state.updateTumblrError = action.error;
     },
-    RESET_TUMBLR_REQUEST: state => {
-      // 마신 양 업데이트
-      state.resetTumblrLoading = true;
-      state.resetTumblrDone = false;
-      state.resetTumblrError = null;
+    LOAD_TUMBLR_REQUEST: state => {
+      // 텀블러 로딩?
+      state.loadTumblrLoading = true;
+      state.loadTumblrDone = false;
+      state.loadTumblrError = null;
       console.log('reducer request');
     },
-    RESET_TUMBLR_SUCCESS: (state, action) => {
-      state.resetTumblrLoading = false;
-      state.resetTumblrDone = true;
+    LOAD_TUMBLR_SUCCESS: (state, action) => {
+      state.loadTumblrLoading = false;
+      state.loadTumblrDone = true;
       state.amountOfWater = action.data.water;
       state.tumblrCounter = action.data.count;
       console.log('reducer: ', action);
     },
-    RESET_TUMBLR_FAILURE: (state, action) => {
-      state.resetTumblrLoading = false;
-      state.resetTumblrDone = false;
-      state.resetTumblrError = action.error;
-    },
-
-    SCHEDULER_LIST_REQUEST: state => {
-      state.schedulerListLoading = true;
-      state.schedulerListDone = false;
-      state.schedulerListError = null;
-      console.log('reducer request');
-    },
-    SCHEDULER_LIST_SUCCESS: (state, action) => {
-      state.schedulerListLoading = false;
-      state.schedulerListDone = true;
-      state.schedulerList = action.data;
-      console.log('reducer: ', action);
-    },
-    SCHEDULER_LIST_FAILURE: (state, action) => {
-      state.schedulerListLoading = false;
-      state.schedulerListDone = false;
-      state.schedulerListError = action.error;
+    LOAD_TUMBLR_FAILURE: (state, action) => {
+      state.loadTumblrLoading = false;
+      state.loadTumblrDone = false;
+      state.loadTumblrError = action.error;
     },
   },
 });
@@ -128,15 +107,12 @@ export const {
   UPDATE_TUMBLR_REQUEST,
   UPDATE_TUMBLR_SUCCESS,
   UPDATE_TUMBLR_FAILURE,
-  RESET_TUMBLR_REQUEST,
-  RESET_TUMBLR_SUCCESS,
-  RESET_TUMBLR_FAILURE,
+  LOAD_TUMBLR_REQUEST,
+  LOAD_TUMBLR_SUCCESS,
+  LOAD_TUMBLR_FAILURE,
   CARTRIDGE_INFO_REQUEST,
   CARTRIDGE_INFO_SUCCESS,
   CARTRIDGE_INFO_FAILURE,
-  SCHEDULER_LIST_REQUEST,
-  SCHEDULER_LIST_SUCCESS,
-  SCHEDULER_LIST_FAILURE,
 } = dataSlice.actions;
 
 export default dataSlice;

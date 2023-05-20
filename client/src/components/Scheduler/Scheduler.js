@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 const SchedulerWrapper = styled.div`
@@ -34,18 +34,13 @@ const SchedulerPills = styled.div`
   }
 `;
 
-const Scheduler = ({ time, title, cartidges }) => {
-  const { cartridgeInfo } = useSelector((state) => state.data);
+const Scheduler = ({ time, title }) => {
+
 
   return (
     <SchedulerWrapper>
       <SchedulerTitle>{title}</SchedulerTitle>
       <SchedulerTime>{time}</SchedulerTime>
-      <SchedulerPills>
-        {cartidges?.map((v) => (
-          <div className='item'>{cartridgeInfo[v]?.name}</div>
-        ))}
-      </SchedulerPills>
     </SchedulerWrapper>
   );
 };

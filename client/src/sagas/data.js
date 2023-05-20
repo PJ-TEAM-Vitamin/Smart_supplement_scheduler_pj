@@ -8,29 +8,26 @@ import {
   UPDATE_TUMBLR_REQUEST,
   UPDATE_TUMBLR_SUCCESS,
   UPDATE_TUMBLR_FAILURE,
-  RESET_TUMBLR_REQUEST,
-  RESET_TUMBLR_SUCCESS,
-  RESET_TUMBLR_FAILURE,
+  LOAD_TUMBLR_REQUEST,
+  LOAD_TUMBLR_SUCCESS,
+  LOAD_TUMBLR_FAILURE,
   CARTRIDGE_INFO_REQUEST,
   CARTRIDGE_INFO_SUCCESS,
   CARTRIDGE_INFO_FAILURE,
-  SCHEDULER_LIST_REQUEST,
-  SCHEDULER_LIST_SUCCESS,
-  SCHEDULER_LIST_FAILURE,
 } from '../reducers/data';
+import {backUrl} from "../config/config";
 
 // 서버에 요청
 export function recordOfTimeAPI() {
-  // ex) return axios.get('/signup');
+  return axios.get(`${backUrl}/user`);
 }
 function* recordOfTime(action) {
   try {
-    // const result = yield call(signUpAPI);
+    const result = yield call(recordOfTimeAPI);
     console.log('saga: ', action);
     yield put({
       type: RECORD_OF_TIME_SUCCESS,
-      // data: result.data,
-      data: action,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);
@@ -42,20 +39,15 @@ function* recordOfTime(action) {
 }
 
 export function updateTumblrAPI() {
-  // ex) return axios.get('/signup');
+   return axios.get(`${backUrl}/water/weight/tumbler`);
 }
 function* updateTumblr(action) {
   try {
-    // const result = yield call(signUpAPI);
+    const result = yield call(updateTumblrAPI);
     console.log('saga: ', action);
-    const dummy = {
-      water: 800,
-      count: 0,
-    };
     yield put({
       type: UPDATE_TUMBLR_SUCCESS,
-      // data: result.data,
-      data: dummy,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);
@@ -66,37 +58,33 @@ function* updateTumblr(action) {
   }
 }
 
-export function resetTumblrAPI() {
-  // ex) return axios.get('/signup');
+export function loadTumblrAPI(data) {
+  return axios.get(`${backUrl}/water`, data);
 }
-function* resetTumblr(action) {
+
+function* loadTumblr(action) {
   try {
-    // const result = yield call(signUpAPI);
+    const result = yield call(loadTumblrAPI);
     console.log('saga: ', action);
-    const dummy = {
-      water: 0,
-      count: 0,
-    };
     yield put({
-      type: RESET_TUMBLR_SUCCESS,
-      // data: result.data,
-      data: dummy,
+      type: LOAD_TUMBLR_SUCCESS,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);
     yield put({
-      type: RESET_TUMBLR_FAILURE,
+      type: LOAD_TUMBLR_FAILURE,
       error: err.response.data,
     });
   }
 }
 
-export function cartidgeInfoAPI() {
-  // ex) return axios.get('/signup');
+export function cartridgeInfoAPI() {
+  return axios.get(`${backUrl}/user`);
 }
-function* cartidgeInfo(action) {
+function* cartridgeInfo(action) {
   try {
-    // const result = yield call(signUpAPI);
+   // const result = yield call(cartridgeInfoAPI);
     console.log('saga: ', action);
     const dummy = [
       {
@@ -117,50 +105,12 @@ function* cartidgeInfo(action) {
     ];
     yield put({
       type: CARTRIDGE_INFO_SUCCESS,
-      // data: result.data,
       data: dummy,
     });
   } catch (err) {
     console.error(err);
     yield put({
       type: CARTRIDGE_INFO_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
-
-export function schedulerListAPI() {
-  // ex) return axios.get('/signup');
-}
-function* schedulerList(action) {
-  try {
-    // const result = yield call(signUpAPI);
-    console.log('saga: ', action);
-    const dummy = [
-      {
-        time: '07:00:00',
-        title: '아침 비타민!',
-        cartidges: [0],
-      },
-      {
-        time: '13:00:00',
-        title: '점심 비타민!',
-        cartidges: [0, 2],
-      },
-      {
-        time: '20:00:00',
-        title: '저녁 비타민!',
-        cartidges: [0, 1, 2],
-      },
-    ];
-    yield put({
-      type: SCHEDULER_LIST_SUCCESS,
-      data: dummy,
-    });
-  } catch (err) {
-    console.error(err);
-    yield put({
-      type: SCHEDULER_LIST_FAILURE,
       error: err.response.data,
     });
   }
@@ -173,20 +123,16 @@ function* watchRecordOfTime() {
 function* watchUpdateTumblr() {
   yield takeLatest(UPDATE_TUMBLR_REQUEST, updateTumblr);
 }
-function* watchResetTumblr() {
-  yield takeLatest(RESET_TUMBLR_REQUEST, resetTumblr);
+function* watchLoadTumblr() {
+  yield takeLatest(LOAD_TUMBLR_REQUEST, loadTumblr);
 }
-function* watchCartidgeInfo() {
-  yield takeLatest(CARTRIDGE_INFO_REQUEST, cartidgeInfo);
-}
-function* watchSchedulerList() {
-  yield takeLatest(SCHEDULER_LIST_REQUEST, schedulerList);
+function* watchCartridgeInfo() {
+  yield takeLatest(CARTRIDGE_INFO_REQUEST, cartridgeInfo);
 }
 
 export default function* userSaga() {
   yield all([fork(watchRecordOfTime)]);
   yield all([fork(watchUpdateTumblr)]);
-  yield all([fork(watchResetTumblr)]);
-  yield all([fork(watchCartidgeInfo)]);
-  yield all([fork(watchSchedulerList)]);
+  yield all([fork(watchLoadTumblr)]);
+  yield all([fork(watchCartridgeInfo)]);
 }

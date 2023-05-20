@@ -49,18 +49,18 @@ app.listen(3066, () => {
 });
 
 // 온습도 측정 및 동작
-setInterval(async () => {
-  console.log("온습도를 측정 합니다.");
-  let temp;
-  // 온습도 측정 temperature and humidity
-  temp = {
-    temperature: 20,
-    humidity: 10,
-  };
-  console.log(`온도: ${temp.temperature}, 습도 ${temp.humidity}`);
-  if (temp.temperature >= 40 || temp.humidity >= 20) {
-    console.log("쿨러 On");
-  } else {
-    console.log("쿨러 Off");
-  }
-}, 5000);
+// setInterval(async () => {
+//   console.log("온습도를 측정 합니다.");
+//   let temp;
+//   // 온습도 측정 temperature and humidity
+//   temp = {
+//     temperature: 20,
+//     humidity: 10,
+//   };
+//   console.log(`온도: ${temp.temperature}, 습도 ${temp.humidity}`);
+//   if (temp.temperature >= 40 || temp.humidity >= 20) {
+//     console.log("쿨러 On");
+//   } else {
+//     console.log("쿨러 Off");
+//   }
+// }, 5000);
