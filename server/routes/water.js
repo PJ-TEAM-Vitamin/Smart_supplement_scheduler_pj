@@ -24,7 +24,32 @@ router.get("/weight/tumbler", async (req, res, next) => {
   }
 });
 
-//물 측정량 조회
+// 해당 유저의 마신 물의 양 최신 기록 불러오기 // GET: user 분리
+router.get("/", async (req, res, next) => {
+  try {
+    // 오늘 날짜 생성 _ 함수로 정의 예정
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = ("0" + (today.getMonth() + 1)).slice(-2);
+    let day = ("0" + today.getDate()).slice(-2);
+    let dateString = year + "-" + month + "-" + day;
+
+    const water = await Water.findOrCreate({
+      where: { createdAt: `${dateString}%`, UserId: req.body.userId },
+      defaults: {
+        amount_of_water: 0,
+        tumbler_count: 1,
+        UserId: req.body?.userId,
+      },
+    });
+    res.status(200).json(water[0]);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+//물 측정량 업데이트
 router.patch("/amount", async (req, res, next) => {
   try {
     // 오늘 날짜 생성

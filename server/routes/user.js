@@ -26,7 +26,7 @@ router.get("/", async (req, res, next) => {
 
     const user = await User.findOne({
       where: {
-        id: req.body.id,
+        id: req.body.userId,
       },
       include: [
         {
@@ -35,22 +35,8 @@ router.get("/", async (req, res, next) => {
         },
       ],
     });
-    // 해당 유저의 마신 물의 양 최신 기록 불러오기
-    const tumbler = await Water.findOrCreate({
-      where: { createdAt: `${dateString}%`, UserId: req.body.id },
-      defaults: {
-        amount_of_water: 0,
-        tumbler_count: 1,
-        UserId: req.body?.userId,
-      },
-    });
-    const fullInfo = Object.assign(user, tumbler);
-    console.log(fullInfo);
-    // 해당 유저의 카트리지 잔량 불러오기
-    res.status(200).json({
-      user: user,
-      tumbler: tumbler,
-    });
+
+    res.status(200).json(user);
   } catch (err) {
     console.error(err);
     next(err);
