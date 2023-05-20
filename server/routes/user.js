@@ -20,15 +20,13 @@ router.get("/", async (req, res, next) => {
     const user = await User.findOne({
       where: {
         id: "1",
-      },
-      include: [
+      }, include: [
         {
           model: Alarm,
-          attributes: ["id", "title", "time"],
+          attributes: ["id", "title", "time"]
         },
-      ],
-    });
-
+      ]
+    })
     res.status(200).json(user);
   } catch (err) {
     console.error(err);
