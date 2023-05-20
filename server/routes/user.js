@@ -17,7 +17,6 @@ const router = express.Router();
 // 사용자 정보, 알람 정보, 마신 물의양, 알약 잔량
 router.get("/", async (req, res, next) => {
   try {
-
     const user = await User.findOne({
       where: {
         id: "1",
@@ -29,7 +28,7 @@ router.get("/", async (req, res, next) => {
         },
       ],
     });
-    console.log(user);
+
     res.status(200).json(user);
   } catch (err) {
     console.error(err);
@@ -72,6 +71,7 @@ router.post("/signup", async (req, res, next) => {
           cartridges: i + 1,
           remaining_pill: 0,
           PillId: PInfo.dataValues.id,
+          UserId: user.dataValues.id,
         });
       });
     }
