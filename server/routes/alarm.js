@@ -2,25 +2,36 @@ const express = require("express");
 const Alarm = require("../models/alarm");
 const Intake = require("../models/intake");
 const Cartridge = require("../models/cartridge");
-
+const Residue = require("../models/residue");
 const router = express.Router();
 
 // 알약 배출
 router.post("/discharge", async (req, res, next) => {
   try {
-    // req.body : id ( 알람 id ),
-    const dischargeCartridges = await Cartridge.findAll({
+    // req.body : {
+    //     "alarmId" : 1,
+    //     "userId": 1
+    // }
+    const dischargeCartridges = await Alarm.findOne({
       where: {
-        AlarmId: req.body.alarmId,
+        id: req.body.alarmId,
         UserId: req.body.userId,
       },
+      include: [
+        {
+          model: Cartridge,
+          attributes: ["cartridges"],
+        },
+      ],
     });
+    console.log();
+    console.dir(dischargeCartridges.dataValues.Cartridges.length);
     const cartridgesNum = [];
-    dischargeCartridges.map((v) => {
-      console.log(v.cartridges);
-      cartridgesNum.push(v.cartridges);
-    });
-    console.log(cartridgesNum); // ex ['1', '2', '3'] : string
+    // dischargeCartridges.map((v) => {
+    //   console.log(v.cartridges);
+    //   cartridgesNum.push(v.cartridges);
+    // });
+    // console.log(cartridgesNum); // ex ['1', '2', '3'] : string
     // ++++++++++++++++++++++++++
     // 알약 배출 python code 실행
     // 배출 카트리지 문자열 배열 형태로 제공

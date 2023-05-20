@@ -17,16 +17,9 @@ const router = express.Router();
 // 사용자 정보, 알람 정보, 마신 물의양, 알약 잔량
 router.get("/", async (req, res, next) => {
   try {
-    // 오늘 날짜 생성 _ 함수로 정의 예정
-    let today = new Date();
-    let year = today.getFullYear();
-    let month = ("0" + (today.getMonth() + 1)).slice(-2);
-    let day = ("0" + today.getDate()).slice(-2);
-    let dateString = year + "-" + month + "-" + day;
-
     const user = await User.findOne({
       where: {
-        id: req.body.userId,
+        id: "1",
       },
       include: [
         {
@@ -78,6 +71,7 @@ router.post("/signup", async (req, res, next) => {
           cartridges: i + 1,
           remaining_pill: 0,
           PillId: PInfo.dataValues.id,
+          UserId: user.dataValues.id,
         });
       });
     }
