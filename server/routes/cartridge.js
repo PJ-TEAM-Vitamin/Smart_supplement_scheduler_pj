@@ -1,16 +1,34 @@
 const express = require("express");
 const Cartridge = require("../models/cartridge");
 const Residue = require("../models/residue");
+const Alarm = require("../models/alarm");
+const Pill = require("../models/pill");
 
 const router = express.Router();
 
 // 카트리지 잔량 불러오기
 router.get("/", async (req, res, next) => {
   try {
+    const fullData = [];
     const cartridge = await Residue.findAll({
       where: { UserId: "1" },
     });
-    res.status(200).json(cartridge);
+    cartridge.map(async (v, i) => {
+      const pillId = v.dataValues.PillId;
+      const pill = await Pill.findOne({
+        where: { id: pillId },
+        attributes: ["itemName"],
+      });
+      fullData.push({
+        id: v.dataValues?.id,
+        cartridge: v.dataValues?.cartridges,
+        remaining_pill: v.dataValues?.remaining_pill,
+        pill: pill.dataValues?.itemName,
+      });
+    });
+    console.dir(fullData);
+
+    res.status(200).json(fullData);
   } catch (err) {
     console.error(err);
     next(err);

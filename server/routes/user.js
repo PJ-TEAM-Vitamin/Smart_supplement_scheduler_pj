@@ -71,6 +71,7 @@ router.post("/signup", async (req, res, next) => {
           PillId: PInfo.dataValues.id,
           UserId: user.dataValues.id,
         });
+        // Pill residue 업데이트 필요
       });
     }
     if (req.body.unable) {
