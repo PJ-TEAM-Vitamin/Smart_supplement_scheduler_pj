@@ -27,11 +27,9 @@ const InitPage = () => {
     age: '', // 사용자 나이
     able: [], // 복용 약
     unable: [], // 복용 불가 약
-    // time1: '', // 알람1
-    // time2: '', // 알람2
-    // time3: '', // 알람3
     time: [],
     tumbler: 0,
+    capacity: 0,
   });
   const dispatch = useDispatch();
 
@@ -59,6 +57,8 @@ const InitPage = () => {
         ...state,
         [e.target.name]: value,
       });
+      console.log('click handleParam: ');
+      console.dir(state);
     },
     [state],
   );
@@ -73,8 +73,19 @@ const InitPage = () => {
           element={<InitPage1 state={state} setState={setState} handleChangeState={handleChangeState} handleParamState={handleParamState} />}
         />
         <Route path="init2" element={<InitPage2 state={state} setState={setState} handleParamState={handleParamState} />} />
-        <Route path="init3" element={<InitPage3 handleChangeState={handleChangeState} />} />
-        <Route path="init4" element={<InitPage4 handleParamState={handleParamState} onClickSignUp={onClickSignUp} dispatch={dispatch} />} />
+        <Route path="init3" element={<InitPage3 state={state} handleParamState={handleParamState} />} />
+        <Route
+          path="init4"
+          element={
+            <InitPage4
+              state={state}
+              handleParamState={handleParamState}
+              handleChangeState={handleChangeState}
+              onClickSignUp={onClickSignUp}
+              dispatch={dispatch}
+            />
+          }
+        />
       </Routes>
       <button onClick={onClickSignUp}>회원 가입</button>
     </>

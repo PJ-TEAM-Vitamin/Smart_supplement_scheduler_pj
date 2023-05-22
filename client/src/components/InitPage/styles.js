@@ -177,6 +177,13 @@ export const Tumbler = styled.div`
       align-items: center;
       height: 30px;
       width: 200px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      input {
+        margin-left: 20px;
+        margin-right: 4px;
+        width: 20%;
+      }
     }
   }
 `;
@@ -185,4 +192,24 @@ export const InitCommonHeader = styled.div`
   font-size: 1.4rem;
   font-weight: 600;
   margin-right: 20px;
+`;
+
+export const AlarmListContainer = styled.div`
+  min-height: 100px;
+  background-color: #fff;
+  border-radius: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+`;
+
+export const AlarmListItem = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  div {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 25%;
+    text-align: center;
+  }
 `;

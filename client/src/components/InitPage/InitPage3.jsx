@@ -1,21 +1,57 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Alarm, InitCommonHeader, InitPageContainer, MoveButton, SelectTimeForm, TimeInputItem } from './styles';
+import { Alarm, InitCommonHeader, InitPageContainer, MoveButton, SelectTimeForm, TimeInputItem, AlarmListContainer, AlarmListItem } from './styles';
 import Clock from '../../utils/img/clock.png';
-const InitPage3 = ({ handleChangeState }) => {
-  const [isCheck1, setCheck1] = useState(false);
-  const [isCheck2, setCheck2] = useState(false);
 
-  const toggleBtn1 = () => {
-    setCheck1(isCheck1 => !isCheck1); // on,off 개념 boolean
+/**
+ * 알람 시간 설정 페이지
+ * @param handleChangeState
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const InitPage3 = ({ state, handleParamState }) => {
+  const [title, setTitle] = useState('');
+  const [time, setTime] = useState('');
+  const [checkedList, setCheckedList] = useState([]);
+
+  const [tempAlarm, setTempAlarm] = useState([]); // 알람 시간 저장
+
+  const checkCartridge = [];
+  const maxCartridge = state?.able.length; //카트리지 선택 가능
+  for (let i = 0; i < maxCartridge; i++) {
+    checkCartridge.push(i + 1);
+  }
+
+  const handleChangeTime = useCallback(e => {
+    setTime(e.target.value);
+  });
+
+  const handleChangeTitle = useCallback(e => {
+    setTitle(e.target.value);
+  }, []);
+
+  const onCheckedElement = (checked, item) => {
+    console.log(item);
+    if (checked) {
+      setCheckedList(state => [...state, item]);
+    } else if (!checked) {
+      setCheckedList(checkedList.filter(el => el !== item));
+    }
+    console.log(checkedList);
   };
 
-  const toggleBtn2 = () => {
-    setCheck2(isCheck2 => !isCheck2); // on,off 개념 boolean
+  const onClickAddAlarm = value => {
+    const alarmInfo = {
+      title: title,
+      time: time + ':00',
+      cartridge: checkedList,
+    };
+    setTempAlarm(state => [...state, alarmInfo]);
+    setTitle('');
+    setTime('');
+    setCheckedList([]);
+    console.log(tempAlarm);
   };
-  // const arr = [{ id: 1 }, { id: 2 }, { id: 3 }];
-  // const [pick, setPick] = useState(arr);
-  // const [select, setSelect] = useState([]);
 
   return (
     <InitPageContainer>
@@ -24,38 +60,47 @@ const InitPage3 = ({ handleChangeState }) => {
         <InitCommonHeader className="title" style={{ margin: '0px' }}>
           알림 시간을 설정하세요
         </InitCommonHeader>
-        <div>
-          {'두번째 알람 추가'}
-          <button onClick={() => toggleBtn1()}>{isCheck1 ? '-' : '+'}</button>
-          <div>
-            {'세번째 알람 추가'}
-            <button onClick={() => toggleBtn2()}>{isCheck2 ? '-' : '+'}</button>
-          </div>
-        </div>
 
         <SelectTimeForm>
           <div className="timeInput">
+            <div className="timeLabel">알람 설정</div>
             <TimeInputItem>
-              <div className="timeLabel">첫번째 알람</div>
-              <input type="time" name="time1" onChange={handleChangeState} />
+              <input type="text" value={title} onChange={handleChangeTitle} />
+              <input type="time" value={time} onChange={handleChangeTime} />
             </TimeInputItem>
-            {isCheck1 && (
-              <TimeInputItem>
-                <div className="timeLabel">두번째 알람</div>
-                <input type="time" name="time2" onChange={handleChangeState} />
-              </TimeInputItem>
-            )}
-            {isCheck2 && (
-              <TimeInputItem>
-                <div className="timeLabel">세번째 알람</div>
-                <input type="time" name="time3" onChange={handleChangeState} />
-              </TimeInputItem>
-            )}
+            {checkCartridge.map(num => (
+              <label>
+                <input
+                  className="cartridgeNum"
+                  type="checkbox"
+                  value={num}
+                  onChange={e => {
+                    onCheckedElement(e.target.checked, e.target.value);
+                  }}
+                  checked={checkedList.includes(num.toString())}
+                />
+                {`${num}번`}
+              </label>
+            ))}
+            <button type="button" onClick={onClickAddAlarm}>
+              추가
+            </button>
           </div>
+          <AlarmListContainer>
+            {tempAlarm?.map(v => (
+              <AlarmListItem>
+                <div>{v.title}</div>
+                <div>{v.cartridge.map(i => ` ${i} `)}</div>
+                <div>{v.time}</div>
+              </AlarmListItem>
+            ))}
+          </AlarmListContainer>
         </SelectTimeForm>
         <MoveButton>
           <Link to="/init/init4" style={{ color: '#fff', textDecoration: 'none' }}>
-            <button>다음</button>
+            <button name="time" onClick={e => handleParamState(e, tempAlarm)}>
+              다음
+            </button>
           </Link>
         </MoveButton>
       </Alarm>
