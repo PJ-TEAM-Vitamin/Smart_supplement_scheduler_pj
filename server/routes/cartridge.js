@@ -13,22 +13,29 @@ router.get("/", async (req, res, next) => {
     const cartridge = await Residue.findAll({
       where: { UserId: "1" },
     });
-    cartridge.map(async (v, i) => {
+
+    cartridge?.map(async (v, i) => {
       const pillId = v.dataValues.PillId;
       const pill = await Pill.findOne({
         where: { id: pillId },
         attributes: ["itemName"],
       });
-      fullData.push({
+
+      const mergeData = {
         id: v.dataValues?.id,
         cartridge: v.dataValues?.cartridges,
         remaining_pill: v.dataValues?.remaining_pill,
         pill: pill.dataValues?.itemName,
-      });
-    });
-    console.dir(fullData);
+      };
 
-    res.status(200).json(fullData);
+      // console.log(mergeData);
+      fullData.push({ ...mergeData });
+      console.dir(fullData);
+      console.log(i + 1, cartridge.length);
+      if (i + 1 === cartridge.length) {
+        res.status(200).json(fullData);
+      }
+    });
   } catch (err) {
     console.error(err);
     next(err);

@@ -139,32 +139,23 @@
 - return
 ```json
 [
-    {
-        "id": 1,
-        "cartridges": "1",
-        "remaining_pill": 0,
-        "createdAt": "2023-05-20 17:10:11",
-        "updatedAt": "2023-05-20 17:10:11",
-        "PillId": 1,
-        "UserId": 1
-    },
-    {
-        "id": 2,
-        "cartridges": "3",
-        "remaining_pill": 0,
-        "createdAt": "2023-05-20 17:10:11",
-        "updatedAt": "2023-05-20 17:10:11",
-        "PillId": 3,
-        "UserId": 1
-    },
-    {
-        "id": 3,
-        "cartridges": "2",
-        "remaining_pill": 0,
-        "createdAt": "2023-05-20 17:10:11",
-        "updatedAt": "2023-05-20 17:10:11",
-        "PillId": 2,
-        "UserId": 1
-    }
+  {
+    "id": 2,
+    "cartridge": "3",
+    "remaining_pill": 0,
+    "pill": "test3"
+  },
+  {
+    "id": 1,
+    "cartridge": "1",
+    "remaining_pill": 0,
+    "pill": "test1"
+  },
+  {
+    "id": 3,
+    "cartridge": "2",
+    "remaining_pill": 0,
+    "pill": "test2"
+  }
 ]
 ```
