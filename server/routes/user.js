@@ -20,13 +20,14 @@ router.get("/", async (req, res, next) => {
     const user = await User.findOne({
       where: {
         id: "1",
-      }, include: [
+      },
+      include: [
         {
           model: Alarm,
-          attributes: ["id", "title", "time"]
+          attributes: ["id", "title", "time"],
         },
-      ]
-    })
+      ],
+    });
     res.status(200).json(user);
   } catch (err) {
     console.error(err);
@@ -37,6 +38,7 @@ router.get("/", async (req, res, next) => {
 //회원 등록
 router.post("/signup", async (req, res, next) => {
   try {
+    console.log(req.body);
     const user = await User.create({
       // User: 사용자 기본 정보 저장
       name: req.body.name,
@@ -105,7 +107,7 @@ router.post("/signup", async (req, res, next) => {
         }
       });
     }
-    res.send("ok");
+    res.status(201).send("ok");
   } catch (err) {
     console.error(err);
     next(err);

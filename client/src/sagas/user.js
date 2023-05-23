@@ -15,17 +15,16 @@ import {
 import { backUrl } from '../config/config';
 
 // 서버에 요청
-export function signUpAPI() {
-  // ex) return axios.get('/signup');
+export function signUpAPI(data) {
+  return axios.post(`${backUrl}/user/signup`, data);
 }
 function* signUp(action) {
   try {
-    // const result = yield call(signUpAPI);
-    console.log('saga: ', action);
+    const result = yield call(signUpAPI, action.payload);
+    console.log('saga: ', result);
     yield put({
       type: SIGN_UP_SUCCESS,
-      // data: result.data,
-      data: action,
+      data: result,
     });
   } catch (err) {
     console.error(err);
@@ -58,7 +57,7 @@ function* setTumblr(action) {
 }
 
 export function myInfoAPI() {
-  console.log()
+  console.log();
   return axios.get(`${backUrl}/user`);
 }
 function* myInfo(action) {

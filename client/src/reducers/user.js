@@ -30,7 +30,6 @@ export const userSlice = createSlice({
     SIGN_UP_SUCCESS: (state, action) => {
       state.signUpLoading = false;
       state.signUpDone = true;
-      console.log('reducer: ', action);
     },
     SIGN_UP_FAILURE: (state, action) => {
       state.signUpLoading = false;

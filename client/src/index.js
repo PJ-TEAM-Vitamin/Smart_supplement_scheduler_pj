@@ -21,13 +21,13 @@ root.render(
     <BrowserRouter>
       <Nav />
       <Routes>
-        <Route path='/' element={<LandingPage />} />
-        <Route path='/init/*' element={<InitPage />} />
-        <Route path='/test' element={<TestPage />} />
-        <Route path='/boot' element={<BootPage />} />
+        <Route path="/" element={<BootPage />} />
+        <Route path="/landing" element={<LandingPage />} />
+        <Route path="/init/*" element={<InitPage />} />
+        <Route path="/test" element={<TestPage />} />
       </Routes>
     </BrowserRouter>
-  </Provider>
+  </Provider>,
 );
 
 //

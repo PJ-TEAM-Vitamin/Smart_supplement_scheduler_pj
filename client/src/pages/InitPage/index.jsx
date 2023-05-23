@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import React, { useState, useCallback, useEffect } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import InitPage1 from '../../components/InitPage/InitPage1';
 import InitPage2 from '../../components/InitPage/InitPage2';
 import InitPage3 from '../../components/InitPage/InitPage3';
@@ -21,6 +21,10 @@ const Header = styled.div`
   border-top-right-radius: 10px;
 `;
 const InitPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { signUpDone } = useSelector(state => state.user);
+
   const [state, setState] = useState({
     name: '', // 사용자 이름
     gender: '', // 사용자 성별
@@ -31,7 +35,6 @@ const InitPage = () => {
     tumbler: 0,
     capacity: 0,
   });
-  const dispatch = useDispatch();
 
   const onClickSignUp = useCallback(() => {
     console.log(state);
@@ -62,6 +65,13 @@ const InitPage = () => {
     },
     [state],
   );
+
+  // 회원가입 성공시 이동
+  useEffect(() => {
+    if (signUpDone) {
+      navigate('/');
+    }
+  }, [signUpDone, navigate]);
 
   // Route 이용하여 화면 전환
   return (
