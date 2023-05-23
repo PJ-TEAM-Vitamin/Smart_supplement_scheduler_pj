@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from "axios";
+import axios from 'axios';
 import styled from 'styled-components';
 import Clock from '../../components/LandingPage/Clock';
 import dawn from '../../utils/img/dawn.jpg';
@@ -11,10 +11,8 @@ import night from '../../utils/img/night.jpg';
 import Tumblr from '../../components/Water/Tumblr';
 import RemainingDisplay from '../../components/RemainingDisplay/RemainingDisplay';
 import Scheduler from '../../components/Scheduler/Scheduler';
-import {
-  CARTRIDGE_INFO_REQUEST, LOAD_TUMBLR_REQUEST,
-} from '../../reducers/data';
-import {MY_INFO_REQUEST} from "../../reducers/user";
+import { CARTRIDGE_INFO_REQUEST, LOAD_TUMBLR_REQUEST } from '../../reducers/data';
+import { MY_INFO_REQUEST } from '../../reducers/user';
 /*
 5~7: dawn
 7~12: morning
@@ -24,7 +22,7 @@ import {MY_INFO_REQUEST} from "../../reducers/user";
 */
 const LandingBackground = styled.div`
   /* aspect-ratio: 1920/1080; */
-  background: ${(props) => props.back};
+  background: ${props => props.back};
   width: 100%;
   height: 90vh;
   display: flex;
@@ -68,18 +66,18 @@ const SchedulerContainer = styled.div`
 
 const LandingPage = () => {
   const dispatch = useDispatch();
-  const { cartridgeInfo, schedulerList } = useSelector((state) => state.data);
-  const { me } = useSelector((state) => state.user);
+  const { cartridgeInfo, schedulerList } = useSelector(state => state.data);
+  const { me } = useSelector(state => state.user);
+
   const [currentTime, setCurrentTime] = useState('00:00:00');
   const [background, setBackground] = useState('');
 
   // 랜딩시 알약 카트리지 정보 불러오기, 알림 시간 불러오기
   useEffect(() => {
-    dispatch(CARTRIDGE_INFO_REQUEST({"userId": "1"}));
-    dispatch(LOAD_TUMBLR_REQUEST({"userId": "1"}));
-    dispatch(MY_INFO_REQUEST({"userId": "1"}));
+    dispatch(CARTRIDGE_INFO_REQUEST());
+    dispatch(LOAD_TUMBLR_REQUEST());
+    dispatch(MY_INFO_REQUEST());
   }, [dispatch]);
-
 
   // 시간 체크하여 배경화면 변경
   useEffect(() => {
@@ -105,17 +103,13 @@ const LandingPage = () => {
       </LeftContent>
       <RightContent>
         <SchedulerContainer>
-          {me?.Alarms?.map((v) => (
+          {me?.Alarms?.map(v => (
             <Scheduler time={v.time} title={v.title} />
           ))}
         </SchedulerContainer>
         <MedicineContainer>
-          {cartridgeInfo?.map((v) => (
-            <RemainingDisplay
-              cartridgeNum={v.index}
-              name={v.name}
-              residual={v.residual}
-            />
+          {cartridgeInfo?.map(v => (
+            <RemainingDisplay cartridgeNum={v.index} name={v.name} residual={v.residual} />
           ))}
         </MedicineContainer>
       </RightContent>

@@ -35,13 +35,14 @@ router.get("/", async (req, res, next) => {
     let dateString = year + "-" + month + "-" + day;
 
     const water = await Water.findOrCreate({
-      where: { createdAt: `${dateString}%`, UserId: req.body.userId },
+      where: { createdAt: `${dateString}%`, UserId: "1" },
       defaults: {
         amount_of_water: 0,
         tumbler_count: 1,
         UserId: req.body?.userId,
       },
     });
+
     res.status(200).json(water[0]);
   } catch (err) {
     console.error(err);

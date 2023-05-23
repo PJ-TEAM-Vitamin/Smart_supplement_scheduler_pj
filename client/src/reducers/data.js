@@ -88,8 +88,8 @@ export const dataSlice = createSlice({
     LOAD_TUMBLR_SUCCESS: (state, action) => {
       state.loadTumblrLoading = false;
       state.loadTumblrDone = true;
-      state.amountOfWater = action.data.water;
-      state.tumblrCounter = action.data.count;
+      state.amountOfWater = action.data.amount_of_water;
+      state.tumblrCounter = action.data.tumbler_count;
       console.log('reducer: ', action);
     },
     LOAD_TUMBLR_FAILURE: (state, action) => {

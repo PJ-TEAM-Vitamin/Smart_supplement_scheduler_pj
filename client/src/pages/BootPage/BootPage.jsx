@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { MY_INFO_REQUEST } from '../../reducers/user';
 
@@ -115,6 +115,7 @@ export const BootInfo = styled.div`
 const BootPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { myInfoDone, me } = useSelector(state => state.user);
 
   /**
    * 기존 유저정보를 통해 시작하기 위한 버튼
@@ -126,35 +127,38 @@ const BootPage = () => {
   const onClickStart = useCallback(() => {
     // 유저를 불러오는 동작 수행 _ 서버에서 정상적으로 유저를 불러왔을 경우 페이지 이동
     dispatch(MY_INFO_REQUEST());
-    navigate('/');
   }, [dispatch]);
 
   // MoveSignUp 클릭시 회원등록 페이지로 이동
   const onClickInit = useCallback(() => {
     navigate('/init');
   }, [navigate]);
+
+  // 정보를 모두 불러와야 페이지 이동
+  useEffect(() => {
+    if (myInfoDone && me) {
+      navigate('/landing');
+    }
+  }, [me, myInfoDone, navigate]);
+
   return (
     <BootBackground>
       <BootInfo>
-        <img src={logo} alt='logo' />
-        <div className='info'>
+        <img src={logo} alt="logo" />
+        <div className="info">
           <h2>Hello,</h2>
           <p>It's your SMART SUPPLEMENT SCHEDULER MACHINE!!</p>
         </div>
       </BootInfo>
       <InfoWrapper>
         <SelectMyInfo>
-          <SelectInfo>
-            등록된 사용자 정보가 있다면 버튼을 클릭하여 시작하세요
-          </SelectInfo>
+          <SelectInfo>등록된 사용자 정보가 있다면 버튼을 클릭하여 시작하세요</SelectInfo>
           <PillDisplay onClick={onClickStart}>
-            <div className='left'>Hello</div>
-            <div className='right'>Click Me</div>
+            <div className="left">Hello</div>
+            <div className="right">Click Me</div>
           </PillDisplay>
         </SelectMyInfo>
-        <MoveSignUp onClick={onClickInit}>
-          ▶ 등록된 유저가 없으면 클릭 하세요!
-        </MoveSignUp>
+        <MoveSignUp onClick={onClickInit}>▶ 등록된 유저가 없으면 클릭 하세요!</MoveSignUp>
       </InfoWrapper>
     </BootBackground>
   );

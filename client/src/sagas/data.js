@@ -15,7 +15,7 @@ import {
   CARTRIDGE_INFO_SUCCESS,
   CARTRIDGE_INFO_FAILURE,
 } from '../reducers/data';
-import {backUrl} from "../config/config";
+import { backUrl } from '../config/config';
 
 // 서버에 요청
 export function recordOfTimeAPI() {
@@ -39,7 +39,7 @@ function* recordOfTime(action) {
 }
 
 export function updateTumblrAPI() {
-   return axios.get(`${backUrl}/water/weight/tumbler`);
+  return axios.get(`${backUrl}/water/weight/tumbler`);
 }
 function* updateTumblr(action) {
   try {
@@ -58,14 +58,15 @@ function* updateTumblr(action) {
   }
 }
 
-export function loadTumblrAPI(data) {
-  return axios.get(`${backUrl}/water`, data);
+export function loadTumblrAPI() {
+  return axios.get(`${backUrl}/water`);
 }
 
 function* loadTumblr(action) {
   try {
     const result = yield call(loadTumblrAPI);
-    console.log('saga: ', action);
+    console.log('water saga: ', result);
+
     yield put({
       type: LOAD_TUMBLR_SUCCESS,
       data: result.data,
@@ -84,7 +85,7 @@ export function cartridgeInfoAPI() {
 }
 function* cartridgeInfo(action) {
   try {
-   // const result = yield call(cartridgeInfoAPI);
+    // const result = yield call(cartridgeInfoAPI);
     console.log('saga: ', action);
     const dummy = [
       {
