@@ -66,7 +66,7 @@ const SchedulerContainer = styled.div`
 
 const LandingPage = () => {
   const dispatch = useDispatch();
-  const { cartridgeInfo, schedulerList } = useSelector(state => state.data);
+  const { cartridgeInfo } = useSelector(state => state.data);
   const { me } = useSelector(state => state.user);
 
   const [currentTime, setCurrentTime] = useState('00:00:00');
@@ -109,7 +109,7 @@ const LandingPage = () => {
         </SchedulerContainer>
         <MedicineContainer>
           {cartridgeInfo?.map(v => (
-            <RemainingDisplay cartridgeNum={v.index} name={v.name} residual={v.residual} />
+            <RemainingDisplay cartridgeNum={v.cartridge} name={v.pill} residual={v.remaining_pill} />
           ))}
         </MedicineContainer>
       </RightContent>

@@ -6,7 +6,6 @@ export const initialState = {
   tumblrCounter: 0,
   cartridgeInfo: null, // 카트리지
   takeMedicine: null,
-  schedulerList: null, // 알림 시간 목록
   recordOfTimeLoading: false,
   recordOfTimeDone: false,
   recordOfTimeError: false,

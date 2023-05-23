@@ -81,32 +81,16 @@ function* loadTumblr(action) {
 }
 
 export function cartridgeInfoAPI() {
-  return axios.get(`${backUrl}/user`);
+  return axios.get(`${backUrl}/cartridge`);
 }
 function* cartridgeInfo(action) {
   try {
-    // const result = yield call(cartridgeInfoAPI);
-    console.log('saga: ', action);
-    const dummy = [
-      {
-        index: 0,
-        name: '비타민A',
-        residual: 40,
-      },
-      {
-        index: 1,
-        name: '비타민B',
-        residual: 100,
-      },
-      {
-        index: 2,
-        name: '비타민C',
-        residual: 70,
-      },
-    ];
+    const result = yield call(cartridgeInfoAPI);
+    console.log('cartridge saga: ', result);
+
     yield put({
       type: CARTRIDGE_INFO_SUCCESS,
-      data: dummy,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);

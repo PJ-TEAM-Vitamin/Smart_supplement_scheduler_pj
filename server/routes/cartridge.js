@@ -33,6 +33,9 @@ router.get("/", async (req, res, next) => {
       console.dir(fullData);
       console.log(i + 1, cartridge.length);
       if (i + 1 === cartridge.length) {
+        fullData.sort(function (a, b) {
+          return Number(a.cartridge) - Number(b.cartridge);
+        });
         res.status(200).json(fullData);
       }
     });
