@@ -162,3 +162,16 @@
   }
 ]
 ```
+
+## GET: '/cartridge/pill'
+- 요청 url 예시: http://localhost:3066/cartridge/pill/?id=1&name=대웅우루사연질캡슐
+- return
+```json
+{
+    "itemName": "대웅우루사연질캡슐",
+    "entpName": "(주)대웅제약",
+    "useMethodQesitm": "<p>성인은 1회 1캡슐 1일 3회 복용합니다.</p>",
+    "efcyQesitm": "<p>이 약은 만성 간질환의 간기능 개선과 간기능 장애에 의한 육체피로, 전신권태 증상의 개선에 사용합니다.</p>",
+    "state": "콜레스티폴"
+}
+```
