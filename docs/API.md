@@ -140,22 +140,25 @@
 ```json
 [
   {
-    "id": 2,
-    "cartridge": "3",
-    "remaining_pill": 0,
-    "pill": "test3"
-  },
-  {
     "id": 1,
     "cartridge": "1",
-    "remaining_pill": 0,
+    "remaining_pill": 50,
+    "pillId": 1,
     "pill": "test1"
   },
   {
     "id": 3,
     "cartridge": "2",
     "remaining_pill": 0,
+    "pillId": 2,
     "pill": "test2"
+  },
+  {
+    "id": 2,
+    "cartridge": "3",
+    "remaining_pill": 40,
+    "pillId": 3,
+    "pill": "test3"
   }
 ]
 ```

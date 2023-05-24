@@ -13,6 +13,7 @@ import RemainingDisplay from '../../components/RemainingDisplay/RemainingDisplay
 import Scheduler from '../../components/Scheduler/Scheduler';
 import { CARTRIDGE_INFO_REQUEST, LOAD_TUMBLR_REQUEST } from '../../reducers/data';
 import { MY_INFO_REQUEST } from '../../reducers/user';
+import MedicineInfoModal from '../../components/MedicineInfoModal';
 /*
 5~7: dawn
 7~12: morning
@@ -69,6 +70,13 @@ const LandingPage = () => {
   const { cartridgeInfo } = useSelector(state => state.data);
   const { me } = useSelector(state => state.user);
 
+  const [mdInfo, setMdInfo] = useState(false);
+  const [currentMd, setCurrentMd] = useState('');
+  const handleInfo = name => {
+    setCurrentMd(name);
+    setMdInfo(true);
+  };
+
   const [currentTime, setCurrentTime] = useState('00:00:00');
   const [background, setBackground] = useState('');
 
@@ -109,10 +117,11 @@ const LandingPage = () => {
         </SchedulerContainer>
         <MedicineContainer>
           {cartridgeInfo?.map(v => (
-            <RemainingDisplay cartridgeNum={v.cartridge} name={v.pill} residual={v.remaining_pill} />
+            <RemainingDisplay cartridgeNum={v.cartridge} name={v.pill} residual={v.remaining_pill} handleInfo={handleInfo} />
           ))}
         </MedicineContainer>
       </RightContent>
+      {mdInfo && <MedicineInfoModal setMdInfo={setMdInfo} name={currentMd} />}
     </LandingBackground>
   );
 };

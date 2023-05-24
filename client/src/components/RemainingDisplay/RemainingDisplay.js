@@ -6,6 +6,7 @@ import medicine30 from '../../utils/img/medicine30.png';
 import medicine50 from '../../utils/img/medicine50.png';
 import medicine70 from '../../utils/img/medicine70.png';
 import medicine100 from '../../utils/img/medicine100.png';
+import lens from '../../utils/img/lens.png';
 
 const MedicineItem = styled.div`
   width: 33%;
@@ -21,13 +22,24 @@ const MedicineImg = styled.div`
   aspect-ratio: 1/1;
   width: 80%;
   background-size: cover;
-  background-image: ${(props) => props.back};
+  background-image: ${props => props.back};
 `;
 const IndexCartridge = styled.div`
   font-weight: 800;
 `;
+const MediceineTitle = styled.div`
+  display: flex;
+`;
 const MedicineName = styled.div`
   font-weight: 800;
+`;
+const PillLens = styled.div`
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+  background-image: url(${lens});
+  background-size: cover;
+  cursor: pointer;
 `;
 /**
  * 알약이 담긴 카드리지 번호와 알약의 이름 및 잔량을 받아 화면에 표시한다.
@@ -36,7 +48,7 @@ const MedicineName = styled.div`
  * @param {number} residual
  * @returns
  */
-const RemainingDisplay = ({ cartridgeNum, name, residual }) => {
+const RemainingDisplay = ({ cartridgeNum, name, residual, handleInfo }) => {
   const [background, setBackgroud] = useState('');
 
   useEffect(() => {
@@ -57,7 +69,10 @@ const RemainingDisplay = ({ cartridgeNum, name, residual }) => {
     <MedicineItem>
       <IndexCartridge>{cartridgeNum}</IndexCartridge>
       <MedicineImg back={background} />
-      <MedicineName>{name}</MedicineName>
+      <MediceineTitle>
+        <MedicineName>{name}</MedicineName>
+        <PillLens onClick={() => handleInfo(name)} />
+      </MediceineTitle>
     </MedicineItem>
   );
 };

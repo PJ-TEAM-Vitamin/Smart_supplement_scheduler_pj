@@ -25,6 +25,7 @@ router.get("/", async (req, res, next) => {
         id: v.dataValues?.id,
         cartridge: v.dataValues?.cartridges,
         remaining_pill: v.dataValues?.remaining_pill,
+        pillId: pillId,
         pill: pill.dataValues?.itemName,
       };
 
@@ -45,47 +46,17 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-//약 조회 get
-router.get("/check", async (req, res, next) => {
+router.get("pill", async (req, res, next) => {
   try {
-    const cartridge = await Cartridge.findAll({
-      index: req.body.index,
-      name: req.body.name,
+    const pill = await Pill.findOne({
+      where: {
+        itemName: req.query.name,
+      },
     });
-    res.status(201).json(cartridge);
   } catch (err) {
     console.error(err);
     next(err);
   }
 });
 
-//약 정보 등록
-router.post("/create", async (req, res, next) => {
-  try {
-    const cartridge = await Cartridge.create({
-      index: req.body.index,
-      name: req.body.name,
-    });
-    //console.log(cartridge);
-    res.status(201).json(cartridge);
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-});
-
-//약 정보 삭제
-router.delete("/delete", async (res, req, next) => {
-  try {
-    const result = await Cartridge.destroy({
-      where: { id: req.params.id },
-    });
-    res.send("Ok");
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-});
-
-// API 이용하여 주고받기(7개) get post
 module.exports = router;
