@@ -33,6 +33,7 @@ const MediceineTitle = styled.div`
 const MedicineName = styled.div`
   font-weight: 800;
 `;
+
 const PillLens = styled.div`
   width: 20px;
   height: 20px;
@@ -48,7 +49,7 @@ const PillLens = styled.div`
  * @param {number} residual
  * @returns
  */
-const RemainingDisplay = ({ cartridgeNum, name, residual, handleInfo }) => {
+const RemainingDisplay = ({ cartridgeNum, name, id, residual, handleInfo }) => {
   const [background, setBackgroud] = useState('');
 
   useEffect(() => {
@@ -71,7 +72,7 @@ const RemainingDisplay = ({ cartridgeNum, name, residual, handleInfo }) => {
       <MedicineImg back={background} />
       <MediceineTitle>
         <MedicineName>{name}</MedicineName>
-        <PillLens onClick={() => handleInfo(name)} />
+        <PillLens onClick={() => handleInfo(name, id)} />
       </MediceineTitle>
     </MedicineItem>
   );

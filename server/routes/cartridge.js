@@ -1,6 +1,7 @@
 const express = require("express");
 const Cartridge = require("../models/cartridge");
 const Residue = require("../models/residue");
+const Ingredient = require("../models/Ingredient");
 const Alarm = require("../models/alarm");
 const Pill = require("../models/pill");
 
@@ -46,13 +47,46 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("pill", async (req, res, next) => {
+router.get("/pill", async (req, res, next) => {
   try {
     const pill = await Pill.findOne({
       where: {
+        id: req.query.id,
         itemName: req.query.name,
       },
     });
+    // 임시 _ findAll로 변경 필요
+    const ingredient = await Ingredient.findOne({
+      where: {
+        UserId: "1",
+      },
+    });
+    const intrcItems = pill.dataValues.intrcQesitm; // 상호작용
+    const itemName = pill.dataValues.itemName; // 약 이름
+    const entpName = pill.dataValues.entpName; // 회사
+    const useMethodQesitm = pill.dataValues.useMethodQesitm; // 사용법
+    const efcyQesitm = pill.dataValues.efcyQesitm; // 효과
+
+    const ingredientItme = ingredient.dataValues.ingredient;
+    let state = null;
+
+    if (intrcItems.search(ingredientItme) !== -1) {
+      state = ingredientItme;
+    }
+
+    const fullData = {
+      itemName,
+      entpName,
+      useMethodQesitm,
+      efcyQesitm,
+      state,
+    };
+
+    console.log(state);
+    console.log(pill);
+    console.log(ingredientItme);
+
+    res.status(200).send(fullData);
   } catch (err) {
     console.error(err);
     next(err);

@@ -14,6 +14,9 @@ import {
   CARTRIDGE_INFO_REQUEST,
   CARTRIDGE_INFO_SUCCESS,
   CARTRIDGE_INFO_FAILURE,
+  PILL_INFO_REQUEST,
+  PILL_INFO_SUCCESS,
+  PILL_INFO_FAILURE,
 } from '../reducers/data';
 import { backUrl } from '../config/config';
 
@@ -101,6 +104,27 @@ function* cartridgeInfo(action) {
   }
 }
 
+export function pillInfoAPI(data) {
+  return axios.get(`${backUrl}/cartridge/pill/?id=${data.id}&name=${data.name}`);
+}
+function* pillInfo(action) {
+  try {
+    const result = yield call(pillInfoAPI, action.payload);
+    console.log('cartridge saga: ', result);
+
+    yield put({
+      type: PILL_INFO_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: PILL_INFO_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 // request 이벤트 추가
 function* watchRecordOfTime() {
   yield takeLatest(RECORD_OF_TIME_REQUEST, recordOfTime);
@@ -114,10 +138,14 @@ function* watchLoadTumblr() {
 function* watchCartridgeInfo() {
   yield takeLatest(CARTRIDGE_INFO_REQUEST, cartridgeInfo);
 }
+function* watchPillInfo() {
+  yield takeLatest(PILL_INFO_REQUEST, pillInfo);
+}
 
 export default function* userSaga() {
   yield all([fork(watchRecordOfTime)]);
   yield all([fork(watchUpdateTumblr)]);
   yield all([fork(watchLoadTumblr)]);
   yield all([fork(watchCartridgeInfo)]);
+  yield all([fork(watchPillInfo)]);
 }

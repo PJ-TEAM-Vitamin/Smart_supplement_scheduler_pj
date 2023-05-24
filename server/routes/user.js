@@ -79,8 +79,9 @@ router.post("/signup", async (req, res, next) => {
     if (req.body.unable) {
       req.body.unable.map(async (ing) => {
         await Ingredient.create({
-          ingredient: ing.ingredient,
+          ingredient: ing,
           ingredientSeq: ing?.ingredientSeq,
+          UserId: user.dataValues.id,
         });
       });
     }
@@ -88,8 +89,8 @@ router.post("/signup", async (req, res, next) => {
       // time 배열 순회하며 저장
       req.body.time.map(async (al) => {
         const alarm = await Alarm.create({
-          title: al.title,
-          time: al.time,
+          title: al?.title,
+          time: al?.time,
           UserId: user.dataValues.id,
         });
         const id = alarm.dataValues.id;

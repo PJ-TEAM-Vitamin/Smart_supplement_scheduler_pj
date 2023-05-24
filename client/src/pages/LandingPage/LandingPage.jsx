@@ -72,7 +72,9 @@ const LandingPage = () => {
 
   const [mdInfo, setMdInfo] = useState(false);
   const [currentMd, setCurrentMd] = useState('');
-  const handleInfo = name => {
+  const [currentMdId, setCurrentMdId] = useState('');
+  const handleInfo = (name, id) => {
+    setCurrentMdId(id);
     setCurrentMd(name);
     setMdInfo(true);
   };
@@ -117,11 +119,11 @@ const LandingPage = () => {
         </SchedulerContainer>
         <MedicineContainer>
           {cartridgeInfo?.map(v => (
-            <RemainingDisplay cartridgeNum={v.cartridge} name={v.pill} residual={v.remaining_pill} handleInfo={handleInfo} />
+            <RemainingDisplay cartridgeNum={v.cartridge} name={v.pill} id={v.pillId} residual={v.remaining_pill} handleInfo={handleInfo} />
           ))}
         </MedicineContainer>
       </RightContent>
-      {mdInfo && <MedicineInfoModal setMdInfo={setMdInfo} name={currentMd} />}
+      {mdInfo && <MedicineInfoModal setMdInfo={setMdInfo} name={currentMd} id={currentMdId} />}
     </LandingBackground>
   );
 };

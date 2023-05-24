@@ -5,7 +5,7 @@ export const initialState = {
   amountOfWater: 0,
   tumblrCounter: 0,
   cartridgeInfo: null, // 카트리지
-  takeMedicine: null,
+  pillInfo: null,
   recordOfTimeLoading: false,
   recordOfTimeDone: false,
   recordOfTimeError: false,
@@ -18,6 +18,9 @@ export const initialState = {
   cartridgeInfoLoading: false,
   cartridgeInfoDone: false,
   cartridgeInfoError: false,
+  pillInfoLoading: false,
+  pillInfoDone: false,
+  pillInfoError: false,
 };
 
 // data slice 생성
@@ -96,6 +99,24 @@ export const dataSlice = createSlice({
       state.loadTumblrDone = false;
       state.loadTumblrError = action.error;
     },
+    PILL_INFO_REQUEST: state => {
+      // 텀블러 로딩?
+      state.pillInfoLoading = true;
+      state.pillInfoDone = false;
+      state.pillInfoError = null;
+      console.log('reducer request');
+    },
+    PILL_INFO_SUCCESS: (state, action) => {
+      state.pillInfoLoading = false;
+      state.pillInfoDone = true;
+      state.pillInfo = action.data;
+      console.log('reducer: ', action);
+    },
+    PILL_INFO_FAILURE: (state, action) => {
+      state.pillInfoLoading = false;
+      state.pillInfoDone = false;
+      state.pillInfoError = action.error;
+    },
   },
 });
 
@@ -112,6 +133,9 @@ export const {
   CARTRIDGE_INFO_REQUEST,
   CARTRIDGE_INFO_SUCCESS,
   CARTRIDGE_INFO_FAILURE,
+  PILL_INFO_REQUEST,
+  PILL_INFO_SUCCESS,
+  PILL_INFO_FAILURE,
 } = dataSlice.actions;
 
 export default dataSlice;
