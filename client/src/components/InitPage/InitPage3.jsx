@@ -1,19 +1,24 @@
 import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Alarm, InitCommonHeader, InitPageContainer, MoveButton, SelectTimeForm, TimeInputItem, AlarmListContainer, AlarmListItem } from './styles';
+import {
+  Alarm,
+  InitCommonHeader,
+  InitPageContainer,
+  MoveButton,
+  SelectTimeForm,
+  TimeInputItem,
+  AlarmListContainer,
+  AlarmListItem,
+} from './InitComponentStyles';
 import Clock from '../../utils/img/clock.png';
 
 /**
  * 알람 시간 설정 페이지
- * @param handleChangeState
- * @returns {JSX.Element}
- * @constructor
  */
 const InitPage3 = ({ state, handleParamState }) => {
   const [title, setTitle] = useState('');
   const [time, setTime] = useState('');
   const [checkedList, setCheckedList] = useState([]);
-
   const [tempAlarm, setTempAlarm] = useState([]); // 알람 시간 저장
 
   const checkCartridge = [];
@@ -25,7 +30,6 @@ const InitPage3 = ({ state, handleParamState }) => {
   const handleChangeTime = useCallback(e => {
     setTime(e.target.value);
   });
-
   const handleChangeTitle = useCallback(e => {
     setTitle(e.target.value);
   }, []);
@@ -39,7 +43,6 @@ const InitPage3 = ({ state, handleParamState }) => {
     }
     console.log(checkedList);
   };
-
   const onClickAddAlarm = value => {
     const alarmInfo = {
       title: title,

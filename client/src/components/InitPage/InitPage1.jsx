@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import MedicationInput from '../MedicationInput/MedicationInput';
 
 //style
-import { InitPageContainer, EnterInfo, EnterName, GenderCheck, InitCommonHeader, MoveButton, InfoTop } from './styles';
+import { InitPageContainer, EnterInfo, EnterName, GenderCheck, InitCommonHeader, MoveButton, InfoTop } from './InitComponentStyles';
 
 const InitPage1 = ({ state, setState, handleChangeState, handleParamState }) => {
   const onChangeInfo = useCallback(

@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import { InitCommonHeader, InitPageContainer, MoveButton, Tumbler, TumblerContainer } from './styles';
+import React, { useCallback } from 'react';
+import { InitCommonHeader, InitPageContainer, MoveButton, Tumbler, TumblerContainer } from './InitComponentStyles';
 import TumbleImg from '../../utils/img/tumble.png';
 import Loading from '../../utils/img/loading.gif';
 import { useSelector } from 'react-redux';
@@ -7,11 +7,6 @@ import { SET_TUMBLER_REQUEST } from '../../reducers/user';
 
 const InitPage4 = ({ state, handleParamState, onClickSignUp, handleChangeState, dispatch }) => {
   const { setTumbler, setTumblerLoading } = useSelector(state => state.user);
-  const [tumblerCapacity, setTumblerCapacity] = useState(0);
-
-  const handleChangeCapacity = useCallback(e => {
-    setTumblerCapacity(e.target.value);
-  }, []);
 
   const onClickSetTumbler = useCallback(() => {
     dispatch(SET_TUMBLER_REQUEST());

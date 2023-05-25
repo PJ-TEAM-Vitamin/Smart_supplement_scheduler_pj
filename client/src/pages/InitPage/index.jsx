@@ -5,25 +5,14 @@ import InitPage1 from '../../components/InitPage/InitPage1';
 import InitPage2 from '../../components/InitPage/InitPage2';
 import InitPage3 from '../../components/InitPage/InitPage3';
 import InitPage4 from '../../components/InitPage/InitPage4';
-import styled from 'styled-components';
 import { SIGN_UP_REQUEST } from '../../reducers/user';
+import { Header } from './InitPageStyles';
 
-const Header = styled.div`
-  height: 10vh;
-  width: 150px;
-  background-color: #2c74b3;
-  color: #fff;
-  font-size: 1.3rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-top-right-radius: 10px;
-`;
 const InitPage = () => {
+  const { signUpDone } = useSelector(state => state.user);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { signUpDone } = useSelector(state => state.user);
 
   const [state, setState] = useState({
     name: '', // 사용자 이름
@@ -31,20 +20,18 @@ const InitPage = () => {
     age: '', // 사용자 나이
     able: [], // 복용 약
     unable: [], // 복용 불가 약
-    time: [],
-    tumbler: 0,
-    capacity: 0,
+    time: [], // 알람시간
+    tumbler: 0, // 텀블러 무게
+    capacity: 0, // 텀블러 용량
   });
 
   const onClickSignUp = useCallback(() => {
-    console.log(state);
     dispatch(
       SIGN_UP_REQUEST({
         ...state,
       }),
     );
   }, [state, dispatch]);
-
   const handleChangeState = useCallback(
     e => {
       setState({
@@ -60,20 +47,17 @@ const InitPage = () => {
         ...state,
         [e.target.name]: value,
       });
-      console.log('click handleParam: ');
-      console.dir(state);
     },
     [state],
   );
 
-  // 회원가입 성공시 이동
+  // 회원가입 성공시 부트 페이지로 이동
   useEffect(() => {
     if (signUpDone) {
       navigate('/');
     }
   }, [signUpDone, navigate]);
 
-  // Route 이용하여 화면 전환
   return (
     <>
       <Header>회원등록</Header>
@@ -97,7 +81,6 @@ const InitPage = () => {
           }
         />
       </Routes>
-      <button onClick={onClickSignUp}>회원 가입</button>
     </>
   );
 };

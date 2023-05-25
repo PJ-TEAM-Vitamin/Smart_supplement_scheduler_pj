@@ -49,6 +49,9 @@ export const GenderCheck = styled.div`
     font-size: 20px;
     margin-left: 10px;
   }
+  input {
+    cursor: pointer;
+  }
 `;
 
 export const EnterAge = styled.div`
@@ -66,6 +69,7 @@ export const MoveButton = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin-bottom: 10px;
   button {
     color: #fff;
     cursor: pointer;
@@ -91,6 +95,9 @@ export const Alarm = styled.div`
 `;
 export const SelectTimeForm = styled.form`
   .timeInput {
+    button {
+      cursor: pointer;
+    }
   }
 `;
 export const TimeInputItem = styled.div`
@@ -211,5 +218,100 @@ export const AlarmListItem = styled.div`
     margin-bottom: 10px;
     width: 25%;
     text-align: center;
+  }
+`;
+
+export const SelectMedicineDisplay = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .box {
+    margin-top: 10px;
+    width: 90%;
+    background-color: #fff;
+    min-height: 150px;
+    border-radius: 15px;
+  }
+`;
+
+export const SearchMedicineDisplay = styled.div`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .searchBar {
+    margin-top: 10px;
+    width: 90%;
+    display: flex;
+    input {
+      width: 80%;
+      height: 25px;
+      border: none;
+      border-bottom: 2px solid #6096b4;
+      border-top: 2px solid #6096b4;
+    }
+    button {
+      border: none;
+      width: 20%;
+      background-color: #6096b4;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+  .searchListContainer {
+    background-color: #fff;
+    width: 90%;
+    min-height: 150px;
+    overflow: hidden;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+`;
+
+export const TempStoreList = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  .item {
+    width: 30%;
+  }
+  button {
+    border: none;
+    background-color: #ff6d60;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 7px;
+    cursor: pointer;
+  }
+`;
+export const SearchItemList = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  .item {
+    width: 40%;
+  }
+  .company {
+    width: 40%;
+  }
+  button {
+    border: none;
+    background-color: #6da9e4;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 7px;
+    cursor: pointer;
   }
 `;

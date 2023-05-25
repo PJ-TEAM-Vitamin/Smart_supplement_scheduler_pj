@@ -1,108 +1,18 @@
 import React, { useContext, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import axios from 'axios';
-import { MoveButton, InitPageContainer, InitCommonHeader } from './styles';
-
-export const SelectMedicineDisplay = styled.div`
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  .box {
-    margin-top: 10px;
-    width: 90%;
-    background-color: #fff;
-    min-height: 150px;
-    border-radius: 15px;
-  }
-`;
-
-export const SearchMedicineDisplay = styled.div`
-  margin-top: 20px;
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  .searchBar {
-    margin-top: 10px;
-    width: 90%;
-    display: flex;
-    input {
-      width: 80%;
-      height: 25px;
-      border: none;
-      border-bottom: 2px solid #6096b4;
-      border-top: 2px solid #6096b4;
-    }
-    button {
-      border: none;
-      width: 20%;
-      background-color: #6096b4;
-      color: #fff;
-      font-weight: 600;
-    }
-  }
-  .searchListContainer {
-    background-color: #fff;
-    width: 90%;
-    min-height: 150px;
-    overflow: hidden;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-  }
-`;
-
-export const TempStoreList = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  .item {
-    width: 30%;
-  }
-  button {
-    border: none;
-    background-color: #ff6d60;
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 7px;
-    cursor: pointer;
-  }
-`;
-export const SearchItemList = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  .item {
-    width: 40%;
-  }
-  .company {
-    width: 40%;
-  }
-  button {
-    border: none;
-    background-color: #6da9e4;
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 7px;
-    cursor: pointer;
-  }
-`;
+import {
+  MoveButton,
+  InitPageContainer,
+  InitCommonHeader,
+  SelectMedicineDisplay,
+  TempStoreList,
+  SearchMedicineDisplay,
+  SearchItemList,
+} from './InitComponentStyles';
 
 /**
  * 복용중인 약 등록 페이지
- * @param handleParamState
- * @returns {JSX.Element}
- * @constructor
  */
 const InitPage2 = ({ handleParamState }) => {
   const input = useRef(null);
@@ -123,7 +33,6 @@ const InitPage2 = ({ handleParamState }) => {
       const request = await axios.get(
         `https://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?serviceKey=${process.env.REACT_APP_IROS239_KEY}&itemName=${searchInput}&pageNo=1&startPage=1&numOfRows=3&type=json`,
       );
-      console.log(request.data.body.items);
       if (request.data.body.items) {
         request.data.body.items.map(v => {
           setSearch(data => {
@@ -144,7 +53,6 @@ const InitPage2 = ({ handleParamState }) => {
     value => {
       if (count >= 3) return null;
       setTempStore(state => [...state, value]);
-      console.log('add: ', tempStore);
       setCount(count + 1);
       console.log(tempStore);
       console.log(count);
@@ -163,8 +71,6 @@ const InitPage2 = ({ handleParamState }) => {
     i => () => {
       setTempStore(tempStore.filter(v => v !== tempStore[i]));
       setCount(count - 1);
-      console.log(tempStore[i]);
-      console.log(tempStore);
     },
     [count, tempStore],
   );
@@ -176,7 +82,6 @@ const InitPage2 = ({ handleParamState }) => {
         <div className="box">
           {tempStore &&
             tempStore.map((v, i) => {
-              console.log(tempStore);
               return (
                 <TempStoreList key={`${v.itemName}_${i}`}>
                   <div className="item">제품명: {v.itemName}</div>
