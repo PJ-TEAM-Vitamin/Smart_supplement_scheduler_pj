@@ -175,3 +175,30 @@
     "state": "콜레스티폴"
 }
 ```
+
+## GET: '/healthcare?id&date'
+- 해당 날짜의 헬스케어 정보 불러오기
+- 요청 url 예시: /healthcare?id=1&date=2023-05-25
+- return
+```json
+{
+    "alarm": [
+        {
+            "title": "아침",
+            "AlarmId": 1,
+            "type": true
+        },
+        {
+            "title": "저녁",
+            "AlarmId": 2,
+            "type": true
+        }
+    ],
+    "water": 700
+}
+```
+
+## GET: '/month_date?id&date'
+- 해당 월의 서비스 이용 날짜 불러오기
+- 요청 url 예시: /healthcare/month_date?id=1&date=2023-05
+- return [ "2023-05-24", "2023-05-25" ]
