@@ -45,59 +45,14 @@ router.post("/discharge", async (req, res, next) => {
 });
 
 // 알약 섭취 (섭취 true, 미섭취: false)
-router.post("/intakeOrNot", async (req, res, next) => {
+router.post("/intake_or_not", async (req, res, next) => {
   try {
-    await Intake.post({
+    await Intake.create({
       type: req.body.type,
       AlarmId: req.body.alarmId,
       UserId: req.body.userId,
     });
     res.status(201).send("ok");
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-});
-
-//알람 시간 조회
-router.get("/check", async (req, res, next) => {
-  try {
-    const alarm = await Alarm.findAll({
-      title: req.body.title,
-      time: req.body.time,
-      cartridges: req.body.cartridges,
-    });
-    res.json(users);
-    res.status(201).json(alarm);
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-});
-
-//알람 시간 등록
-router.post("/create", async (req, res, next) => {
-  try {
-    const alarm = await Alarm.create({
-      title: req.body.title,
-      time: req.body.time,
-      cartridges: req.body.cartridges,
-    });
-    //console.log(alarm); 확인용
-    res.status(201).json(alarm);
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-});
-
-//알람 시간 삭제
-router.delete("/delete", async (req, res, next) => {
-  try {
-    const result = await Alarm.destroy({
-      where: { id: req.params.id },
-    });
-    res.send("Ok");
   } catch (err) {
     console.error(err);
     next(err);

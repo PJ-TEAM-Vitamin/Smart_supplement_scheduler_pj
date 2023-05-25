@@ -7,7 +7,7 @@ const waterRouter = require("./routes/water");
 const userRouter = require("./routes/user");
 const alarmRouter = require("./routes/alarm");
 const cartridgeRouter = require("./routes/cartridge");
-
+const healthcareRouter = require("./routes/healthcare");
 const { sequelize } = require("./models");
 dotenv.config();
 
@@ -39,6 +39,7 @@ app.use("/water", waterRouter);
 app.use("/user", userRouter);
 app.use("/alarm", alarmRouter);
 app.use("/cartridge", cartridgeRouter);
+app.use("/healthcare", healthcareRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`라우터가 없습니다.`);

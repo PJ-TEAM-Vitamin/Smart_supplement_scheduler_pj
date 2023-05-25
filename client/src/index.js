@@ -12,6 +12,7 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import InitPage from './pages/InitPage';
 import TestPage from './pages/TestPage/TestPage';
 import BootPage from './pages/BootPage/BootPage';
+import HealthcarePage from './pages/HealthcarePage';
 import Nav from './components/Nav/Nav';
 const store = createStore();
 
@@ -23,6 +24,7 @@ root.render(
       <Routes>
         <Route path="/" element={<BootPage />} />
         <Route path="/landing" element={<LandingPage />} />
+        <Route path="/Healthcare" element={<HealthcarePage />} />
         <Route path="/init/*" element={<InitPage />} />
         <Route path="/test" element={<TestPage />} />
       </Routes>

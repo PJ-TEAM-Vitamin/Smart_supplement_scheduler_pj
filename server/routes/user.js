@@ -115,4 +115,6 @@ router.post("/signup", async (req, res, next) => {
   }
 });
 
+router.get("/healthInfo");
+
 module.exports = router;
