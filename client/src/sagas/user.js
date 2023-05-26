@@ -21,7 +21,6 @@ export function signUpAPI(data) {
 function* signUp(action) {
   try {
     const result = yield call(signUpAPI, action.payload);
-    console.log('saga: ', result);
     yield put({
       type: SIGN_UP_SUCCESS,
       data: result,
@@ -39,10 +38,8 @@ export function setTumblrAPI() {
 }
 function* setTumblr(action) {
   try {
-    console.log('start');
     const result = yield call(setTumblrAPI);
-    // let result = 800;
-    // yield delay(3000);
+
     yield put({
       type: SET_TUMBLER_SUCCESS,
       data: result.data.weight,
@@ -63,7 +60,6 @@ export function myInfoAPI() {
 function* myInfo(action) {
   try {
     const result = yield call(myInfoAPI);
-    console.log('saga: ', result);
     yield put({
       type: MY_INFO_SUCCESS,
       data: result,

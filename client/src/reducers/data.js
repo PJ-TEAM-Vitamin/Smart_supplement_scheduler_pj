@@ -6,6 +6,8 @@ export const initialState = {
   tumblrCounter: 0,
   cartridgeInfo: null, // 카트리지
   pillInfo: null,
+  currentHealthInfo: null,
+  currentMonthIndex: [],
   recordOfTimeLoading: false,
   recordOfTimeDone: false,
   recordOfTimeError: false,
@@ -21,6 +23,9 @@ export const initialState = {
   pillInfoLoading: false,
   pillInfoDone: false,
   pillInfoError: false,
+  currentHealthInfoLoading: false,
+  currentHealthInfoDone: false,
+  currentHealthInfoError: false,
 };
 
 // data slice 생성
@@ -32,12 +37,10 @@ export const dataSlice = createSlice({
       state.recordOfTimeLoading = true;
       state.recordOfTimeDone = false;
       state.recordOfTimeError = null;
-      console.log('reducer request');
     },
     RECORD_OF_TIME_SUCCESS: (state, action) => {
       state.recordOfTimeLoading = false;
       state.recordOfTimeDone = true;
-      console.log('reducer: ', action);
     },
     RECORD_OF_TIME_FAILURE: (state, action) => {
       state.recordOfTimeLoading = false;
@@ -48,13 +51,11 @@ export const dataSlice = createSlice({
       state.cartridgeInfoLoading = true;
       state.cartridgeInfoDone = false;
       state.cartridgeInfoError = null;
-      console.log('reducer request');
     },
     CARTRIDGE_INFO_SUCCESS: (state, action) => {
       state.cartridgeInfoLoading = false;
       state.cartridgeInfoDone = true;
       state.cartridgeInfo = action.data;
-      console.log('reducer: ', action);
     },
     CARTRIDGE_INFO_FAILURE: (state, action) => {
       state.cartridgeInfoLoading = false;
@@ -66,14 +67,12 @@ export const dataSlice = createSlice({
       state.updateTumblrLoading = true;
       state.updateTumblrDone = false;
       state.updateTumblrError = null;
-      console.log('reducer request');
     },
     UPDATE_TUMBLR_SUCCESS: (state, action) => {
       state.updateTumblrLoading = false;
       state.updateTumblrDone = true;
       state.amountOfWater = action.data.water;
       state.tumblrCounter = action.data.count;
-      console.log('reducer: ', action);
     },
     UPDATE_TUMBLR_FAILURE: (state, action) => {
       state.updateTumblrLoading = false;
@@ -85,14 +84,12 @@ export const dataSlice = createSlice({
       state.loadTumblrLoading = true;
       state.loadTumblrDone = false;
       state.loadTumblrError = null;
-      console.log('reducer request');
     },
     LOAD_TUMBLR_SUCCESS: (state, action) => {
       state.loadTumblrLoading = false;
       state.loadTumblrDone = true;
       state.amountOfWater = action.data.amount_of_water;
       state.tumblrCounter = action.data.tumbler_count;
-      console.log('reducer: ', action);
     },
     LOAD_TUMBLR_FAILURE: (state, action) => {
       state.loadTumblrLoading = false;
@@ -104,18 +101,47 @@ export const dataSlice = createSlice({
       state.pillInfoLoading = true;
       state.pillInfoDone = false;
       state.pillInfoError = null;
-      console.log('reducer request');
     },
     PILL_INFO_SUCCESS: (state, action) => {
       state.pillInfoLoading = false;
       state.pillInfoDone = true;
       state.pillInfo = action.data;
-      console.log('reducer: ', action);
     },
     PILL_INFO_FAILURE: (state, action) => {
       state.pillInfoLoading = false;
       state.pillInfoDone = false;
       state.pillInfoError = action.error;
+    },
+    CURRENT_HEALTH_INFO_REQUEST: state => {
+      state.currentHealthInfoLoading = true;
+      state.currentHealthInfoDone = false;
+      state.currentHealthInfoError = null;
+    },
+    CURRENT_HEALTH_INFO_SUCCESS: (state, action) => {
+      state.currentHealthInfoLoading = false;
+      state.currentHealthInfoDone = true;
+      state.currentHealthInfo = action.data;
+    },
+    CURRENT_HEALTH_INFO_FAILURE: (state, action) => {
+      state.currentHealthInfoLoading = false;
+      state.currentHealthInfoDone = false;
+      state.currentHealthInfoError = action.error;
+    },
+    CURRENT_MONTH_INDEX_REQUEST: state => {
+      state.currentMonthIndexLoading = true;
+      state.currentMonthIndexDone = false;
+      state.currentMonthIndexError = null;
+    },
+    CURRENT_MONTH_INDEX_SUCCESS: (state, action) => {
+      state.currentMonthIndexLoading = false;
+      state.currentMonthIndexDone = true;
+      state.currentMonthIndex = action.data;
+      // action.data.date.map(v => state.currentMonthIndex.push(v));
+    },
+    CURRENT_MONTH_INDEX_FAILURE: (state, action) => {
+      state.currentMonthIndexLoading = false;
+      state.currentMonthIndexDone = false;
+      state.currentMonthIndexError = action.error;
     },
   },
 });
@@ -136,6 +162,12 @@ export const {
   PILL_INFO_REQUEST,
   PILL_INFO_SUCCESS,
   PILL_INFO_FAILURE,
+  CURRENT_HEALTH_INFO_REQUEST,
+  CURRENT_HEALTH_INFO_SUCCESS,
+  CURRENT_HEALTH_INFO_FAILURE,
+  CURRENT_MONTH_INDEX_REQUEST,
+  CURRENT_MONTH_INDEX_SUCCESS,
+  CURRENT_MONTH_INDEX_FAILURE,
 } = dataSlice.actions;
 
 export default dataSlice;

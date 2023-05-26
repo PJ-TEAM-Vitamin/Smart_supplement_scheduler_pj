@@ -17,6 +17,12 @@ import {
   PILL_INFO_REQUEST,
   PILL_INFO_SUCCESS,
   PILL_INFO_FAILURE,
+  CURRENT_HEALTH_INFO_REQUEST,
+  CURRENT_HEALTH_INFO_SUCCESS,
+  CURRENT_HEALTH_INFO_FAILURE,
+  CURRENT_MONTH_INDEX_SUCCESS,
+  CURRENT_MONTH_INDEX_FAILURE,
+  CURRENT_MONTH_INDEX_REQUEST,
 } from '../reducers/data';
 import { backUrl } from '../config/config';
 
@@ -27,7 +33,6 @@ export function recordOfTimeAPI() {
 function* recordOfTime(action) {
   try {
     const result = yield call(recordOfTimeAPI);
-    console.log('saga: ', action);
     yield put({
       type: RECORD_OF_TIME_SUCCESS,
       data: result.data,
@@ -47,7 +52,6 @@ export function updateTumblrAPI() {
 function* updateTumblr(action) {
   try {
     const result = yield call(updateTumblrAPI);
-    console.log('saga: ', action);
     yield put({
       type: UPDATE_TUMBLR_SUCCESS,
       data: result.data,
@@ -68,7 +72,6 @@ export function loadTumblrAPI() {
 function* loadTumblr(action) {
   try {
     const result = yield call(loadTumblrAPI);
-    console.log('water saga: ', result);
 
     yield put({
       type: LOAD_TUMBLR_SUCCESS,
@@ -89,7 +92,6 @@ export function cartridgeInfoAPI() {
 function* cartridgeInfo(action) {
   try {
     const result = yield call(cartridgeInfoAPI);
-    console.log('cartridge saga: ', result);
 
     yield put({
       type: CARTRIDGE_INFO_SUCCESS,
@@ -110,7 +112,6 @@ export function pillInfoAPI(data) {
 function* pillInfo(action) {
   try {
     const result = yield call(pillInfoAPI, action.payload);
-    console.log('cartridge saga: ', result);
 
     yield put({
       type: PILL_INFO_SUCCESS,
@@ -120,6 +121,46 @@ function* pillInfo(action) {
     console.error(err);
     yield put({
       type: PILL_INFO_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+export function currentHealthInfoAPI(data) {
+  return axios.get(`${backUrl}/healthcare?id=1&date=${data.date}`);
+}
+function* currentHealthInfo(action) {
+  try {
+    const result = yield call(currentHealthInfoAPI, action.payload);
+
+    yield put({
+      type: CURRENT_HEALTH_INFO_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: CURRENT_HEALTH_INFO_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+export function currentMonthIndexAPI(data) {
+  console.log('month ', data.date.slice(0, 7));
+  return axios.get(`${backUrl}/healthcare/month_date?id=1&date=${data.date.slice(0, 7)}`);
+}
+function* currentMonthIndex(action) {
+  try {
+    const result = yield call(currentMonthIndexAPI, action.payload);
+    yield put({
+      type: CURRENT_MONTH_INDEX_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: CURRENT_MONTH_INDEX_FAILURE,
       error: err.response.data,
     });
   }
@@ -141,6 +182,12 @@ function* watchCartridgeInfo() {
 function* watchPillInfo() {
   yield takeLatest(PILL_INFO_REQUEST, pillInfo);
 }
+function* watchCurrentHealthInfo() {
+  yield takeLatest(CURRENT_HEALTH_INFO_REQUEST, currentHealthInfo);
+}
+function* watchCurrentMonthIndex() {
+  yield takeLatest(CURRENT_MONTH_INDEX_REQUEST, currentMonthIndex);
+}
 
 export default function* userSaga() {
   yield all([fork(watchRecordOfTime)]);
@@ -148,4 +195,6 @@ export default function* userSaga() {
   yield all([fork(watchLoadTumblr)]);
   yield all([fork(watchCartridgeInfo)]);
   yield all([fork(watchPillInfo)]);
+  yield all([fork(watchCurrentHealthInfo)]);
+  yield all([fork(watchCurrentMonthIndex)]);
 }

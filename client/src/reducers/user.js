@@ -25,7 +25,6 @@ export const userSlice = createSlice({
       state.signUpLoading = true;
       state.signUpDone = false;
       state.signUpError = null;
-      console.log('reducer request');
     },
     SIGN_UP_SUCCESS: (state, action) => {
       state.signUpLoading = false;
@@ -40,13 +39,11 @@ export const userSlice = createSlice({
       state.setTumblerLoading = true;
       state.setTumblerDone = false;
       state.setTumblerError = null;
-      console.log('reducer request');
     },
     SET_TUMBLER_SUCCESS: (state, action) => {
       state.setTumblerLoading = false;
       state.setTumblerDone = true;
       state.setTumbler = action.data;
-      console.log('reducer: ', action);
     },
     SET_TUMBLER_FAILURE: (state, action) => {
       state.setTumblerLoading = false;
@@ -63,7 +60,6 @@ export const userSlice = createSlice({
       state.myInfoLoading = false;
       state.myInfoDone = true;
       state.me = action.data.data;
-      console.log('My_info_reducer: ', action.data.data);
     },
     MY_INFO_FAILURE: (state, action) => {
       state.myInfoLoading = false;
