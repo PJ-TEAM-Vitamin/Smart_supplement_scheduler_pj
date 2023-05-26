@@ -1,11 +1,15 @@
-import React, { useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useCallback, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MedicationInput from '../MedicationInput/MedicationInput';
 
 //style
 import { InitPageContainer, EnterInfo, EnterName, GenderCheck, InitCommonHeader, MoveButton, InfoTop } from './InitComponentStyles';
 
 const InitPage1 = ({ state, setState, handleChangeState, handleParamState }) => {
+  const navigate = useNavigate();
+
+  const [tempStore, setTempStore] = useState([]);
+
   const onChangeInfo = useCallback(
     e => {
       //값이 숫자인지 검사하는 정규식
@@ -19,6 +23,26 @@ const InitPage1 = ({ state, setState, handleChangeState, handleParamState }) => 
     },
     [setState, state],
   );
+
+  const onClickSafe = () => {
+    if (!state.name) {
+      alert('이름을 입력하지 않았습니다.');
+      return;
+    }
+    if (!state.gender) {
+      alert('성별을 선택하지 않았습니다.');
+      return;
+    }
+    if (!state.age) {
+      alert('나이를 입력하지 않았습니다.');
+      return;
+    }
+    if (state.unable.length !== tempStore.length) {
+      alert('확정을 클릭하지 않았습니다.');
+      return;
+    }
+    navigate('/init/init2');
+  };
 
   return (
     <InitPageContainer>
@@ -42,14 +66,10 @@ const InitPage1 = ({ state, setState, handleChangeState, handleParamState }) => 
             <input type="radio" name="gender" value="female" onChange={handleChangeState} />
           </GenderCheck>
         </InfoTop>
-        <InitCommonHeader>복용불가 약 입력하기</InitCommonHeader>
-        <MedicationInput able={false} handleParamState={handleParamState} />
+        <InitCommonHeader>복용불가 성분 입력하기</InitCommonHeader>
+        <MedicationInput able={false} handleParamState={handleParamState} tempStore={tempStore} setTempStore={setTempStore} />
       </EnterInfo>
-      <MoveButton>
-        <Link to="/init/init2" style={{ color: '#fff', textDecoration: 'none' }}>
-          <button>다음</button>
-        </Link>
-      </MoveButton>
+      <MoveButton onClick={onClickSafe}>다음</MoveButton>
     </InitPageContainer>
   );
 };

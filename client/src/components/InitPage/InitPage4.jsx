@@ -47,9 +47,7 @@ const InitPage4 = ({ state, handleParamState, onClickSignUp, handleChangeState, 
             </div>
           </div>
         </Tumbler>
-        <MoveButton>
-          <button onClick={onClickSignUp}>회원 가입</button>
-        </MoveButton>
+        <MoveButton onClick={onClickSignUp}>회원 등록</MoveButton>
       </TumblerContainer>
     </InitPageContainer>
   );

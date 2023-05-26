@@ -8,6 +8,10 @@ export const initialState = {
   pillInfo: null,
   currentHealthInfo: null,
   currentMonthIndex: [],
+  searchPill: null,
+  searchPillLoading: false,
+  searchPillDone: false,
+  searchPillError: false,
   recordOfTimeLoading: false,
   recordOfTimeDone: false,
   recordOfTimeError: false,
@@ -143,6 +147,23 @@ export const dataSlice = createSlice({
       state.currentMonthIndexDone = false;
       state.currentMonthIndexError = action.error;
     },
+    SEARCH_PILL_REQUEST: state => {
+      state.searchPillLoading = true;
+      state.searchPillDone = false;
+      state.searchPillError = null;
+    },
+    SEARCH_PILL_SUCCESS: (state, action) => {
+      state.searchPillLoading = false;
+      state.searchPillDone = true;
+      console.log('reducer', action.data);
+      state.searchPill = action.data;
+      // action.data.date.map(v => state.currentMonthIndex.push(v));
+    },
+    SEARCH_PILL_FAILURE: (state, action) => {
+      state.searchPillLoading = false;
+      state.searchPillDone = false;
+      state.searchPillError = action.error;
+    },
   },
 });
 
@@ -168,6 +189,9 @@ export const {
   CURRENT_MONTH_INDEX_REQUEST,
   CURRENT_MONTH_INDEX_SUCCESS,
   CURRENT_MONTH_INDEX_FAILURE,
+  SEARCH_PILL_REQUEST,
+  SEARCH_PILL_SUCCESS,
+  SEARCH_PILL_FAILURE,
 } = dataSlice.actions;
 
 export default dataSlice;

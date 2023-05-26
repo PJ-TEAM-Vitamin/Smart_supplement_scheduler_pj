@@ -23,6 +23,9 @@ import {
   CURRENT_MONTH_INDEX_SUCCESS,
   CURRENT_MONTH_INDEX_FAILURE,
   CURRENT_MONTH_INDEX_REQUEST,
+  SEARCH_PILL_REQUEST,
+  SEARCH_PILL_SUCCESS,
+  SEARCH_PILL_FAILURE,
 } from '../reducers/data';
 import { backUrl } from '../config/config';
 
@@ -167,6 +170,28 @@ function* currentMonthIndex(action) {
   }
 }
 
+export function searchPillAPI(data) {
+  return axios.get(
+    `https://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?serviceKey=${process.env.REACT_APP_IROS239_KEY}&itemName=${data.searchInput}&pageNo=1&startPage=1&numOfRows=3&type=json`,
+  );
+}
+function* searchPill(action) {
+  try {
+    const result = yield call(searchPillAPI, action.payload);
+    console.log(result.data.body.items);
+    yield put({
+      type: SEARCH_PILL_SUCCESS,
+      data: result.data.body.items,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: SEARCH_PILL_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 // request 이벤트 추가
 function* watchRecordOfTime() {
   yield takeLatest(RECORD_OF_TIME_REQUEST, recordOfTime);
@@ -189,6 +214,9 @@ function* watchCurrentHealthInfo() {
 function* watchCurrentMonthIndex() {
   yield takeLatest(CURRENT_MONTH_INDEX_REQUEST, currentMonthIndex);
 }
+function* watchSearchPill() {
+  yield takeLatest(SEARCH_PILL_REQUEST, searchPill);
+}
 
 export default function* userSaga() {
   yield all([fork(watchRecordOfTime)]);
@@ -198,4 +226,5 @@ export default function* userSaga() {
   yield all([fork(watchPillInfo)]);
   yield all([fork(watchCurrentHealthInfo)]);
   yield all([fork(watchCurrentMonthIndex)]);
+  yield all([fork(watchSearchPill)]);
 }

@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { DataWrapper, FixDataButton, InputContainer, InputForm, ItemWrapper } from './MedicationInputStyles';
 
-const MedicationInput = ({ able, handleParamState }) => {
-  const [tempStore, setTempStore] = useState([]);
+const MedicationInput = ({ able, handleParamState, tempStore, setTempStore }) => {
+  // const [tempStore, setTempStore] = useState([]);
   const [medicine, setMedicine] = useState('');
   const [count, setCount] = useState(0);
 

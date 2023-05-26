@@ -65,22 +65,22 @@ export const EnterAge = styled.div`
   }
 `;
 
-export const MoveButton = styled.div`
+export const MoveButton = styled.button`
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin-bottom: 10px;
-  button {
-    color: #fff;
-    cursor: pointer;
-    width: 100px;
-    height: 40px;
-    font-size: 1rem;
-    font-weight: 600;
-    border: none;
-    background-color: #82aae3;
-    border-radius: 10px;
-  }
+  margin-right: auto;
+  margin-left: auto;
+  color: #fff;
+  cursor: pointer;
+  width: 100px;
+  height: 40px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  background-color: #82aae3;
+  border-radius: 10px;
 `;
 
 export const Alarm = styled.div`
@@ -190,6 +190,8 @@ export const Tumbler = styled.div`
         margin-left: 20px;
         margin-right: 4px;
         width: 20%;
+        border: none;
+        border-bottom: 1px solid gray;
       }
     }
   }
@@ -272,6 +274,20 @@ export const SearchMedicineDisplay = styled.div`
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
   }
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 60px;
+    background-color: #ff6969;
+    color: #fff;
+    font-weight: 600;
+    width: 100px;
+    height: 25px;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
 `;
 
 export const TempStoreList = styled.div`
@@ -314,4 +330,14 @@ export const SearchItemList = styled.div`
     border-radius: 7px;
     cursor: pointer;
   }
+`;
+
+export const AddButton = styled.button`
+  width: 70px;
+  height: 30px;
+  color: #fffaf4;
+  font-weight: bold;
+  background-color: #fea1a1;
+  border: none;
+  border-radius: 10px;
 `;

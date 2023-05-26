@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Alarm,
   InitCommonHeader,
@@ -9,6 +9,7 @@ import {
   TimeInputItem,
   AlarmListContainer,
   AlarmListItem,
+  AddButton,
 } from './InitComponentStyles';
 import Clock from '../../utils/img/clock.png';
 
@@ -16,6 +17,7 @@ import Clock from '../../utils/img/clock.png';
  * 알람 시간 설정 페이지
  */
 const InitPage3 = ({ state, handleParamState }) => {
+  const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [time, setTime] = useState('');
   const [checkedList, setCheckedList] = useState([]);
@@ -85,9 +87,9 @@ const InitPage3 = ({ state, handleParamState }) => {
                 {`${num}번`}
               </label>
             ))}
-            <button type="button" onClick={onClickAddAlarm}>
+            <AddButton type="button" onClick={onClickAddAlarm}>
               추가
-            </button>
+            </AddButton>
           </div>
           <AlarmListContainer>
             {tempAlarm?.map(v => (
@@ -99,12 +101,14 @@ const InitPage3 = ({ state, handleParamState }) => {
             ))}
           </AlarmListContainer>
         </SelectTimeForm>
-        <MoveButton>
-          <Link to="/init/init4" style={{ color: '#fff', textDecoration: 'none' }}>
-            <button name="time" onClick={e => handleParamState(e, tempAlarm)}>
-              다음
-            </button>
-          </Link>
+        <MoveButton
+          name="time"
+          onClick={e => {
+            handleParamState(e, tempAlarm);
+            navigate('/init/init4');
+          }}
+        >
+          다음
         </MoveButton>
       </Alarm>
     </InitPageContainer>
