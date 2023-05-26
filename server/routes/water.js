@@ -4,6 +4,7 @@ const User = require("../models/user");
 
 const router = express.Router();
 
+// 텀블러 무게측정 _ initpage
 router.get("/weight/tumbler", async (req, res, next) => {
   try {
     // ++++++++++++
@@ -62,17 +63,17 @@ router.patch("/amount", async (req, res, next) => {
     // 오늘 날짜의 마신 물의 양 불러오기 없으면 생성
     console.log("오늘 날짜: ", dateString);
     const tumbler = await Water.findOrCreate({
-      where: { createdAt: `${dateString}%`, UserId: req.body?.userId },
+      where: { createdAt: `${dateString}%`, UserId: "1" },
       defaults: {
         amount_of_water: 0,
         tumbler_count: 1,
-        UserId: req.body?.userId,
+        UserId: "1",
       },
     });
 
     const tumbler_Info = await User.findOne({
       where: {
-        id: req.body?.userId,
+        id: "1",
       },
     });
 
@@ -107,11 +108,12 @@ router.patch("/amount", async (req, res, next) => {
         tumbler_count: currentCount,
       },
       {
-        where: { id: tumbler[0].dataValues.id, UserId: req.body?.userId },
+        where: { id: tumbler[0].dataValues.id, UserId: "1" },
       }
     );
     res.status(201).json({
       amount_of_water: currentAmount,
+      currentCount,
     });
   } catch (err) {
     console.error(err);

@@ -47,11 +47,12 @@ function* recordOfTime(action) {
 }
 
 export function updateTumblrAPI() {
-  return axios.get(`${backUrl}/water/weight/tumbler`);
+  return axios.patch(`${backUrl}/water/amount`);
 }
 function* updateTumblr(action) {
   try {
     const result = yield call(updateTumblrAPI);
+    console.log(result);
     yield put({
       type: UPDATE_TUMBLR_SUCCESS,
       data: result.data,

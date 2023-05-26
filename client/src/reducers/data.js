@@ -71,8 +71,8 @@ export const dataSlice = createSlice({
     UPDATE_TUMBLR_SUCCESS: (state, action) => {
       state.updateTumblrLoading = false;
       state.updateTumblrDone = true;
-      state.amountOfWater = action.data.water;
-      state.tumblrCounter = action.data.count;
+      state.amountOfWater = action.data.amount_of_water;
+      state.tumblrCounter = action.data.currentCount;
     },
     UPDATE_TUMBLR_FAILURE: (state, action) => {
       state.updateTumblrLoading = false;

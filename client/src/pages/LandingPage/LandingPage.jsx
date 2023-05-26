@@ -14,6 +14,7 @@ import Scheduler from '../../components/Scheduler/Scheduler';
 import { CARTRIDGE_INFO_REQUEST, LOAD_TUMBLR_REQUEST } from '../../reducers/data';
 import { MY_INFO_REQUEST } from '../../reducers/user';
 import MedicineInfoModal from '../../components/MedicineInfoModal';
+import { useNavigate } from 'react-router-dom';
 /*
 5~7: dawn
 7~12: morning
@@ -67,6 +68,7 @@ const SchedulerContainer = styled.div`
 
 const LandingPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { cartridgeInfo } = useSelector(state => state.data);
   const { me } = useSelector(state => state.user);
 
@@ -81,6 +83,13 @@ const LandingPage = () => {
 
   const [currentTime, setCurrentTime] = useState('00:00:00');
   const [background, setBackground] = useState('');
+
+  // me가 없으면 boot로 이동
+  useEffect(() => {
+    if (!me) {
+      navigate('/');
+    }
+  }, [navigate, me]);
 
   // 랜딩시 알약 카트리지 정보 불러오기, 알림 시간 불러오기
   useEffect(() => {

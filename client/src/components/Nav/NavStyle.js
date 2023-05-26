@@ -21,6 +21,7 @@ export const Logo = styled.div`
   font-weight: 700;
   margin-left: 20px;
   margin-right: 40px;
+  cursor: pointer;
 `;
 export const Icon = styled.img`
   width: 50px;

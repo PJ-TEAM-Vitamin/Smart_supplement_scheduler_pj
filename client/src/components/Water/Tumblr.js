@@ -6,9 +6,7 @@ import water30 from '../../utils/img/water30.png';
 import water50 from '../../utils/img/water50.png';
 import water70 from '../../utils/img/water70.png';
 import water100 from '../../utils/img/water100.png';
-import {
-  UPDATE_TUMBLR_REQUEST,
-} from '../../reducers/data';
+import { UPDATE_TUMBLR_REQUEST } from '../../reducers/data';
 
 const RecordToday = styled.div`
   width: 400px;
@@ -61,12 +59,12 @@ const TumblrImg = styled.div`
   aspect-ratio: 1/1;
   width: 80%;
   background-size: cover;
-  background-image: ${(props) => props.back};
+  background-image: ${props => props.back};
 `;
 
 const Tumblr = ({ currentTime }) => {
   const dispatch = useDispatch();
-  const { amountOfWater } = useSelector((state) => state.data);
+  const { amountOfWater } = useSelector(state => state.data);
   const [background, setBackgroud] = useState('');
 
   const onClickUpdate = useCallback(() => {
@@ -75,12 +73,6 @@ const Tumblr = ({ currentTime }) => {
   }, [dispatch]);
 
   // // 초기화
-  // useEffect(() => {
-  //   if (currentTime === '00:00:00') {
-  //     // 초기화 요청
-  //     dispatch(RESET_TUMBLR_REQUEST());
-  //   }
-  // }, [currentTime, dispatch]);
 
   // 마신 양에 따른 이미지 변화 _ 0 600 1000 1400 2000
   useEffect(() => {
