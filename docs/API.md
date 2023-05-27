@@ -123,7 +123,7 @@
 ```
 - return 'ok'
 
-## POST: ' /alarm/intakeOrNot '
+## POST: ' /alarm/intake_or_not '
 - 해당 알림의 약을 섭취했는지 안했는지 DB에 기록
 - 요청 body 예시
 

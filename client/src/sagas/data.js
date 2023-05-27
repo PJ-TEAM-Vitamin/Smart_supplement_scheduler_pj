@@ -34,8 +34,8 @@ import {
   SEARCH_PILL_FAILURE,
 } from '../reducers/data';
 import { backUrl } from '../config/config';
-import {SIGN_UP_FAILURE, SIGN_UP_SUCCESS} from "../reducers/user";
-import {signUpAPI} from "./user";
+import { SIGN_UP_FAILURE, SIGN_UP_SUCCESS } from '../reducers/user';
+import { signUpAPI } from './user';
 
 // 서버에 요청
 export function recordOfTimeAPI() {
@@ -119,7 +119,7 @@ function* cartridgeInfo(action) {
 }
 
 export function intakeOrNotAPI(data) {
-  return axios.get(`${backUrl}/alarm/intakeOrNot`, data);
+  return axios.post(`${backUrl}/alarm/intake_or_not`, data);
 }
 function* intakeOrNot(action) {
   try {
@@ -137,7 +137,7 @@ function* intakeOrNot(action) {
 }
 
 export function dischargeAPI(data) {
-  return axios.get(`${backUrl}/alarm/discharge`, data);
+  return axios.post(`${backUrl}/alarm/discharge`, data);
 }
 function* discharge(action) {
   try {
