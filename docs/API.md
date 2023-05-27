@@ -23,7 +23,7 @@
   "createdAt": "2023-05-18 15:57:49",
   "updatedAt": "2023-05-18 15:57:49",
   "IngredientId": null,
-  "Alarms": [
+      "Alarms": [
     {
       "id": 1,
       "title": "alarm-title",
@@ -126,10 +126,12 @@
 ## POST: ' /alarm/intakeOrNot '
 - 해당 알림의 약을 섭취했는지 안했는지 DB에 기록
 - 요청 body 예시
+
 ```json
 {
-    "alarmId" : 1,
-    "userId": 1
+  "type": true,
+  "alarmId": 1,
+  "userId": 1
 }
 ```
 - return 'ok'

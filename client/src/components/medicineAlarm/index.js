@@ -4,7 +4,7 @@ import { currentTimer } from '../LandingPage/Clock';
 import Smile from '../../utils/img/smileF.png';
 import Angry from '../../utils/img/angryF.png';
 import Usual from '../../utils/img/usualF.png';
-import { RECORD_OF_TIME_REQUEST } from '../../reducers/data';
+import {DISCHARGE_REQUEST, INTAKE_OR_NOT_REQUEST, RECORD_OF_TIME_REQUEST} from '../../reducers/data';
 import ComfirmDisplay from './ComfirmDisplay';
 import {
   Presentation,
@@ -33,8 +33,9 @@ const GetToday = () => {
  * 나쁨 표정에서 동작이 없으면 5분 후 모달 꺼진다.
  * @returns
  */
-const MedicineAlarm = ({ setMdAlarm }) => {
+const MedicineAlarm = ({ setMdAlarm, alarmId, userId }) => {
   const dispatch = useDispatch();
+  // console.log('id: ', alarmId)
 
   const [nextDisplay, setNextDisplay] = useState(false); // 복용 버튼 클릭시 다음 화면 디스플레이
   const handleNextDisplay = () => {
@@ -43,6 +44,11 @@ const MedicineAlarm = ({ setMdAlarm }) => {
 
   // 모달 닫기
   const closeModal = () => {
+    dispatch(INTAKE_OR_NOT_REQUEST({
+      type: false,
+      alarmId: alarmId,
+      userId: userId,
+    }));
     setMdAlarm(false);
   };
 
@@ -56,6 +62,15 @@ const MedicineAlarm = ({ setMdAlarm }) => {
         day: GetToday(),
       })
     );
+    dispatch(INTAKE_OR_NOT_REQUEST({
+      type: true,
+      alarmId: alarmId,
+      userId: userId,
+    }));
+    dispatch(DISCHARGE_REQUEST({
+      alarmId: alarmId,
+      userId: userId,
+    }));
     setNextDisplay(true);
   };
 

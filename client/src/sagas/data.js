@@ -14,6 +14,12 @@ import {
   CARTRIDGE_INFO_REQUEST,
   CARTRIDGE_INFO_SUCCESS,
   CARTRIDGE_INFO_FAILURE,
+  INTAKE_OR_NOT_REQUEST,
+  INTAKE_OR_NOT_SUCCESS,
+  INTAKE_OR_NOT_FAILURE,
+  DISCHARGE_REQUEST,
+  DISCHARGE_SUCCESS,
+  DISCHARGE_FAILURE,
   PILL_INFO_REQUEST,
   PILL_INFO_SUCCESS,
   PILL_INFO_FAILURE,
@@ -28,6 +34,8 @@ import {
   SEARCH_PILL_FAILURE,
 } from '../reducers/data';
 import { backUrl } from '../config/config';
+import {SIGN_UP_FAILURE, SIGN_UP_SUCCESS} from "../reducers/user";
+import {signUpAPI} from "./user";
 
 // 서버에 요청
 export function recordOfTimeAPI() {
@@ -105,6 +113,42 @@ function* cartridgeInfo(action) {
     console.error(err);
     yield put({
       type: CARTRIDGE_INFO_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+export function intakeOrNotAPI(data) {
+  return axios.get(`${backUrl}/alarm/intakeOrNot`, data);
+}
+function* intakeOrNot(action) {
+  try {
+    yield call(intakeOrNotAPI, action.payload);
+    yield put({
+      type: INTAKE_OR_NOT_SUCCESS,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: INTAKE_OR_NOT_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+export function dischargeAPI(data) {
+  return axios.get(`${backUrl}/alarm/discharge`, data);
+}
+function* discharge(action) {
+  try {
+    yield call(dischargeAPI, action.payload);
+    yield put({
+      type: DISCHARGE_SUCCESS,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: DISCHARGE_FAILURE,
       error: err.response.data,
     });
   }
@@ -205,6 +249,12 @@ function* watchLoadTumblr() {
 function* watchCartridgeInfo() {
   yield takeLatest(CARTRIDGE_INFO_REQUEST, cartridgeInfo);
 }
+function* watchIntakeOrNot() {
+  yield takeLatest(INTAKE_OR_NOT_REQUEST, intakeOrNot);
+}
+function* watchDischarge() {
+  yield takeLatest(DISCHARGE_REQUEST, discharge);
+}
 function* watchPillInfo() {
   yield takeLatest(PILL_INFO_REQUEST, pillInfo);
 }
@@ -223,6 +273,8 @@ export default function* userSaga() {
   yield all([fork(watchUpdateTumblr)]);
   yield all([fork(watchLoadTumblr)]);
   yield all([fork(watchCartridgeInfo)]);
+  yield all([fork(watchIntakeOrNot)]);
+  yield all([fork(watchDischarge)]);
   yield all([fork(watchPillInfo)]);
   yield all([fork(watchCurrentHealthInfo)]);
   yield all([fork(watchCurrentMonthIndex)]);

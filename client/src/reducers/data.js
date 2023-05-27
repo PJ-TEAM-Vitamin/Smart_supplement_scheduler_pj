@@ -24,6 +24,12 @@ export const initialState = {
   cartridgeInfoLoading: false,
   cartridgeInfoDone: false,
   cartridgeInfoError: false,
+  intakeOrNotLoading: false,
+  intakeOrNotDone: false,
+  intakeOrNotError: false,
+  dischargeLoading: false,
+  dischargeDone: false,
+  dischargeError: false,
   pillInfoLoading: false,
   pillInfoDone: false,
   pillInfoError: false,
@@ -65,6 +71,36 @@ export const dataSlice = createSlice({
       state.cartridgeInfoLoading = false;
       state.cartridgeInfoDone = false;
       state.cartridgeInfoError = action.error;
+    },
+    INTAKE_OR_NOT_REQUEST: state => {
+      // 약을 섭취했는지 안했는지
+      state.intakeOrNotLoading = true;
+      state.intakeOrNotDone = false;
+      state.intakeOrNotError = null;
+    },
+    INTAKE_OR_NOT_SUCCESS: (state, action) => {
+      state.intakeOrNotLoading = false;
+      state.intakeOrNotDone = true;
+    },
+    INTAKE_OR_NOT_FAILURE: (state, action) => {
+      state.intakeOrNotLoading = false;
+      state.intakeOrNotDone = false;
+      state.intakeOrNotError = action.error;
+    },
+    DISCHARGE_REQUEST: state => {
+      // 해당 알림 알약 배출 동작
+      state.dischargeLoading = true;
+      state.dischargeDone = false;
+      state.dischargeError = null;
+    },
+    DISCHARGE_SUCCESS: (state, action) => {
+      state.dischargeLoading = false;
+      state.dischargeDone = true;
+    },
+    DISCHARGE_FAILURE: (state, action) =>{
+      state.dischargeLoading = false;
+      state.dischargeDone = false;
+      state.dischargeError = action.error;
     },
     UPDATE_TUMBLR_REQUEST: state => {
       // 마신 양 업데이트
@@ -180,6 +216,12 @@ export const {
   CARTRIDGE_INFO_REQUEST,
   CARTRIDGE_INFO_SUCCESS,
   CARTRIDGE_INFO_FAILURE,
+  INTAKE_OR_NOT_REQUEST,
+  INTAKE_OR_NOT_SUCCESS,
+  INTAKE_OR_NOT_FAILURE,
+  DISCHARGE_REQUEST,
+  DISCHARGE_SUCCESS,
+  DISCHARGE_FAILURE,
   PILL_INFO_REQUEST,
   PILL_INFO_SUCCESS,
   PILL_INFO_FAILURE,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
+import axios from "axios";
 import styled from 'styled-components';
 import Clock from '../../components/LandingPage/Clock';
 import dawn from '../../utils/img/dawn.jpg';
@@ -11,8 +11,12 @@ import night from '../../utils/img/night.jpg';
 import Tumblr from '../../components/Water/Tumblr';
 import RemainingDisplay from '../../components/RemainingDisplay/RemainingDisplay';
 import Scheduler from '../../components/Scheduler/Scheduler';
-import { CARTRIDGE_INFO_REQUEST, LOAD_TUMBLR_REQUEST } from '../../reducers/data';
-import { MY_INFO_REQUEST } from '../../reducers/user';
+import {
+  CARTRIDGE_INFO_REQUEST, DISCHARGE_REQUEST, INTAKE_OR_NOT_REQUEST, LOAD_TUMBLR_REQUEST,
+} from '../../reducers/data';
+import {MY_INFO_REQUEST} from "../../reducers/user";
+import MedicineAlarm from '../../components/medicineAlarm';
+
 import MedicineInfoModal from '../../components/MedicineInfoModal';
 import { useNavigate } from 'react-router-dom';
 /*
@@ -24,7 +28,7 @@ import { useNavigate } from 'react-router-dom';
 */
 const LandingBackground = styled.div`
   /* aspect-ratio: 1920/1080; */
-  background: ${props => props.back};
+  background: ${(props) => props.back};
   width: 100%;
   height: 90vh;
   display: flex;
@@ -84,6 +88,25 @@ const LandingPage = () => {
   const [currentTime, setCurrentTime] = useState('00:00:00');
   const [background, setBackground] = useState('');
 
+  const [currentAid, setCurrentAid] = useState('');
+
+  const [mdAlarm, setMdAlarm] = useState(false);
+  const alarm = [];
+
+
+  useEffect(() => {
+    me?.Alarms.map((v)=>alarm.push(v));
+    // const key =alarm.find(i=>i.time==='07:00:00');
+    const key =alarm.find(i=>i.time=== currentTime);
+    console.log('key? ', key);
+    if(key) {
+      console.log(key)
+      setCurrentAid(key.id)
+      setMdAlarm(true);
+    }
+
+  }, [currentTime]);
+
   // me가 없으면 boot로 이동
   useEffect(() => {
     if (!me) {
@@ -97,6 +120,7 @@ const LandingPage = () => {
     dispatch(LOAD_TUMBLR_REQUEST());
     dispatch(MY_INFO_REQUEST());
   }, [dispatch]);
+
 
   // 시간 체크하여 배경화면 변경
   useEffect(() => {
@@ -133,6 +157,7 @@ const LandingPage = () => {
         </MedicineContainer>
       </RightContent>
       {mdInfo && <MedicineInfoModal setMdInfo={setMdInfo} name={currentMd} id={currentMdId} />}
+      {mdAlarm && <MedicineAlarm setMdAlarm={setMdAlarm} alarmId={currentAid} userId={me.id}/>}
     </LandingBackground>
   );
 };

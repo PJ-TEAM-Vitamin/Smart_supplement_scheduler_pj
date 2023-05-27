@@ -76,3 +76,5 @@ export const ComfirmImg = styled.div`
   aspect-ratio: 700/624;
   background-size: cover;
 `;
+
+
