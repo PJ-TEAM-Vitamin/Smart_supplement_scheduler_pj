@@ -1,21 +1,33 @@
 const express = require("express");
 const Water = require("../models/water");
 const User = require("../models/user");
+const spawn = require("child_process").spawn;
 
 const router = express.Router();
-
+let value = 0;
 // 텀블러 무게측정 _ initpage
 router.get("/weight/tumbler", async (req, res, next) => {
   try {
     // ++++++++++++
     // tumbler 무게 측정 python code 실행 _ return: 700
     // const weight = await (read python code)
-    const wait = (timeToDelay) =>
-      new Promise((resolve) => setTimeout(resolve, timeToDelay));
-    await wait(3000);
-    // ++++++++++++
+    // const wait = (timeToDelay) =>
+    //   new Promise((resolve) => setTimeout(resolve, timeToDelay));
+    // await wait(3000);
+    // // ++++++++++++
+    // let result = {
+    //   weight: 800,
+    // };
+    const tumbler_result = spawn("python3", [
+      "/home/pgh/Smart_supplement_scheduler_pj/sensor/hx711py/loadshell.py",
+    ]);
+    process.stdin.pipe(tumbler_result.stdin);
+    for await (const data of tumbler_result.stdout) {
+      value = data.toString();
+      console.log("value_loadshell: " + value);
+    }
     let result = {
-      weight: 800,
+      weight: parseInt(value),
     };
 
     res.status(200).json(result);
