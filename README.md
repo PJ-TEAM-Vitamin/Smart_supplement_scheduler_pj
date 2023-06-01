@@ -1,4 +1,5 @@
-# Smart_Supplement_Scheduler
+
+![SmartSupplementScheduler_Title](https://github.com/PJ-TEAM-Vitamin/Smart_supplement_scheduler_pj/assets/105937460/6e1b32de-d6d9-41b2-b71b-e98625f9ec77)
 
 ---
 ## H/W Preview
