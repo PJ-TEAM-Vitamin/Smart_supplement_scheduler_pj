@@ -51,6 +51,12 @@
 </p>
 </div>
 
+## 시나리오
+![시나리오1](https://github.com/PJ-TEAM-Vitamin/Smart_supplement_scheduler_pj/assets/105937460/0760f1cb-77c5-424d-af91-2dfadec38cce)
+
+![시나리오2](https://github.com/PJ-TEAM-Vitamin/Smart_supplement_scheduler_pj/assets/105937460/7e55ee4f-b61a-4218-816e-fba8a6bff41c)
+
+![시나리오3](https://github.com/PJ-TEAM-Vitamin/Smart_supplement_scheduler_pj/assets/105937460/c59b40b7-5f30-4ea9-996c-dafb56e6dfa4)
 ---
 ## H/W Preview
 
